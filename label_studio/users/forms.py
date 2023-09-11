@@ -62,6 +62,9 @@ class UserSignupForm(forms.Form):
     # re_password = forms.CharField(max_length=PASS_MAX_LENGTH,
     #                                 error_messages={'required': PASS_LENGTH_ERR},
     #                                 widget=forms.TextInput(attrs={'type': 'password'}))
+    re_password = forms.CharField(max_length=PASS_MAX_LENGTH,
+                                  error_messages={'required': PASS_LENGTH_ERR},
+                                  widget=forms.TextInput(attrs={'type': 'password'}))
     first_name = forms.CharField(max_length=30, required=True, label="First Name")
     last_name = forms.CharField(max_length=30, required=True, label="Last Name")
     allow_newsletters = forms.BooleanField(required=False)
@@ -74,6 +77,15 @@ class UserSignupForm(forms.Form):
         #     raise forms.ValidationError('Passwords do not match')
         return password
     
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        re_password = cleaned_data.get("re_password")
+
+        if password != re_password:
+            raise forms.ValidationError("Passwords do not match.")
+        return cleaned_data
+
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
         if len(first_name) > DISPLAY_NAME_LENGTH:

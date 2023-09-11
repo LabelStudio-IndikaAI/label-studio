@@ -1,6 +1,13 @@
 {% extends 'users/user_base.html' %}
 
 {% block user_content %}
+<style>
+    /* Add the CSS for error highlighting */
+    .error-border {
+        border: 2px solid red;
+    }
+</style>
+
 <div class="container mx-auto h-full flex justify-center items-center">
     <div class="w-1/3">
         <h1 class="font-hairline mb-6 text-center">Data Studio</h1>
@@ -10,23 +17,42 @@
             </div>
             <form id="login-form" action="{% url 'user-login' %}{% if next %}?next={{ next }}{% endif %}" method="post">
                 {% csrf_token %}
+                <!-- Email -->
                 <div class="mb-4">
                     <label class="font-bold text-grey-darker block mb-2">Email</label>
-                    <input type="text" class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow" name="email" id="email" placeholder="Email" value="{{ form.data.email }}">
+                    <input 
+                        type="text" 
+                        class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow {% if form.email.errors %}error-border{% endif %}" 
+                        name="email" 
+                        id="email" 
+                        placeholder="Email" 
+                        value="{{ form.data.email }}"
+                    >
                 </div>
+
+                <!-- Password -->
                 <div class="mb-4">
                     <label class="font-bold text-grey-darker block mb-2">Password</label>
-                    <input type="password" class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow" name="password" id="password" placeholder="Password">
+                    <input 
+                        type="password" 
+                        class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow {% if form.password.errors %}error-border{% endif %}" 
+                        name="password" 
+                        id="password" 
+                        placeholder="Password"
+                    >
                 </div>
+
                 <div class="mb-4">
                     <input type="checkbox" id="persist_session" name="persist_session" class="ls-checkbox" checked="checked" style="width: auto;" />
                     <label for="persist_session">Keep me logged in this browser</label>
                 </div>
+
                 <div class="flex mt-4">
                     <button type="submit" aria-label="Log In" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                         Log in
                     </button>
                 </div>
+
                 {% if form.non_field_errors %}
                     {% for error in form.non_field_errors %}
                         <p class="error">

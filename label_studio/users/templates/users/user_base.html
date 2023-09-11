@@ -11,10 +11,17 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-129877673-1');
 </script>
+
+<!-- Embed the .error-border class -->
+<style>
+    .error-border {
+        border: 1px solid red;
+    }
+</style>
+
 {% endblock %}
 
-
-{% block content %} 
+{% block content %}
 <!-- <div class="login_page"> 
   <div class="toggle">
     {% if not settings.DISABLE_SIGNUP_WITHOUT_LINK %}
