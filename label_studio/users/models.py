@@ -16,6 +16,7 @@ from organizations.models import OrganizationMember, Organization
 from users.functions import hash_upload
 from core.utils.common import load_func
 from projects.models import Project
+import random
 
 YEAR_START = 1980
 YEAR_CHOICES = []
@@ -60,6 +61,19 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
+class OTP(models.Model):
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='otps')
+    otp = models.CharField(max_length=6)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_used = models.BooleanField(default=False)
+    expiry_time = models.DateTimeField(default=timezone.now() + datetime.timedelta(minutes=10))
+
+    def is_valid(self):
+        if timezone.now() > self.expiry_time or self.is_used:
+            return False
+        return True
+
+
 class UserLastActivityMixin(models.Model):
     last_activity = models.DateTimeField(
         _('last activity'), default=timezone.now, editable=False)
@@ -100,6 +114,14 @@ class User(UserMixin, AbstractBaseUser, PermissionsMixin, UserLastActivityMixin)
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
     activity_at = models.DateTimeField(_('last annotation activity'), auto_now=True)
+
+    def generate_and_save_otp(self):
+        # Delete old unused OTPs for this user
+        self.otps.filter(is_used=False).delete()
+
+        # Create a new OTP
+        otp = ''.join(random.choices('0123456789', k=6))
+        return OTP.objects.create(user=self, otp=otp)
 
     active_organization = models.ForeignKey(
         'organizations.Organization',
