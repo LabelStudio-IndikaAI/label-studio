@@ -2330,7 +2330,8 @@ li.CodeMirror-hint-active {
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  margin-left: -20px;
 }
 .ls-sidebar-menu__content > .ls-wizard {
   height: calc(100% + 64px);
@@ -2348,7 +2349,7 @@ li.CodeMirror-hint-active {
 .ls-wizard .ls-configure__container {
   display: flex;
   flex-direction: column;
-  padding: 16px 11px 16px 20px;
+  padding: 0px -5px 0px 0px;
   overflow-y: scroll;
   background-color: #fff;
 }
@@ -2361,7 +2362,7 @@ li.CodeMirror-hint-active {
 .ls-templates-list {
   display: grid;
   height: 100%;
-  grid-template: 3fr auto/244px 840px;
+  grid-template: 3fr auto/214px 880px;
 }
 .ls-templates-list__sidebar {
   padding: 0px 0px 0px 0px;
@@ -2384,6 +2385,8 @@ li.CodeMirror-hint-active {
   list-style: none;
   display: flex;
   flex-direction: column;
+  font-size: 12px;
+  font-style: italic;
 }
 .ls-templates-list__group {
   margin: 0 0 4px;
@@ -2397,11 +2400,11 @@ li.CodeMirror-hint-active {
   align-items: center;
 }
 .ls-templates-list__group:hover {
-  background-color: #f4f4f4;
+  background-color: #4aa4bd;
 }
 .ls-templates-list__group_active {
   color: #000;
-  background-color: #f0f0f0;
+  background-color: #67c3fa;
 }
 .ls-templates-list__group svg {
   margin-left: auto;
@@ -2430,9 +2433,10 @@ li.CodeMirror-hint-active {
   border-radius: 4px;
   cursor: pointer;
   position: relative;
-  width: 276px;
+  width: 265px;
   border: 1px solid #d9d9d9;
   box-sizing: content-box;
+  padding: 5px;
 }
 .ls-templates-list__template_active,
 .ls-templates-list__template:hover {
@@ -2447,9 +2451,10 @@ li.CodeMirror-hint-active {
   font-size: 14px;
   font-weight: 500;
   border-top: 1px solid #d9d9d9;
+  font-style: italic;
 }
 .ls-templates-list__template img {
-  width: 276px;
+  width: 265px;
   height: 204px;
   object-fit: cover;
   border-radius: 4px 4px 0 0;
@@ -2585,20 +2590,9 @@ li.CodeMirror-hint-active {
   opacity: 0.8;
 }
 .ls-wizard .ls-configure__labels {
-  display: flex;
-  max-height: 200px;
-}
-.ls-wizard .ls-configure__add-labels {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 1;
-}
-.ls-wizard .ls-configure__add-labels textarea {
-  flex-grow: 1;
-  margin: 8px 0;
-  border-color: #dededf;
-  font: inherit;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  padding-top: 16px;
+  margin-bottom: 16px;
 }
 .ls-wizard .ls-configure__visual h4 {
   margin: 0;
@@ -2611,6 +2605,7 @@ li.CodeMirror-hint-active {
   flex-direction: column;
   overflow-x: hidden;
   margin-right: 8px;
+  margin-top: 10px;
 }
 .ls-wizard .ls-configure__current-labels h3 {
   font-size: 16px;
@@ -2715,6 +2710,13 @@ li.CodeMirror-hint-active {
   width: 12px;
   left: -12px;
 }
+.ls-wizard .ls-configure__add-labels {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  margin-top: 10px;
+}
 .ls-wizard ul.ls-configure__settings {
   padding: 0;
 }
@@ -2742,7 +2744,7 @@ li.CodeMirror-hint-active {
 .ls-wizard .ls-configure__preview {
   flex-grow: 10;
   min-width: 500px;
-  padding: 16px 16px 0;
+  padding: 0px 0px 0;
   overflow-y: auto;
   border-left: 1px solid rgba(0,0,0,0.1);
   background-color: #fafafa;
@@ -2760,6 +2762,7 @@ li.CodeMirror-hint-active {
 .ls-wizard .ls-configure__preview h3 {
   margin: 8px 0 16px;
   font-size: 16px;
+  margin-left: 10px;
 }
 .ls-wizard .ls-configure__preview iframe {
   display: block;
@@ -2837,7 +2840,7 @@ div[class^=App_menu]>div {
 }
 .ls-create-project > .ls-modal__header button {
   line-height: 1em;
-  min-width: 100px;
+  min-width: 0px;
 }
 .ls-create-project > .ls-modal__header .ls-save-button {
   margin-left: auto;

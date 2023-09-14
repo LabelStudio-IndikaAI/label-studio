@@ -16,6 +16,7 @@ export class Template {
     this.config = tpl.config;
 
     const parser = new DOMParser();
+
     this.$root = parser.parseFromString(this.config, 'application/xml');
 
     this.serializer = new XMLSerializer();
@@ -25,6 +26,7 @@ export class Template {
 
   flatten(el) {
     const tags = [];
+
     for (let tag of el.children) {
       tags.push(tag);
       if (tag.children.length) tags.push(...this.flatten(tag));
@@ -38,17 +40,21 @@ export class Template {
 
   render() {
     const config = this.serializer.serializeToString(this.$root);
+
     this.onConfigUpdate(config);
   }
 
   initRoot() {
     const tags = this.flatten(this.$root);
+
     this.objects = tags.filter($tag => $tag.tagName in OBJECTS && $tag.getAttribute("value"));
     const names = this.objects.map($tag => $tag.getAttribute('name'));
+
     this.controls = tags.filter($tag => names.includes($tag.getAttribute('toName')));
 
     for (let $object of this.objects) {
       const object = OBJECTS[$object.tagName];
+
       $object.$controls = this.controls.filter($tag => $tag.getAttribute('toName') === $object.getAttribute('name'));
       $object.$controls.forEach($control => $control.$object = $object);
 
@@ -57,6 +63,7 @@ export class Template {
       }
 
       let settings = { ...object.settings };
+
       $object.$controls.forEach($control => {
         let control = CONTROLS[$control.tagName];
 
@@ -78,6 +85,7 @@ export class Template {
     if (columns.length === 1 && columns[0] === DEFAULT_COLUMN) return;
     const existing = this.objects.map(obj => obj.getAttribute("value").replace(/^\$/, ''));
     let free = columns.filter(c => !existing.includes(c));
+
     for (let obj of this.objects) {
       if (!columns.includes(obj.getAttribute("value").replace(/^\$/, ''))) {
         obj.setAttribute("value", "$" + (free.shift() ?? columns[0]));
@@ -101,6 +109,7 @@ export class Template {
       if (existing.includes(label)) return;
       existing.push(label);
       const $label = this.$root.createElement(isChoices ? "Choice" : "Label");
+      
       $label.setAttribute("value", label);
       if (!isChoices) $label.setAttribute("background", this.palette.next().value);
       control.appendChild($label);

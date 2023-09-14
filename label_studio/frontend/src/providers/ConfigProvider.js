@@ -5,7 +5,7 @@ ConfigContext.displayName = "ConfigContext";
 
 export const ConfigConsumer = ConfigContext.Consumer;
 
-export const ConfigProvider = ({children}) => {
+export const ConfigProvider = ({ children }) => {
   const [config, setConfig] = useState(window.APP_SETTINGS ?? {});
 
   const update = (newConfig) => {

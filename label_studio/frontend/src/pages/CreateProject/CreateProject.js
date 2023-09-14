@@ -17,7 +17,7 @@ import { Caption } from '../../components/Caption/Caption';
 import { FF_LSDV_E_297, isFF } from '../../utils/feature-flags';
 import { createURL } from '../../components/HeidiTips/utils';
 import { TiMinus, TiPlus } from 'react-icons/ti';
-import { IconWarning } from '../../assets/icons';
+import { IconDelete, IconSave, IconWarning } from '../../assets/icons';
 
 
 
@@ -166,14 +166,20 @@ export const CreateProject = ({ onClose }) => {
     >
       <div className={rootClass}>
         <Modal.Header>
-          <h1>Create Project</h1>
+          
           <Space direction="horizontal"
             size="large"
             className="space-container"
             align="start spread">
             <Button look="danger" size="compact" onClick={onDelete} waiting={waiting}>
-              Delete
+              <IconDelete />
             </Button>
+          </Space>
+          <h1>    Create Project</h1>
+          <Space direction="horizontal"
+            size="large"
+            className="space-container"
+            align="start spread">
             <Button
               look="primary"
               size="compact"
@@ -182,14 +188,13 @@ export const CreateProject = ({ onClose }) => {
               disabled={!project || uploadDisabled || error}
               className="save-button"
             >
-              Save
+              <IconSave /> Save Project
             </Button>
           </Space>
         </Modal.Header>
         <div className="toggle" style={{
           position: 'relative',
           maxWidth: '100%',
-          height: '100%',
           display: 'grid',
           borderRadius: '16px',
           gridTemplateColumns: 'repeat(1, 1fr)',
@@ -201,8 +206,8 @@ export const CreateProject = ({ onClose }) => {
               borderRadius: '8px',
               padding: '0px',
               backgroundColor: '#fff',
-              width: '80%',
-              margin: '10px 10%',
+              width: '95%',
+              margin: '10px 3%',
             }}>
               <div className="project-create" onClick={() => toggleForm(stepKey)} style={{
                 backgroundColor: '#5a585800',
@@ -214,7 +219,7 @@ export const CreateProject = ({ onClose }) => {
                 width: '93%',
                 margin: '0 3%',
               }}>
-                <h4 style={{ fontSize: 'large' }}>{stepValue}</h4>
+                <h4 style={{ fontSize: 'large', fontStyle: 'italic' }}>{stepValue}</h4>
                 {step === stepKey ? <TiMinus className='expand-icon' /> : <TiPlus className='expand-icon' />}
               </div>
               {step === stepKey && (

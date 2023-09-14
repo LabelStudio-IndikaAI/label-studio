@@ -35,3 +35,5 @@ export { default as IconUploadfiles } from './uploadfiles.svg';
 export { default as IconLink } from './link.svg';
 export { default as IconGreentech } from './greentech.svg';
 export { default as IconDoneimport } from './doneimport.svg';
+export { default as IconDelete } from './delete.svg';
+export { default as IconSave } from './save.svg';

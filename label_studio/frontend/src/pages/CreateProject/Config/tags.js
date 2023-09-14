@@ -3,7 +3,7 @@ const OBJECTS = {
     type: 'Image',
     settings: {
       strokeWidth: {
-        title: 'Width of region borders',
+        title: 'region border width',
         type: Number,
         param: ($obj, value) => $obj.$controls.forEach($control => $control.setAttribute('strokeWidth', value)),
         value: $obj => $obj.$controls[0]?.getAttribute('strokeWidth') ?? 1,

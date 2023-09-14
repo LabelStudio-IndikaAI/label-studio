@@ -27,7 +27,7 @@ window.LSH = browserHistory;
 
 initSentry(browserHistory);
 
-const App = ({content}) => {
+const App = ({ content }) => {
   const libraries = {
     lsf: {
       scriptSrc: window.EDITOR_JS,
