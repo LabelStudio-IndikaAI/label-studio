@@ -10,10 +10,9 @@ export const Spinner = ({ className, style, size = 32, stopped = false }) => {
   return (
     <div className={rootClass.mix(className)} style={{ ...(style ?? {}), '--spinner-size': sizeWithUnit }}>
       <div className={rootClass.elem('body').mod({ stopped })}>
-        <span/>
-        <span/>
-        <span/>
-        <span/>
+        <div className={rootClass.elem('bar')}></div>
+        <div className={rootClass.elem('bar')}></div>
+        <div className={rootClass.elem('bar')}></div>
       </div>
     </div>
   );
