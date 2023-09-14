@@ -9,10 +9,15 @@ from django.contrib import auth
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.utils.http import is_safe_url
+from django.core.mail import send_mail
+from users.models import OTP
+import random
+
 
 from rest_framework.authtoken.models import Token
 
-from users import forms
+from users import forms as user_forms
+
 from core.utils.common import load_func
 from users.functions import login
 from core.middleware import enforce_csrf_checks
@@ -20,9 +25,24 @@ from core.feature_flags import flag_set
 from users.functions import proceed_registration
 from organizations.models import Organization
 from organizations.forms import OrganizationSignupForm
+from django.contrib import messages
+from users.models import User
+from users.forms import RequestPasswordResetForm
+
+
+
+# If you've defined the RequestPasswordResetForm somewhere else, import it. 
+# Otherwise, you will need to define it.
+# from <wherever_it_is_defined> import RequestPasswordResetForm
+
+
+from django import forms
+
 
 
 logger = logging.getLogger()
+
+
 
 @login_required
 def logout(request):
@@ -47,7 +67,7 @@ def user_signup(request):
     if not next_page or not is_safe_url(url=next_page, allowed_hosts=request.get_host()):
         next_page = reverse('projects:project-index')
 
-    user_form = forms.UserSignupForm()
+    user_form = user_forms.UserSignupForm()
     organization_form = OrganizationSignupForm()
 
     if user.is_authenticated:
@@ -63,7 +83,7 @@ def user_signup(request):
             if token and organization and token != organization.token:
                 raise PermissionDenied()
 
-        user_form = forms.UserSignupForm(request.POST)
+        user_form = user_forms.UserSignupForm(request.POST)
         organization_form = OrganizationSignupForm(request.POST)
 
         if user_form.is_valid():
@@ -85,6 +105,84 @@ def user_signup(request):
         'next': next_page,
         'token': token,
     })
+
+def reset_password(request):
+    """ Reset Password page """
+    form = RequestPasswordResetForm()
+    if request.method == 'POST':
+        form = RequestPasswordResetForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            # Here, you'd generate and send the OTP to the provided email.
+            # Save the OTP somewhere for later verification, possibly in the session.
+            # For the sake of this demonstration, let's assume the OTP is '123456'.
+            request.session['otp'] = '123456'
+            messages.success(request, "OTP has been sent to your email!")
+            return redirect('verify-otp')  # Assuming you have a URL and view named 'verify-otp'
+
+    return render(request, 'users/reset_password.html', {'form': form, 'reset_password_url': reverse('reset-password')})
+
+def request_password_reset(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        user = user.objects.filter(email=email).first()
+        
+        if user:
+            # Generate OTP and save to DB
+            otp_code = ''.join(random.choices('0123456789', k=6))
+            OTP.objects.create(user=user, otp=otp_code)
+            
+            # Send OTP to user's email
+            send_mail(
+                'Your Password Reset OTP',
+                f'Your OTP is: {otp_code}',
+                'from_email@example.com',
+                [email],
+                fail_silently=False,
+            )
+            return redirect('enter_otp')  # Redirect to OTP entry page
+        else:
+            # Handle the case where email is not in the database
+            pass
+
+    return render(request, 'users/request_password_reset.html')
+
+def enter_otp(request):
+    context = {}
+    
+    if request.method == 'POST':
+        entered_otp = request.POST.get('otp')
+        email = request.POST.get('email')  # Assuming you're also taking email as input to match with OTP
+        user = User.objects.filter(email=email).first()
+        
+        if user:
+            otp_obj = OTP.objects.filter(user=user, otp=entered_otp, is_used=False).first()
+            
+            if otp_obj and otp_obj.is_valid():
+                otp_obj.is_used = True
+                otp_obj.save()
+                # Redirect to password reset page
+                return redirect('reset_password')
+            else:
+                context['error'] = "Invalid or expired OTP."
+        else:
+            context['error'] = "Invalid email."
+
+    return render(request, 'users/enter_otp.html', context)
+
+from django.contrib.auth.forms import SetPasswordForm
+
+def reset_password(request):
+    if request.method == 'POST':
+        form = SetPasswordForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('user_login')  # Redirect to login page after successful password reset
+
+    else:
+        form = SetPasswordForm(user=request.user)
+
+    return render(request, 'users/reset_password.html', {'form': form})
 
 
 @enforce_csrf_checks
@@ -123,13 +221,16 @@ def user_login(request):
     if flag_set("fflag_feat_front_lsdv_e_297_increase_oss_to_enterprise_adoption_short"):
         return render(request, 'users/new-ui/user_login.html', {
             'form': form,
-            'next': next_page
+            'next': next_page,
+            'reset_password_url': reverse('reset-password')  # Add this line
         })
 
     return render(request, 'users/user_login.html', {
         'form': form,
-        'next': next_page
+        'next': next_page,
+        'reset_password_url': reverse('reset-password')
     })
+
 
 
 @login_required

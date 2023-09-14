@@ -44,6 +44,16 @@ FRONTEND_SENTRY_ENVIRONMENT = get_env('FRONTEND_SENTRY_ENVIRONMENT', 'opensource
 
 EDITOR_KEYMAP = json.dumps(get_env("EDITOR_KEYMAP"))
 
+# email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'your-smtp-server.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'shreesha1005@gmail.com'
+EMAIL_HOST_PASSWORD = '8861758732Shreesha'
+DEFAULT_FROM_EMAIL = 'webmaster@example.com'
+
+
 from label_studio import __version__
 from label_studio.core.utils import sentry
 sentry.init_sentry(release_name='label-studio', release_version=__version__)

@@ -62,6 +62,9 @@ class UserSignupForm(forms.Form):
     # re_password = forms.CharField(max_length=PASS_MAX_LENGTH,
     #                                 error_messages={'required': PASS_LENGTH_ERR},
     #                                 widget=forms.TextInput(attrs={'type': 'password'}))
+    re_password = forms.CharField(max_length=PASS_MAX_LENGTH,
+                                  error_messages={'required': PASS_LENGTH_ERR},
+                                  widget=forms.TextInput(attrs={'type': 'password'}))
     first_name = forms.CharField(max_length=30, required=True, label="First Name")
     last_name = forms.CharField(max_length=30, required=True, label="Last Name")
     allow_newsletters = forms.BooleanField(required=False)
@@ -74,6 +77,15 @@ class UserSignupForm(forms.Form):
         #     raise forms.ValidationError('Passwords do not match')
         return password
     
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        re_password = cleaned_data.get("re_password")
+
+        if password != re_password:
+            raise forms.ValidationError("Passwords do not match.")
+        return cleaned_data
+
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
         if len(first_name) > DISPLAY_NAME_LENGTH:
@@ -122,3 +134,46 @@ class UserProfileForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name', 'phone', 'allow_newsletters')
 
+
+#new changes
+class RequestPasswordResetForm(forms.Form):
+    email = forms.EmailField(label="Your Email")
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email').lower()
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError('No account with this email found.')
+        return email
+
+class OTPVerificationForm(forms.Form):
+    otp = forms.CharField(label="Enter OTP", max_length=6, min_length=6)
+
+    def clean_otp(self):
+        otp = self.cleaned_data.get('otp')
+        if not otp.isdigit():
+            raise forms.ValidationError('OTP should be numeric.')
+        return otp
+
+
+class SetNewPasswordForm(forms.Form):
+    password = forms.CharField(max_length=PASS_MAX_LENGTH,
+                               error_messages={'required': PASS_LENGTH_ERR},
+                               widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
+    re_password = forms.CharField(max_length=PASS_MAX_LENGTH,
+                                  error_messages={'required': PASS_LENGTH_ERR},
+                                  widget=forms.PasswordInput(attrs={'placeholder': 'Confirm New Password'}))
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        if len(password) < PASS_MIN_LENGTH:
+            raise forms.ValidationError(PASS_LENGTH_ERR)
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        re_password = cleaned_data.get("re_password")
+
+        if password != re_password:
+            raise forms.ValidationError("Passwords do not match.")
+        return cleaned_data
