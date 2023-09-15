@@ -162,7 +162,7 @@ When labeling image data types with the `Rectangle`, `BrushLabels`, `Ellipse`, `
 | --- | --- | 
 | `h` | Pan the image, after zooming in. |
 | `v` | Select the mouse arrow. |
-| `alt` + `left arrow` | Rotate the image to the left. |
+| `alt` + `left arrow` |  the image to the left. |
 | `alt` + `right arrow` | Rotate the image to the right. |
 | `ctrl` + `+` | Zoom in to the image. |
 | `ctrl` + `-` | Zoom out of the image. | 

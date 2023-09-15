@@ -6,7 +6,7 @@ from django.conf.urls import url, include
 from django.urls import path, re_path
 from django.views.static import serve
 from rest_framework import routers
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import views
 
 from users import views, api
 
@@ -22,23 +22,26 @@ urlpatterns = [
     path('user/account/', views.user_account, name='user-account'),
 
     # Password reset
-    path('reset-password/', views.reset_password, name='reset-password'),
-    path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
-    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('user/request-password-reset/', views.request_password_reset, name='request-password-reset'),
+    path('user/enter-otp/', views.enter_otp, name='enter-otp'),
+    path('user/set-new-password/', views.set_new_password, name='set-new-password'),
 
-    #sample urls
-    path('user/login/', views.user_login, name='user-login'),
-    path('user/signup/', views.user_signup, name='user-signup'),
-    path('user/account/', views.user_account, name='user-account'),
+    # path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    # path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    # path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    # url(r'^accounts/password-reset/', include('django_rest_resetpassword.urls', namespace='password_reset')),
+
+    # #sample urls
+    # path('user/login/', views.user_login, name='user-login'),
+    # path('user/signup/', views.user_signup, name='user-signup'),
+    # path('user/account/', views.user_account, name='user-account'),
 
     # OTP-based password reset
-    path('request-password-reset/', views.request_password_reset, name='request-password-reset'),
-    path('enter-otp/', views.enter_otp, name='enter-otp'),
+    # path('request-password-reset/', views.request_password_reset, name='request-password-reset'),
+    # path('enter-otp/', views.enter_otp, name='enter-otp'),
 
     # Password reset (the modified view)
-    path('reset-password/', views.reset_password, name='reset-password'),
+    # path('reset-password/', views.reset_password, name='reset-password'),
 
     url(r'^logout/?$', views.logout, name='logout'),
 

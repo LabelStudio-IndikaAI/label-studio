@@ -1,6 +1,7 @@
 import { formatDistance } from "date-fns";
 import { useCallback, useEffect, useState } from "react";
 import { Pagination, Spinner, Userpic } from "../../../components";
+
 import { usePage, usePageSize } from "../../../components/Pagination/Pagination";
 import { useAPI } from "../../../providers/ApiProvider";
 import { Block, Elem } from "../../../utils/bem";
@@ -95,6 +96,7 @@ export const PeopleList = ({ onSelect, selectedUser, defaultSelected }) => {
           ) : (
             <Elem name="loading">
               <Spinner size={36}/>
+              {/* <Spinner size={36}/> */}
             </Elem>
           )}
         </Elem>

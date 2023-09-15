@@ -51,7 +51,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'shreesha1005@gmail.com'
 EMAIL_HOST_PASSWORD = '8861758732Shreesha'
-DEFAULT_FROM_EMAIL = 'webmaster@example.com'
+
 
 
 from label_studio import __version__

@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { Button } from '../../components';
 import { Oneof } from '../../components/Oneof/Oneof';
 import { Spinner } from '../../components/Spinner/Spinner';
+
 import { ApiContext } from '../../providers/ApiProvider';
 import { useContextProps } from '../../providers/RoutesProvider';
 import { useAbortController } from "../../hooks/useAbortController";
@@ -136,6 +137,7 @@ export const ProjectsPage = () => {
       <Oneof value={networkState}>
         <Elem name="loading" case="loading">
           <Spinner size={64} />
+          {/* <Spinner  /> */}
         </Elem>
         <Elem name="content" case="loaded">
 

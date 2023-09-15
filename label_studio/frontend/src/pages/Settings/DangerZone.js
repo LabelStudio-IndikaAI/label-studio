@@ -91,6 +91,7 @@ export const DangerZone = () => {
       ) : (
         <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
           <Spinner size={32}/>
+          {/* <Spinner /> */}
         </div>
       )}
     </div>

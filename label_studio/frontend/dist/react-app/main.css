@@ -1251,6 +1251,18 @@
   right: 0;
   transform: translate(50%, 50%);
 }
+.ls-spinner {
+  --spinner-size: 50px;
+  --spinner-color: #fa8c16;
+  --spinner-duration: 1s;
+  display: inline-block;
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top-color: var(--spinner-color);
+  animation: ls-spin var(--spinner-duration) linear infinite;
+}
 @-moz-keyframes ls-logo-spin {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
@@ -1349,6 +1361,38 @@
     width: var(--spinner-size);
     height: var(--spinner-size);
     transform: translate(-50%, -50%) rotate(90deg);
+  }
+}
+@-moz-keyframes ls-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes ls-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes ls-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ls-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 

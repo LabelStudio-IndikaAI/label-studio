@@ -154,14 +154,17 @@ class OTPVerificationForm(forms.Form):
             raise forms.ValidationError('OTP should be numeric.')
         return otp
 
-
 class SetNewPasswordForm(forms.Form):
-    password = forms.CharField(max_length=PASS_MAX_LENGTH,
-                               error_messages={'required': PASS_LENGTH_ERR},
-                               widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
-    re_password = forms.CharField(max_length=PASS_MAX_LENGTH,
-                                  error_messages={'required': PASS_LENGTH_ERR},
-                                  widget=forms.PasswordInput(attrs={'placeholder': 'Confirm New Password'}))
+    password = forms.CharField(
+        max_length=PASS_MAX_LENGTH,
+        error_messages={'required': PASS_LENGTH_ERR},
+        widget=forms.PasswordInput(attrs={'placeholder': 'New Password'})
+    )
+    re_password = forms.CharField(
+        max_length=PASS_MAX_LENGTH,
+        error_messages={'required': PASS_LENGTH_ERR},
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm New Password'})
+    )
 
     def clean_password(self):
         password = self.cleaned_data['password']

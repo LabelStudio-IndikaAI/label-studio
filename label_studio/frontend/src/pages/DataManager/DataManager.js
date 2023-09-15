@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { generatePath, useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { Spinner } from '../../components';
+
 import { Button } from '../../components/Button/Button';
 import { modal } from '../../components/Modal/Modal';
 import { Space } from '../../components/Space/Space';
@@ -163,6 +164,7 @@ export const DataManagerPage = ({ ...props }) => {
         justifyContent: 'center',
       }}>
         <Spinner size={64}/>
+        {/* <Spinner /> */}
       </div>
     );
   }

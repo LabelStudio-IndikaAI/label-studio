@@ -101,6 +101,28 @@ module.exports = {
         ],
       },
       {
+        test: /\.jsx?$/i,
+        enforce: "pre",
+        exclude: /node_modules/,
+        use: [
+          'babel-loader',
+          'source-map-loader',
+        ],
+      },
+      // ... (your other rules)
+      {
+        test: /\.(jpg|jpeg|png|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[hash].[ext]',
+              outputPath: 'images/'
+            }
+          }
+        ]
+      },
+      {
         test: /\.svg$/,
         use: [{
           loader: '@svgr/webpack',

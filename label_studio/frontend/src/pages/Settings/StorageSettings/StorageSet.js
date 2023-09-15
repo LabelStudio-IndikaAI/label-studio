@@ -125,6 +125,7 @@ export const StorageSet = ({title, target, rootClass, buttonLabel}) => {
       {(loading && !loaded) ? (
         <div className={rootClass.elem("empty")}>
           <Spinner size={32}/>
+          {/* <Spinner /> */}
         </div>
       ) : storages.length === 0 ? (
         null

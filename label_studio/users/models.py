@@ -227,3 +227,19 @@ def init_user(sender, instance=None, created=False, **kwargs):
     if created:
         # create token for user
         Token.objects.create(user=instance)
+
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+#chnages
+class PasswordResetToken(models.Model):
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='reset_tokens')
+    token = models.CharField(max_length=256, unique=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_used = models.BooleanField(default=False)
+    expiry_time = models.DateTimeField(default=timezone.now() + datetime.timedelta(minutes=30))
+
+    def is_valid(self):
+        if timezone.now() > self.expiry_time or self.is_used:
+            return False
+        return True

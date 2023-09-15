@@ -191,6 +191,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'rest_framework.authtoken',
     'drf_generators',
+    # 'django_rest_resetpassword',
     'core',
     'users',
     'organizations',
@@ -203,6 +204,7 @@ INSTALLED_APPS = [
     'ml',
     'webhooks',
     'labels_manager',
+    #'accounts'
 ]
 
 MIDDLEWARE = [
@@ -656,3 +658,12 @@ if CSRF_TRUSTED_ORIGINS:
 
 REAL_HOSTNAME = os.getenv('HOSTNAME')  # we have to use getenv, because we don't use LABEL_STUDIO_ prefix
 GCS_CLOUD_STORAGE_FORCE_DEFAULT_CREDENTIALS = get_bool_env('GCS_CLOUD_STORAGE_FORCE_DEFAULT_CREDENTIALS', False)
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'shreesha1005@gmail.com'
+EMAIL_HOST_PASSWORD = '8861758732Shreesha'
+
+
