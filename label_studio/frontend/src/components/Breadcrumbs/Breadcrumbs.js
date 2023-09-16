@@ -8,7 +8,7 @@ import { Dropdown } from '../Dropdown/Dropdown';
 import { Menu } from '../Menu/Menu';
 import './Breadcrumbs.styl';
 
-const {Block, Elem} = BemWithSpecifiContext();
+const { Block, Elem } = BemWithSpecifiContext();
 
 export const Breadcrumbs = () => {
   const config = useConfig();

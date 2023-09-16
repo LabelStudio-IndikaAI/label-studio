@@ -266,30 +266,33 @@ styled_scroll()
 .wizard .configure__current-labels
   flex: 1
   display: flex
-  flex-direction: column
+  flex-direction: row
+  justify-content: flex-start
+  align-items: flex-start
   overflow-x: hidden
-  margin-right: 8px
+  margin-right: 0px
   margin-top: 10px
   h3
     font-size: 16px
     margin: 0 32px 7px
 .wizard .configure__labels ul
   overflow-y: scroll
-  padding: 0 2em
+  padding: 0 0em
   margin: 0
-  list-style: none
+  list-style: auto
   min-width: 140px
   display: flex
-  flex-direction: column
-  align-items: stretch
+  flex-direction: row
+  align-items: self-start
   flex: 1
   styled_scroll()
   .configure__label
     display: flex
     align-items: stretch
     position: relative
+    margin: 5px
     &:not(:first-child)
-      margin-top: 8px
+      margin-top: 5px
     &_choice
       label
         display: none
@@ -318,7 +321,7 @@ styled_scroll()
         background: inherit
         border-radius: 3px 0 0 3px
         transition: 0.1s all
-        will-change: width, left
+        will-change: width, right
     .configure__label-color
       width: 1px
       padding: 0
@@ -326,7 +329,7 @@ styled_scroll()
       position: absolute
       opacity: 0
     span
-      padding: 0 8px
+      padding: 0 0px
       overflow-x: hidden
       word-break: break-word
     .configure__delete-label
@@ -335,13 +338,9 @@ styled_scroll()
       border-radius: 0 4px 4px 0
       background: none
       cursor: pointer
-      padding: 2px 6px
-      font-size: 12px
-      position: absolute
-      top: 0
-      left: 100%
-      height: 100%
-      opacity: 0.3
+      padding: 1px 4px
+      position: relative
+      top: 1px
       &:hover
         background: rgba(255,0,0,0.133)
         opacity: 1
@@ -351,7 +350,7 @@ styled_scroll()
         border-radius: 0
       label::after
         width: 12px
-        left: -12px
+        left:  -12px
 
 .wizard .configure__add-labels
   display: flex

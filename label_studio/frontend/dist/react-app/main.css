@@ -361,7 +361,7 @@
 .ls-modal__wrapper {
   width: 100%;
   max-height: 100%;
-  padding: 40px 0;
+  padding: 0px 0;
   overflow: auto;
   box-sizing: border-box;
   will-change: transform;
@@ -421,7 +421,7 @@
 }
 .ls-modal_fullscreen .ls-modal__content {
   width: calc(100vw - 80px);
-  height: calc(100vh - 80px);
+  height: calc(100vh - 20px);
 }
 .ls-modal_visible {
   opacity: 0;
@@ -433,9 +433,6 @@
 }
 .ls-modal.ls-visible {
   opacity: 1;
-}
-.ls-modal.ls-visible .ls-modal__wrapper {
-  transform: none;
 }
 .ls-modal.ls-before-appear {
   opacity: 0;
@@ -2549,9 +2546,11 @@ li.CodeMirror-hint-active {
 .ls-wizard .ls-configure__current-labels {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
   overflow-x: hidden;
-  margin-right: 8px;
+  margin-right: 0px;
   margin-top: 10px;
 }
 .ls-wizard .ls-configure__current-labels h3 {
@@ -2560,13 +2559,13 @@ li.CodeMirror-hint-active {
 }
 .ls-wizard .ls-configure__labels ul {
   overflow-y: scroll;
-  padding: 0 2em;
+  padding: 0 0em;
   margin: 0;
-  list-style: none;
+  list-style: auto;
   min-width: 140px;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  flex-direction: row;
+  align-items: self-start;
   flex: 1;
 }
 .ls-wizard .ls-configure__labels ul::-webkit-scrollbar {
@@ -2581,9 +2580,10 @@ li.CodeMirror-hint-active {
   display: flex;
   align-items: stretch;
   position: relative;
+  margin: 5px;
 }
 .ls-wizard .ls-configure__labels ul .ls-configure__label:not(:first-child) {
-  margin-top: 8px;
+  margin-top: 5px;
 }
 .ls-wizard .ls-configure__labels ul .ls-configure__label_choice label {
   display: none;
@@ -2615,7 +2615,7 @@ li.CodeMirror-hint-active {
   background: inherit;
   border-radius: 3px 0 0 3px;
   transition: 0.1s all;
-  will-change: width, left;
+  will-change: width, right;
 }
 .ls-wizard .ls-configure__labels ul .ls-configure__label .ls-configure__label-color {
   width: 1px;
@@ -2625,7 +2625,7 @@ li.CodeMirror-hint-active {
   opacity: 0;
 }
 .ls-wizard .ls-configure__labels ul .ls-configure__label span {
-  padding: 0 8px;
+  padding: 0 0px;
   overflow-x: hidden;
   word-break: break-word;
 }
@@ -2635,13 +2635,9 @@ li.CodeMirror-hint-active {
   border-radius: 0 4px 4px 0;
   background: none;
   cursor: pointer;
-  padding: 2px 6px;
-  font-size: 12px;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  height: 100%;
-  opacity: 0.3;
+  padding: 1px 4px;
+  position: relative;
+  top: 1px;
 }
 .ls-wizard .ls-configure__labels ul .ls-configure__label .ls-configure__delete-label:hover {
   background: rgba(255,0,0,0.133);

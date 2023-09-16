@@ -27,7 +27,7 @@ export const Menu = forwardRef(
 
     return (
       <MenuContext.Provider value={{ selected }}>
-        <Block ref={ref} tag="ul" name="main-menu" mod={{size, collapsed}} mix={className} style={style} onClick={clickHandler}>
+        <Block ref={ref} tag="ul" name="main-menu" mod={{ size, collapsed }} mix={className} style={style} onClick={clickHandler}>
           {children}
         </Block>
       </MenuContext.Provider>
@@ -48,7 +48,8 @@ Menu.Builder = (url, menuItems) => {
     if (Array.isArray(item)) {
       [pagePath, pageLabel] = item;
     } else {
-      const {menuItem, title, path} = item;
+      const { menuItem, title, path } = item;
+
       pageLabel = title ?? menuItem;
       pagePath = path;
     }
