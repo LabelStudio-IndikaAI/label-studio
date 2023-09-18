@@ -2,7 +2,7 @@
 """
 import os
 import pathlib
-
+from core import config 
 from core.settings.base import *
 from core.utils.secret_key import generate_secret_key_if_missing
 
@@ -49,8 +49,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'shreesha1005@gmail.com'
-EMAIL_HOST_PASSWORD = '8861758732@jjshreesha'
+EMAIL_HOST_USER = config("email")
+EMAIL_HOST_PASSWORD = config("password")
 
 
 

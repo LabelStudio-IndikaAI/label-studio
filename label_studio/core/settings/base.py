@@ -14,6 +14,7 @@ import re
 import logging
 import json
 
+from core import config
 from datetime import timedelta
 from label_studio.core.utils.params import get_bool_env, get_env
 
@@ -663,7 +664,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'shreesha1005@gmail.com'
-EMAIL_HOST_PASSWORD = '8861758732@jjshreesha'
+EMAIL_HOST_USER = config("email")
+EMAIL_HOST_PASSWORD = config("password")
 
 
