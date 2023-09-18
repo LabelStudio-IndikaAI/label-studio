@@ -8,6 +8,7 @@ from django.views.static import serve
 from rest_framework import routers
 from django.contrib.auth import views
 
+
 from users import views, api
 
 router = routers.DefaultRouter()
@@ -22,9 +23,23 @@ urlpatterns = [
     path('user/account/', views.user_account, name='user-account'),
 
     # Password reset
-    path('user/request-password-reset/', views.request_password_reset, name='request-password-reset'),
-    path('user/enter-otp/', views.enter_otp, name='enter-otp'),
-    path('user/set-new-password/', views.set_new_password, name='set-new-password'),
+    path('user/request-password-reset/', views.reset_password1, name='request-password-reset'),
+    path('user/reset/<uidb64>/<token>/', views.new_reset_password, name='set-new-password'),
+
+
+
+    url(r'^logout/?$', views.logout, name='logout'),
+
+    # avatars
+    re_path(r'^data/' + settings.AVATAR_PATH + '/(?P<path>.*)$', serve,
+            kwargs={'document_root': join(settings.MEDIA_ROOT, settings.AVATAR_PATH)}),
+
+    # Token
+    path('api/current-user/reset-token/', api.UserResetTokenAPI.as_view(), name='current-user-reset-token'),
+    path('api/current-user/token', api.UserGetTokenAPI.as_view(), name='current-user-token'),
+
+    path('api/current-user/whoami', api.UserWhoAmIAPI.as_view(), name='current-user-whoami'),
+]
 
     # path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     # path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
@@ -42,16 +57,3 @@ urlpatterns = [
 
     # Password reset (the modified view)
     # path('reset-password/', views.reset_password, name='reset-password'),
-
-    url(r'^logout/?$', views.logout, name='logout'),
-
-    # avatars
-    re_path(r'^data/' + settings.AVATAR_PATH + '/(?P<path>.*)$', serve,
-            kwargs={'document_root': join(settings.MEDIA_ROOT, settings.AVATAR_PATH)}),
-
-    # Token
-    path('api/current-user/reset-token/', api.UserResetTokenAPI.as_view(), name='current-user-reset-token'),
-    path('api/current-user/token', api.UserGetTokenAPI.as_view(), name='current-user-token'),
-
-    path('api/current-user/whoami', api.UserWhoAmIAPI.as_view(), name='current-user-whoami'),
-]

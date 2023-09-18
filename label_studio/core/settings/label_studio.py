@@ -45,12 +45,12 @@ FRONTEND_SENTRY_ENVIRONMENT = get_env('FRONTEND_SENTRY_ENVIRONMENT', 'opensource
 EDITOR_KEYMAP = json.dumps(get_env("EDITOR_KEYMAP"))
 
 # email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'your-smtp-server.com'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'shreesha1005@gmail.com'
-EMAIL_HOST_PASSWORD = '8861758732Shreesha'
+EMAIL_HOST_PASSWORD = '8861758732@jjshreesha'
 
 
 

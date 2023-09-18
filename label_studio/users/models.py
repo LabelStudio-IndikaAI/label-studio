@@ -11,6 +11,8 @@ from django.utils.translation import gettext_lazy as _
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import AbstractUser
+
 
 from organizations.models import OrganizationMember, Organization
 from users.functions import hash_upload
@@ -61,17 +63,21 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
+def get_default_expiry_time():
+    return timezone.now() + datetime.timedelta(minutes=10)
+
 class OTP(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='otps')
     otp = models.CharField(max_length=6)
     timestamp = models.DateTimeField(auto_now_add=True)
     is_used = models.BooleanField(default=False)
-    expiry_time = models.DateTimeField(default=timezone.now() + datetime.timedelta(minutes=10))
+    expiry_time = models.DateTimeField(default=get_default_expiry_time)
 
     def is_valid(self):
         if timezone.now() > self.expiry_time or self.is_used:
             return False
         return True
+
 
 
 class UserLastActivityMixin(models.Model):
@@ -232,12 +238,15 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 #chnages
+def get_expiry_time():
+    return timezone.now() + datetime.timedelta(minutes=30)
+
 class PasswordResetToken(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='reset_tokens')
     token = models.CharField(max_length=256, unique=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     is_used = models.BooleanField(default=False)
-    expiry_time = models.DateTimeField(default=timezone.now() + datetime.timedelta(minutes=30))
+    expiry_time = models.DateTimeField(default=get_expiry_time)
 
     def is_valid(self):
         if timezone.now() > self.expiry_time or self.is_used:

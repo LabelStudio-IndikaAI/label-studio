@@ -7,6 +7,8 @@ from datetime import datetime
 from django import forms
 from django.contrib import auth
 from django.conf import settings
+from datetime import timedelta
+from users.models import OTP
 
 from users.models import User
 
@@ -85,6 +87,20 @@ class UserSignupForm(forms.Form):
         if password != re_password:
             raise forms.ValidationError("Passwords do not match.")
         return cleaned_data
+    
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        if len(password) < PASS_MIN_LENGTH:
+            raise forms.ValidationError(PASS_LENGTH_ERR)
+        if not any(char.isdigit() for char in password):
+            raise forms.ValidationError('Password must contain at least one digit.')
+        if not any(char.isalpha() for char in password):
+            raise forms.ValidationError('Password must contain at least one letter.')
+        if not any(char.isupper() for char in password):
+            raise forms.ValidationError('Password must contain at least one uppercase letter.')
+        if not any(char in '!@#$%^&*()_+' for char in password):
+            raise forms.ValidationError('Password must contain at least one of the special characters: !@#$%^&*()_+')
+        return password
 
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
@@ -111,7 +127,6 @@ class UserSignupForm(forms.Form):
 
         if email and User.objects.filter(email=email).exists():
             raise forms.ValidationError('User with this email already exists')
-
         return email
 
     def save(self):
@@ -125,6 +140,7 @@ class UserSignupForm(forms.Form):
             allow_newsletters = cleaned['allow_newsletters']
         user = User.objects.create_user(email, password, first_name=first_name, last_name=last_name, allow_newsletters=allow_newsletters)
         return user
+
 
 
 class UserProfileForm(forms.ModelForm):
@@ -180,3 +196,88 @@ class SetNewPasswordForm(forms.Form):
         if password != re_password:
             raise forms.ValidationError("Passwords do not match.")
         return cleaned_data
+    
+from datetime import datetime, timedelta
+import random
+
+# ... [other imports]
+
+logger = logging.getLogger(__name__)
+
+OTP_EXPIRY_DURATION = timedelta(minutes=15)  # OTP expires after 15 minutes
+
+# ... [other forms]
+
+# class UserSignupForm(forms.Form):
+#     # ... [existing fields]
+
+#     def clean_password(self):
+#         password = self.cleaned_data['password']
+#         if len(password) < PASS_MIN_LENGTH:
+#             raise forms.ValidationError(PASS_LENGTH_ERR)
+#         if not any(char.isdigit() for char in password):
+#             raise forms.ValidationError('Password must contain at least one digit.')
+#         if not any(char.isalpha() for char in password):
+#             raise forms.ValidationError('Password must contain at least one letter.')
+#         if not any(char.isupper() for char in password):
+#             raise forms.ValidationError('Password must contain at least one uppercase letter.')
+#         if not any(char in '!@#$%^&*()_+' for char in password):
+#             raise forms.ValidationError('Password must contain at least one of the special characters: !@#$%^&*()_+')
+#         return password
+
+    # ... [other methods remain unchanged]
+
+class OTPVerificationForm(forms.Form):
+    otp = forms.CharField(label="Enter OTP", max_length=6, min_length=6)
+
+    def clean_otp(self):
+        otp = self.cleaned_data.get('otp')
+        if not otp.isdigit():
+            raise forms.ValidationError('OTP should be numeric.')
+        
+        # Check if OTP is still valid
+        otp_obj = OTP.objects.filter(otp=otp).first()
+        if not otp_obj:
+            raise forms.ValidationError('Invalid OTP.')
+        
+        if datetime.now() > otp_obj.created_at + OTP_EXPIRY_DURATION:
+            raise forms.ValidationError('OTP has expired. Please request a new one.')
+        
+        return otp
+
+class SetNewPasswordForm(forms.Form):
+    password = forms.CharField(
+        max_length=PASS_MAX_LENGTH,
+        error_messages={'required': PASS_LENGTH_ERR},
+        widget=forms.PasswordInput(attrs={'placeholder': 'New Password'})
+    )
+    re_password = forms.CharField(
+        max_length=PASS_MAX_LENGTH,
+        error_messages={'required': PASS_LENGTH_ERR},
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm New Password'})
+    )
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        if len(password) < PASS_MIN_LENGTH:
+            raise forms.ValidationError(PASS_LENGTH_ERR)
+        if not any(char.isdigit() for char in password):
+            raise forms.ValidationError('Password must contain at least one digit.')
+        if not any(char.isalpha() for char in password):
+            raise forms.ValidationError('Password must contain at least one letter.')
+        if not any(char.isupper() for char in password):
+            raise forms.ValidationError('Password must contain at least one uppercase letter.')
+        if not any(char in '!@#$%^&*()_+' for char in password):
+            raise forms.ValidationError('Password must contain at least one of the special characters: !@#$%^&*()_+')
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        re_password = cleaned_data.get("re_password")
+
+        if password != re_password:
+            raise forms.ValidationError("Passwords do not match.")
+        
+        return cleaned_data
+
