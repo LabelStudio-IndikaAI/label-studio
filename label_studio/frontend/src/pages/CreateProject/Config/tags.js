@@ -123,7 +123,7 @@ const Labels = {
 
           $filter.setAttribute('toName', $obj.getAttribute('name'));
           $filter.setAttribute('minlength', 0);
-          $filter.setAttribute('name', 'filter'); // @todo should be unique// @todo should be unique
+          $filter.setAttribute('name', 'filter'); // @todo should be unique
           $obj.parentNode.insertBefore($container, $obj);
           $container.appendChild($filter);
           $container.appendChild($obj);
