@@ -14,7 +14,7 @@ import re
 import logging
 import json
 
-from core import config
+# from core import config
 from datetime import timedelta
 from label_studio.core.utils.params import get_bool_env, get_env
 
@@ -660,11 +660,11 @@ if CSRF_TRUSTED_ORIGINS:
 REAL_HOSTNAME = os.getenv('HOSTNAME')  # we have to use getenv, because we don't use LABEL_STUDIO_ prefix
 GCS_CLOUD_STORAGE_FORCE_DEFAULT_CREDENTIALS = get_bool_env('GCS_CLOUD_STORAGE_FORCE_DEFAULT_CREDENTIALS', False)
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config("email")
-EMAIL_HOST_PASSWORD = config("password")
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = config("email")
+# EMAIL_HOST_PASSWORD = config("password")
 
 
