@@ -18,6 +18,7 @@ import { EmptyProjectsList, ProjectsList } from './ProjectsList';
 
 
 
+
 const getCurrentPage = () => {
   const pageNumberFromURL = new URLSearchParams(location.search).get("page");
 

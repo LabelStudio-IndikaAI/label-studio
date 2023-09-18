@@ -7,7 +7,7 @@ details: <h1>Draw a polygon around object</h1>
 config: |
   <View>
 
-    <Header value="Select label and click the image to start"/>
+    <Header value="Please Select label and click the image to start"/>
     <Image name="image" value="$image" zoom="true"/>
 
     <PolygonLabels name="label" toName="image"

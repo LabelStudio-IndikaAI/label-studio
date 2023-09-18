@@ -16,7 +16,7 @@
   &__wrapper
     width 100%
     max-height 100%
-    padding 40px 0
+    padding 0px 0
     overflow auto
     box-sizing border-box
     will-change transform
@@ -76,7 +76,7 @@
 
   &_fullscreen &__content
     width calc(100vw - 80px)
-    height calc(100vh - 80px)
+    height calc(100vh - 20px)
 
   &_visible
     opacity 0
@@ -90,7 +90,7 @@
     opacity 1
 
   &.visible &__wrapper
-    transform none
+    // transform none
 
   // Appearing
   &.before-appear

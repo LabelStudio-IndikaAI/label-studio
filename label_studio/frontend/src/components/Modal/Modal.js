@@ -13,6 +13,7 @@ const standaloneModal = (props) => {
   const modalRef = createRef();
   const rootDiv = document.createElement("div");
   let renderCount = 0;
+
   rootDiv.className = cn("modal-holder").toClassName();
 
   document.body.appendChild(rootDiv);
@@ -45,10 +46,11 @@ const standaloneModal = (props) => {
 
   return {
     update(newProps) {
-      renderModal({...props, ...(newProps ?? {}), visible: true}, false);
+      renderModal({ ...props, ...(newProps ?? {}), visible: true }, false);
     },
     close() {
       const result = modalRef.current.hide();
+
       unmountComponentAtNode(rootDiv);
       rootDiv.remove();
       return result;

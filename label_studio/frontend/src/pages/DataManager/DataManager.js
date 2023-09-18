@@ -19,7 +19,7 @@ import { APIConfig } from './api-config';
 import "./DataManager.styl";
 
 const initializeDataManager = async (root, props, params) => {
-  if (!window.LabelStudio) throw Error("Label Studio Frontend doesn't exist on the page");
+  if (!window.LabelStudio) throw Error("Data Studio Frontend doesn't exist on the page");
   if (!root && root.dataset.dmInitialized) return;
 
   root.dataset.dmInitialized = true;
@@ -38,7 +38,7 @@ const initializeDataManager = async (root, props, params) => {
     interfaces: {
       import: true,
       export: true,
-      backButton: false,
+      backButton: true,
       labelingHeader: false,
       autoAnnotation: params.autoAnnotation,
     },

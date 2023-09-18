@@ -57,23 +57,64 @@ export const Inner = () => {
       title="Import data"
       ref={modal}
       onHide={() => backToDM()}
-      closeOnClickOutside={false}
+      closeOnClickOutside={true}
       fullscreen
       visible
       bare
     >
-      <Modal.Header divided>
-        <Elem block="modal" name="title">Import Data</Elem>
+      <div className="rootclass" style={{ 
+        flex: '1',
+        minHeight: '0',
+        display: 'flex',
+        flexDirection: 'column',
+        overflowY: 'auto',
+      }}>
+        <Modal.Header divided>
+          <Elem block="modal" name="title">Import Data</Elem>
 
-        <Space>
-          <Button waiting={waiting} onClick={onCancel}>Cancel</Button>
-          <Button look="primary" onClick={onFinish} waiting={waiting || uploading} disabled={uploadDisabled}>
-            Import
-          </Button>
-        </Space>
-      </Modal.Header>
-      <ImportPage project={project} {...pageProps} />
-    </Modal>
+          <Space>
+            <Button waiting={waiting} onClick={onCancel}>Cancel</Button>
+            <Button look="primary" onClick={onFinish} waiting={waiting || uploading} disabled={uploadDisabled}>
+              Import
+            </Button>
+          </Space>
+        </Modal.Header>
+        <div className="toggle" style={{
+          position: 'relative',
+          maxWidth: '100%',
+          height: '100%',
+          display: 'grid',
+          borderRadius: '16px',
+          gridTemplateColumns: 'repeat(1, 1fr)',
+          boxSizing: 'border-box',
+        }}>
+          <div className="import-step" style={{
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            padding: '0px',
+            backgroundColor: '#fff',
+            width: '80%',
+            height: '150%',
+            margin: '10px 10%',
+          }}>
+            <div className="import-create" style={{
+              backgroundColor: '#5a585800',
+              padding: '1px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              cursor: 'pointer',
+              width: '93%',
+              margin: '0 3%',
+            }}>
+              <div className="import-content" style={{ width: '50%', margin: '0 4%' }}>
+                <ImportPage project={project} {...pageProps} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Modal >
   );
 };
 export const ImportModal = () => {

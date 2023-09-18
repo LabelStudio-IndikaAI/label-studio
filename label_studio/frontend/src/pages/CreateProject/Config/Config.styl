@@ -17,7 +17,8 @@ styled_scroll()
   height: 100%
   width: 100%
   display: flex
-  flex-direction: column
+  flex-direction: row
+  margin-left: -20px
 
 // hack for settings embedding
 .sidebar-menu__content > .wizard
@@ -36,7 +37,7 @@ styled_scroll()
   display: flex;
   flex-direction: column;
   // 20px from header's breadcrumbs
-  padding: 16px (16px - $scroll_width) 16px 20px;
+  padding: 0px (0px - $scroll_width) 0px 0px;
   overflow-y: scroll;
   background-color #fff
 
@@ -48,7 +49,7 @@ styled_scroll()
 .templates-list
   display: grid
   height: 100%
-  grid-template: 3fr auto / 244px 840px
+  grid-template: 3fr auto / 214px 880px
 
   &__sidebar
     padding: 0px 0px 0px 0px
@@ -69,6 +70,9 @@ styled_scroll()
       list-style: none
       display: flex
       flex-direction: column
+      font-size: 12px
+      font-style: italic
+
   &__group
     margin: 0 0 4px
     padding: 4px 8px
@@ -80,10 +84,10 @@ styled_scroll()
     display: flex
     align-items: center
     &:hover
-      background-color: #F4F4F4
+      background-color: #4aa4bd
     &_active
       color: #000
-      background-color: #F0F0F0
+      background-color: #67c3fa
     svg // arrow
       margin-left: auto
       padding-left: 16px
@@ -110,9 +114,10 @@ styled_scroll()
     border-radius: 4px
     cursor: pointer
     position: relative
-    width: 276px
+    width: 265px
     border: 1px solid $grey_5
     box-sizing: content-box
+    padding: 5px
     &_active
     &:hover
       box-shadow: 0px 0px 0 2px #1890ff
@@ -125,8 +130,9 @@ styled_scroll()
       font-size: 14px
       font-weight: 500
       border-top: 1px solid $grey_5
+      font-style: italic
     img
-      width: 276px
+      width: 265px
       height: 204px
       object-fit: cover
       border-radius: 4px 4px 0 0
@@ -248,18 +254,10 @@ styled_scroll()
     opacity: 0.8
 
 .wizard .configure__labels
-  display: flex
-  max-height: 200px
-.wizard .configure__add-labels
-  display: flex
-  flex-direction: column
-  align-items: flex-start
-  flex: 1
-  textarea
-    flex-grow: 1
-    margin: 8px 0
-    border-color: #dededf
-    font: inherit
+  border-top: 1px solid rgba(0,0,0,0.1);
+  padding-top: 16px;
+  margin-bottom: 16px;
+
 .wizard .configure__visual h4
   margin: 0
   font-weight: 500
@@ -268,29 +266,33 @@ styled_scroll()
 .wizard .configure__current-labels
   flex: 1
   display: flex
-  flex-direction: column
+  flex-direction: row
+  justify-content: flex-start
+  align-items: flex-start
   overflow-x: hidden
-  margin-right: 8px
+  margin-right: 0px
+  margin-top: 10px
   h3
     font-size: 16px
     margin: 0 32px 7px
 .wizard .configure__labels ul
   overflow-y: scroll
-  padding: 0 2em
+  padding: 0 0em
   margin: 0
-  list-style: none
+  list-style: auto
   min-width: 140px
   display: flex
-  flex-direction: column
-  align-items: stretch
+  flex-direction: row
+  align-items: self-start
   flex: 1
   styled_scroll()
   .configure__label
     display: flex
     align-items: stretch
     position: relative
+    margin: 5px
     &:not(:first-child)
-      margin-top: 8px
+      margin-top: 5px
     &_choice
       label
         display: none
@@ -319,7 +321,7 @@ styled_scroll()
         background: inherit
         border-radius: 3px 0 0 3px
         transition: 0.1s all
-        will-change: width, left
+        will-change: width, right
     .configure__label-color
       width: 1px
       padding: 0
@@ -327,7 +329,7 @@ styled_scroll()
       position: absolute
       opacity: 0
     span
-      padding: 0 8px
+      padding: 0 0px
       overflow-x: hidden
       word-break: break-word
     .configure__delete-label
@@ -336,13 +338,9 @@ styled_scroll()
       border-radius: 0 4px 4px 0
       background: none
       cursor: pointer
-      padding: 2px 6px
-      font-size: 12px
-      position: absolute
-      top: 0
-      left: 100%
-      height: 100%
-      opacity: 0.3
+      padding: 1px 4px
+      position: relative
+      top: 1px
       &:hover
         background: rgba(255,0,0,0.133)
         opacity: 1
@@ -352,7 +350,15 @@ styled_scroll()
         border-radius: 0
       label::after
         width: 12px
-        left: -12px
+        left:  -12px
+
+.wizard .configure__add-labels
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  flex: 1
+  margin-top: 10px
+  
 
 .wizard ul.configure__settings
   padding: 0
@@ -376,7 +382,7 @@ styled_scroll()
 .wizard .configure__preview
   flex-grow: 10
   min-width: 500px
-  padding: 16px 16px 0
+  padding: 0px 0px 0
   overflow-y: auto
   border-left: 1px solid $black_10
   background-color: $grey_2
@@ -386,6 +392,7 @@ styled_scroll()
   h3
     margin: 8px 0 16px
     font-size: 16px
+    margin-left: 10px
   iframe
     display: block
     width: 100%

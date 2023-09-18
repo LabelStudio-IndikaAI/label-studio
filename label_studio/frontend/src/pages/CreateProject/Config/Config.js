@@ -7,6 +7,7 @@ import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/show-hint.css';
 
 import { Button, ToggleItems } from '../../../components';
+import { SwitchToggle } from '../../../components/ToggleItems/SwitchToogle';
 import { Form } from '../../../components/Form';
 import { useAPI } from '../../../providers/ApiProvider';
 import { Block, cn, Elem } from '../../../utils/bem';
@@ -54,9 +55,8 @@ const Label = ({ label, template, color }) => {
         onClick={() => template.removeLabel(label)}
         aria-label="delete label"
       >
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="red" strokeWidth="2" strokeLinecap="square" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 12L12 2"/>
-          <path d="M12 12L2 2"/>
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="12" height="12" viewBox="0 0 24 24">
+          <path d="M 10 2 L 9 3 L 4 3 L 4 5 L 5 5 L 5 20 C 5 20.522222 5.1913289 21.05461 5.5683594 21.431641 C 5.9453899 21.808671 6.4777778 22 7 22 L 17 22 C 17.522222 22 18.05461 21.808671 18.431641 21.431641 C 18.808671 21.05461 19 20.522222 19 20 L 19 5 L 20 5 L 20 3 L 15 3 L 14 2 L 10 2 z M 7 5 L 17 5 L 17 20 L 7 20 L 7 5 z M 9 7 L 9 18 L 11 18 L 11 7 L 9 7 z M 13 7 L 13 18 L 15 18 L 15 7 L 13 7 z"></path>
         </svg>
       </button>
     </li>
@@ -84,14 +84,19 @@ const ConfigureControl = ({ control, template }) => {
 
   return (
     <div className={configClass.elem("labels")}>
-      <form className={configClass.elem("add-labels")} action="">
-        <h4>{tagname === "Choices" ? "Add choices" : "Add label names"}</h4>
-        <span>Use new line as a separator to add multiple labels</span>
-        <textarea name="labels" id="" cols="30" rows="5" ref={refLabels} onKeyPress={onKeyPress}></textarea>
-        <input type="button" value="Add" onClick={onAddLabels} />
-      </form>
+      <div className="object-title" style={{
+        backgroundColor: '#f0f0f0',
+        padding: '1px',
+        border: '1px solid #ccc',
+        margin: '0',
+        display: 'flex',
+        alignItems: 'center',
+      }}>
+        <h4>Configure labels</h4>
+      </div>
       <div className={configClass.elem("current-labels")}>
-        <h3>{tagname === "Choices" ? "Choices" : "Labels"} ({control.children.length})</h3>
+        {/* <h3>{tagname === "Choices" ? "Choices" : "Labels"} ({control.children.length})</h3> */}
+        {/* <div className={configClass.elem("labels-list")}> */}
         <ul>
           {Array.from(control.children).map(label => (
             <Label
@@ -102,6 +107,31 @@ const ConfigureControl = ({ control, template }) => {
             />
           ))}
         </ul>
+      </div>
+      <div className={configClass.elem("labels-form")}>
+        <form className={configClass.elem("add-labels")} action="">
+          <div className={configClass.elem("add-labels-header")}>
+            <h4>{tagname === "Choices" ? "Add choices" : "Add a new label"}</h4>
+          </div>
+          {/* <span>Use new line as a separator to add multiple labels</span> */}
+          <div className={configClass.elem("add-labels-input")} style={{ display: 'flex', gap: '5px' }}>
+            <textarea name="labels" id="" placeholder='Enter a label name' cols="30" rows="5" ref={refLabels} onKeyPress={onKeyPress} style={{
+              flexGrow: '1',
+              margin: '8px 10px 8px 0px',
+              borderColor: '#dededf',
+              font: 'inherit',
+              height: '40px',
+            }}></textarea>
+            <input type="button" value="+ Add" onClick={onAddLabels} style={{
+              height: '40px',
+              font: 'inherit',
+              marginTop: '8px',
+              color: '#40a9ff',
+              border: '1px solid #40a9ff',
+              borderRadius: '2px',
+            }} />
+          </div>
+        </form>
       </div>
     </div>
   );
@@ -155,7 +185,11 @@ const ConfigureSettings = ({ template }) => {
           template.render();
         };
         return (
-          <li key={key}><label><input type="checkbox" checked={value} onChange={onChange} /> {options.title}</label></li>
+          <li key={key}>
+            <label>
+              <input type="checkbox" checked={value} onChange={onChange} /> {options.title}
+            </label>
+          </li>
         );
       case String:
       case Number:
@@ -180,7 +214,16 @@ const ConfigureSettings = ({ template }) => {
   return (
     <ul className={configClass.elem("settings")}>
       <li>
-        <h4>Configure settings</h4>
+        <div className="object-title" style={{
+          backgroundColor: '#f0f0f0',
+          padding: '1px',
+          border: '1px solid #ccc',
+          margin: '0',
+          display: 'flex',
+          alignItems: 'center',
+        }}>
+          <h4>Configure settings</h4>
+        </div>
         <ul className={configClass.elem("object-settings")}>
           {items}
         </ul>
@@ -240,26 +283,53 @@ const ConfigureColumn = ({ template, obj, columns }) => {
   };
 
   return (
-    <p>
-      Use {obj.tagName.toLowerCase()}
-      {template.objects > 1 && ` for ${obj.getAttribute("name")}`}
-      {" from "}
-      {columns?.length > 0 && columns[0] !== DEFAULT_COLUMN && "field "}
-      <select onChange={selectValue} value={isManual ? "-" : value}>
-        {columns?.map(column => (
-          <option key={column} value={column}>
-            {column === DEFAULT_COLUMN ? "<imported file>" : `$${column}`}
-          </option>
-        ))}
-        {!columns?.length && (
-          <option value={value}>{"<imported file>"}</option>
+    // <p>
+    //   Use {obj.tagName.toLowerCase()}
+    //   {template.objects > 1 && ` for ${obj.getAttribute("name")}`}
+    //   {" from "}
+    //   {columns?.length > 0 && columns[0] !== DEFAULT_COLUMN && "field "}
+    //   <select onChange={selectValue} value={isManual ? "-" : value}>
+    //     {columns?.map(column => (
+    //       <option key={column} value={column}>
+    //         {column === DEFAULT_COLUMN ? "<imported file>" : `$${column}`}
+    //       </option>
+    //     ))}
+    //     {!columns?.length && (
+    //       <option value={value}>{"<imported file>"}</option>
+    //     )}
+    //     <option value="-">{"<set manually>"}</option>
+    //   </select>
+    //   {isManual && (
+    //     <input value={newValue} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown}/>
+    //   )}
+    // </p>
+    <div className={configClass.elem("image-data-container")} style={{ marginTop: '10px' }}>
+      <div className={configClass.elem("image-data-text")}>
+        <p>
+          Use {obj.tagName.toLowerCase()}
+          {template.objects > 1 && ` for ${obj.getAttribute("name")}`}
+          {" from "}
+          {columns?.length > 0 && columns[0] !== DEFAULT_COLUMN && "field "}
+        </p>
+      </div>
+      <div className={configClass.elem("image-data-select")} style={{ display: 'flex', width: '100%' }}>
+        <select onChange={selectValue} value={isManual ? "-" : value} style={{ flexGrow: '1', width: 'auto' }}>
+          {columns?.map(column => (
+            <option key={column} value={column}>
+              {column === DEFAULT_COLUMN ? "<imported file>" : `$${column}`}
+            </option>
+          ))}
+          {!columns?.length && (
+            <option value={value}>{"<imported file>"}</option>
+          )}
+          <option value="-">{"<set manually>"}</option>
+        </select>
+        {isManual && (
+          <input value={newValue} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} style={{ flexGrow: '1', width: 'auto', marginLeft: '10px' }} />
         )}
-        <option value="-">{"<set manually>"}</option>
-      </select>
-      {isManual && (
-        <input value={newValue} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown}/>
-      )}
-    </p>
+      </div>
+    </div>
+
   );
 };
 
@@ -268,7 +338,16 @@ const ConfigureColumns = ({ columns, template }) => {
 
   return (
     <div className={configClass.elem("object")}>
-      <h4>Configure data</h4>
+      <div className="object-title" style={{
+        backgroundColor: '#f0f0f0',
+        padding: '1px',
+        border: '1px solid #ccc',
+        margin: '0',
+        display: 'flex',
+        alignItems: 'center',
+      }}>
+        <h4>Configure data</h4>
+      </div>
       {template.objects.length > 1 && columns?.length > 0 && columns.length < template.objects.length && (
         <p className={configClass.elem("object-error")}>This template requires more data then you have for now</p>
       )}
@@ -359,7 +438,7 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
     try {
       setParserError(null);
       setTemplate(config);
-    } catch(e) {
+    } catch (e) {
       setParserError({
         detail: `Parser error`,
         validation_errors: [e.message],
@@ -407,7 +486,7 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
   const extra = (
     <p className={configClass.elem('tags-link')}>
       Configure the labeling interface with tags.
-      <br/>
+      <br />
       <a href="https://labelstud.io/tags/" target="_blank">See all available tags</a>
       .
     </p>
@@ -418,7 +497,7 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
       <div className={configClass.elem("container")}>
         <header>
           <button onClick={onBrowse}>Browse Templates</button>
-          <ToggleItems items={{ code: "Code", visual: "Visual" }} active={configure} onSelect={onSelect} />
+          <SwitchToggle items={{ code: "Code", visual: "Visual" }} active={configure} onSelect={onSelect} />
         </header>
         <div className={configClass.elem('editor')}>
           {configure === "code" && (
@@ -554,7 +633,7 @@ export const ConfigPage = ({
 
   return (
     <div className={wizardClass} data-mode="list" id="config-wizard">
-      {mode ==="list" && (
+      {mode === "list" && (
         <TemplatesList
           case="list"
           selectedGroup={selectedGroup}

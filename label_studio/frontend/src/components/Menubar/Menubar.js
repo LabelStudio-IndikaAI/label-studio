@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { StaticContent } from '../../app/StaticContent/StaticContent';
-import { IconBook, IconFolder, IconPersonInCircle, IconPin, IconTerminal, LsDoor, LsGitHub, LsSettings, LsSlack } from '../../assets/icons';
+import { IconFolder, IconPersonInCircle, LsDoor, LsSettings } from '../../assets/icons';
 import { useConfig } from '../../providers/ConfigProvider';
 import { useContextComponent, useFixedLocation } from '../../providers/RoutesProvider';
 import { cn } from '../../utils/bem';
@@ -232,43 +232,9 @@ export const Menubar = ({
 
                 <VersionNotifier showNewVersion />
 
-                <Menu.Item
-                  label="API"
-                  href="/docs/api"
-                  icon={<IconTerminal />}
-                  target="_blank"
-                />
-                <Menu.Item
-                  label="Docs"
-                  href="https://labelstud.io/guide"
-                  icon={<IconBook />}
-                  target="_blank"
-                />
-                <Menu.Item
-                  label="GitHub"
-                  href="https://github.com/heartexlabs/label-studio"
-                  icon={<LsGitHub />}
-                  target="_blank"
-                />
-                <Menu.Item
-                  label="Slack Community"
-                  href="https://slack.labelstud.io/?source=product-menu"
-                  icon={<LsSlack />}
-                  target="_blank"
-                />
-
                 <VersionNotifier showCurrentVersion />
 
                 <Menu.Divider />
-
-                <Menu.Item
-                  icon={<IconPin />}
-                  className={sidebarClass.elem('pin')}
-                  onClick={sidebarPin}
-                  active={sidebarPinned}
-                >
-                  {sidebarPinned ? "Unpin menu" : "Pin menu"}
-                </Menu.Item>
 
               </Menu>
             </Dropdown>
