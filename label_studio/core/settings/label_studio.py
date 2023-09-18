@@ -2,7 +2,7 @@
 """
 import os
 import pathlib
-from core import config 
+# from core import config 
 from core.settings.base import *
 from core.utils.secret_key import generate_secret_key_if_missing
 

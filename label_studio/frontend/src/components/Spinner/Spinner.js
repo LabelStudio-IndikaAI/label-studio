@@ -1,23 +1,23 @@
-import React from 'react';
-import { cn } from '../../utils/bem';
-import './Spinner.styl';
+// import React from 'react';
+// import { cn } from '../../utils/bem';
+// import './Spinner.styl';
 
-export const Spinner = ({ className, style, size = 32, stopped = false }) => {
-  const rootClass = cn('spinner');
+// export const Spinner = ({ className, style, size = 32, stopped = false }) => {
+//   const rootClass = cn('spinner');
 
-  const sizeWithUnit = typeof size === 'number' ? `${size}px` : size;
+//   const sizeWithUnit = typeof size === 'number' ? `${size}px` : size;
 
-  return (
-    <div className={rootClass.mix(className)} style={{ ...(style ?? {}), '--spinner-size': sizeWithUnit }}>
-      <div className={rootClass.elem('body').mod({ stopped })}>
-        <span/>
-        <span/>
-        <span/>
-        <span/>
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className={rootClass.mix(className)} style={{ ...(style ?? {}), '--spinner-size': sizeWithUnit }}>
+//       <div className={rootClass.elem('body').mod({ stopped })}>
+//         <span/>
+//         <span/>
+//         <span/>
+//         <span/>
+//       </div>
+//     </div>
+//   );
+// };
 
 // import React from 'react';
 // import { cn } from '../../utils/bem';
@@ -31,7 +31,7 @@ export const Spinner = ({ className, style, size = 32, stopped = false }) => {
 //     width: `${size}px`,
 //     height: `${size}px`,
 //     position: 'relative',
-//     ...style
+//     ...style,
 //   };
 
 //   const spinnerStyle = {
@@ -41,7 +41,7 @@ export const Spinner = ({ className, style, size = 32, stopped = false }) => {
 //     backgroundImage: `url(${spinnerImage})`, // replace with your image path
 //     backgroundSize: 'contain',
 //     backgroundRepeat: 'no-repeat',
-//     animation: stopped ? 'none' : 'spin 1s linear infinite'
+//     animation: stopped ? 'none' : 'spin 1s linear infinite',
 //   };
 
 //   return (
@@ -50,3 +50,22 @@ export const Spinner = ({ className, style, size = 32, stopped = false }) => {
 //     </div>
 //   );
 // };
+
+
+import React from 'react';
+import { cn } from '../../utils/bem';
+import './Spinner.styl';
+export const Spinner = ({ className, style, size = 32, stopped = false }) => {
+  const rootClass = cn('spinner');
+  const sizeWithUnit = typeof size === 'number' ? `${size}px` : size;
+  
+  return (
+    <div className={rootClass.mix(className)} style={{ ...(style ?? {}), '--spinner-size': sizeWithUnit }}>
+      <div className={rootClass.elem('body').mod({ stopped })}>
+        <div className={rootClass.elem('bar')}></div>
+        <div className={rootClass.elem('bar')}></div>
+        <div className={rootClass.elem('bar')}></div>
+      </div>
+    </div>
+  );
+};
