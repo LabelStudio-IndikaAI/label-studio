@@ -37,7 +37,7 @@ export const Breadcrumbs = () => {
           const isInternal = findComponent(href) !== null;
 
           const title = (
-            <Elem tag="span" name="label" mod={{faded: index === item.length - 1}}>
+            <Elem tag="span" name="label" mod={{ faded: index === item.length - 1 }}>
               {item.title}
             </Elem>
           );
@@ -59,15 +59,15 @@ export const Breadcrumbs = () => {
           ) : null;
 
           return item.onClick ? (
-            <Elem key={key} tag="li" name="item" mod={{last: isLastItem}}>
+            <Elem key={key} tag="li" name="item" mod={{ last: isLastItem }}>
               <span onClick={item.onClick}>{title}</span>
             </Elem>
           ) : dropdownSubmenu ? (
-            <Elem key={key} tag="li" component={Dropdown.Trigger} name="item" mod={{last: isLastItem}} content={dropdownSubmenu}>
+            <Elem key={key} tag="li" component={Dropdown.Trigger} name="item" mod={{ last: isLastItem }} content={dropdownSubmenu}>
               <span>{title}</span>
             </Elem>
           ) : (href && !isLastItem) ? (
-            <Elem key={key} tag="li" name="item" mod={{last: isLastItem}}>
+            <Elem key={key} tag="li" name="item" mod={{ last: isLastItem }}>
               {isInternal ? (
                 <NavLink to={href} data-external={true}>{title}</NavLink>
               ) : (
@@ -75,7 +75,7 @@ export const Breadcrumbs = () => {
               )}
             </Elem>
           ) : (
-            <Elem key={key} tag="li" name="item" mod={{last: isLastItem}}>
+            <Elem key={key} tag="li" name="item" mod={{ last: isLastItem }}>
               {title}
             </Elem>
           );

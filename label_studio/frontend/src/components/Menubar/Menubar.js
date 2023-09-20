@@ -5,7 +5,7 @@ import { useConfig } from '../../providers/ConfigProvider';
 import { useContextComponent, useFixedLocation } from '../../providers/RoutesProvider';
 import { cn } from '../../utils/bem';
 import { absoluteURL, isDefined } from '../../utils/helpers';
-import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs';
+//import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs';
 import { Dropdown } from "../Dropdown/Dropdown";
 //import { Hamburger } from "../Hamburger/Hamburger";
 import { Menu } from '../Menu/Menu';
@@ -24,7 +24,7 @@ const LeftContextMenu = ({ className }) => (
   <StaticContent
     id="context-menu-left"
     className={className}
-  >{(template) => <Breadcrumbs fromTemplate={template} />}</StaticContent>
+  >{(template) => {template;}}</StaticContent>
 );
 
 const RightContextMenu = ({ className, ...props }) => {

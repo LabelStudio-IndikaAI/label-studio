@@ -1186,15 +1186,20 @@
   flex: 1;
   display: flex;
   max-height: calc(100vh - var(--header-height));
+  flex-direction: column;
 }
 .ls-sidebar-menu__navigation {
-  width: calc(var(--menu-sidebar-width) + 1px);
+  width: var(--menu-sidebar-width);
   display: flex;
+  flex-shrink: 0;
+  align-items: center;
 }
 .ls-sidebar-menu__content {
   flex: 1;
   overflow: auto;
-  padding: 32px 40px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  padding-left: 50px;
   box-shadow: -1px 0 0 0 rgba(0,0,0,0.1);
 }
 
@@ -3645,10 +3650,12 @@ body {
 }
 
 .ls-general-settings {
-  display: flex;
+  display: block;
 }
 .ls-general-settings__wrapper {
-  width: 488px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .ls-general-settings .ls-heidy-tip {
   margin: 0 0 0 40px;

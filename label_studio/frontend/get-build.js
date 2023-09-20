@@ -17,8 +17,8 @@ const RED = "\033[0;31m";
 const NC = "\033[0m"; // NO COLOR to reset coloring
 
 const PROJECTS = {
-  'lsf': 'heartexlabs/label-studio-frontend',
-  'dm': 'heartexlabs/dm2',
+  'lsf': 'vini-t9/label-studio-frontend',
+  'dm': 'vini-t9/dm2',
 };
 
 const DIST_DIR = "/dist";
