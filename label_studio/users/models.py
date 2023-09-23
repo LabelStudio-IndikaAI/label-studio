@@ -11,8 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import AbstractUser
-
+from django.core.mail import send_mail
 
 from organizations.models import OrganizationMember, Organization
 from users.functions import hash_upload
@@ -104,7 +103,8 @@ class User(UserMixin, AbstractBaseUser, PermissionsMixin, UserLastActivityMixin)
     """
     username = models.CharField(_('username'), max_length=256)
     email = models.EmailField(_('email address'), unique=True, blank=True)
-
+    reset_attempts = models.IntegerField(default=0)
+    reset_attempt_time = models.DateTimeField(null=True, blank=True)
     first_name = models.CharField(_('first name'), max_length=256, blank=True)
     last_name = models.CharField(_('last name'), max_length=256, blank=True)
     phone = models.CharField(_('phone'), max_length=256, blank=True)
@@ -226,6 +226,15 @@ class User(UserMixin, AbstractBaseUser, PermissionsMixin, UserLastActivityMixin)
         elif self.first_name and self.last_name:
             initials = self.first_name[0:1] + self.last_name[0:1]
         return initials
+    
+    def generate_password_reset_token(self):
+        # Delete old unused tokens for this user
+        self.reset_tokens.filter(is_used=False).delete()
+
+        # Create a new token for password reset
+        token = default_token_generator.make_token(self)
+        return PasswordResetToken.objects.create(user=self, token=token)
+
 
 
 @receiver(post_save, sender=User)
@@ -234,12 +243,34 @@ def init_user(sender, instance=None, created=False, **kwargs):
         # create token for user
         Token.objects.create(user=instance)
 
+from django.urls import reverse
+
+def send_password_reset_email(user):
+    token = user.generate_password_reset_token()
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    token_value = token.token
+    
+    # Ensure this URL pattern exists in your urls.py
+    password_reset_url = reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token_value})
+    full_link = settings.HOSTNAME + password_reset_url
+    
+    # Sending the email
+    subject = 'Password Reset for YourProjectName'
+    message = f'Click the link below to reset your password:\n\n{full_link}'
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recipient_list = [user.email]
+
+    send_mail(subject, message, from_email, recipient_list)
+
+# ... [rest of your code]
+
+
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 #chnages
 def get_expiry_time():
-    return timezone.now() + datetime.timedelta(minutes=30)
+    return timezone.now() + datetime.timedelta(minutes=10)
 
 class PasswordResetToken(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='reset_tokens')

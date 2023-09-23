@@ -29,6 +29,22 @@
     }
 
 </style>
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.innerHTML = '<path d="M1 6s4.5-6 11-6 11 6 11 6-4.5 6-11 6-11-6-11-6z" stroke="currentColor" stroke-width="2"/><path d="M12 9a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/>'; // open eye
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.innerHTML = '<path d="M1 6s4.5-6 11-6 11 6 11 6-4.5 6-11 6-11-6-11-6z" stroke="currentColor" stroke-width="2"/><path d="M12 9a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/><path d="M2 6l20 0M12 2l0 8" stroke="currentColor" stroke-width="2"/>'; // closed eye
+        }
+    }
+</script>
+
+
 
 <div class="container mx-auto h-full flex justify-center items-center">
     <div class="w-1/3">
@@ -53,6 +69,13 @@
                         placeholder="Email" 
                         value="{{ form.data.email }}"
                     >
+                    {% if form.email.errors %}
+                        <div class="text-red-500 mt-2">
+                            {% for error in form.email.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <!-- Password -->
@@ -60,14 +83,27 @@
                     <a href="{{ reset_password_url }}" class="absolute-top-right text-blue-500 hover:text-blue-700 text-sm">Reset Password?</a>
                     
                     <label class="font-bold text-grey-darker block mb-2">Password</label>
-                    <input 
-                        type="password" 
-                        class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow {% if form.password.errors %}error-border{% endif %}" 
-                        name="password" 
-                        id="password" 
-                        placeholder="Password"
-                    >
+                    
+                    <div class="relative"> <!-- This div wraps the input and the eye icon -->
+                        <input 
+                            type="password" 
+                            class="block appearance-none w-full bg-white border border-grey-light hover:border-grey px-2 py-2 rounded shadow {% if form.password.errors %}error-border{% endif %}" 
+                            name="password" 
+                            id="password" 
+                            placeholder="Password"
+                        >
+                        <svg onclick="togglePasswordVisibility()" id="eyeIcon" class="absolute top-1/2 transform -translate-y-1/2 right-2.5 h-5 w-5 text-gray-500 cursor-pointer" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6s4.5-6 11-6 11 6 11 6-4.5 6-11 6-11-6-11-6z" stroke="currentColor" stroke-width="2"/><path d="M12 9a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/></svg>
+                    </div>
+                
+                    {% if form.password.errors %}
+                        <div class="text-red-500 mt-2">
+                            {% for error in form.password.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
+
 
                 <div class="mb-4">
                     <input type="checkbox" id="persist_session" name="persist_session" class="ls-checkbox" checked="checked" style="width: auto;" />

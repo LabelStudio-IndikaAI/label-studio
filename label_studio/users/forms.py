@@ -18,9 +18,9 @@ PASS_MAX_LENGTH = 64
 PASS_MIN_LENGTH = 8
 USERNAME_MAX_LENGTH = 30
 DISPLAY_NAME_LENGTH = 100
-USERNAME_LENGTH_ERR = 'Please enter a username 30 characters or fewer in length'
-DISPLAY_NAME_LENGTH_ERR = 'Please enter a display name 100 characters or fewer in length'
-PASS_LENGTH_ERR = 'Please enter a password 8-12 characters in length'
+USERNAME_LENGTH_ERR = 'Please enter a username 30 characters or fewer in length.'
+DISPLAY_NAME_LENGTH_ERR = 'Please enter a display name 100 characters or fewer in length.'
+PASS_LENGTH_ERR = 'Please enter a password 8-12 characters in length.'
 INVALID_USER_ERROR = 'The email and password you entered don\'t match.'
 
 logger = logging.getLogger(__name__)
@@ -71,13 +71,13 @@ class UserSignupForm(forms.Form):
     last_name = forms.CharField(max_length=30, required=True, label="Last Name")
     allow_newsletters = forms.BooleanField(required=False)
 
-    def clean_password(self):
-        password = self.cleaned_data['password']
-        if len(password) < PASS_MIN_LENGTH:
-            raise forms.ValidationError(PASS_LENGTH_ERR)
-        # if password != self.cleaned_data['re_password']:
-        #     raise forms.ValidationError('Passwords do not match')
-        return password
+    # def clean_password(self):
+    #     password = self.cleaned_data['password']
+    #     if len(password) < PASS_MIN_LENGTH:
+    #         raise forms.ValidationError(PASS_LENGTH_ERR)
+    #     # if password != self.cleaned_data['re_password']:
+    #     #     raise forms.ValidationError('Passwords do not match')
+    #     return validate_password(self.cleaned_data['password'])
     
     def clean(self):
         cleaned_data = super().clean()
@@ -89,18 +89,7 @@ class UserSignupForm(forms.Form):
         return cleaned_data
     
     def clean_password(self):
-        password = self.cleaned_data['password']
-        if len(password) < PASS_MIN_LENGTH:
-            raise forms.ValidationError(PASS_LENGTH_ERR)
-        if not any(char.isdigit() for char in password):
-            raise forms.ValidationError('Password must contain at least one digit.')
-        if not any(char.isalpha() for char in password):
-            raise forms.ValidationError('Password must contain at least one letter.')
-        if not any(char.isupper() for char in password):
-            raise forms.ValidationError('Password must contain at least one uppercase letter.')
-        if not any(char in '!@#$%^&*()_+' for char in password):
-            raise forms.ValidationError('Password must contain at least one of the special characters: !@#$%^&*()_+')
-        return password
+        return validate_password(self.cleaned_data['password'])
 
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
@@ -186,7 +175,7 @@ class SetNewPasswordForm(forms.Form):
         password = self.cleaned_data['password']
         if len(password) < PASS_MIN_LENGTH:
             raise forms.ValidationError(PASS_LENGTH_ERR)
-        return password
+        return validate_password(self.cleaned_data['password'])
 
     def clean(self):
         cleaned_data = super().clean()
@@ -206,26 +195,6 @@ logger = logging.getLogger(__name__)
 
 OTP_EXPIRY_DURATION = timedelta(minutes=15)  # OTP expires after 15 minutes
 
-# ... [other forms]
-
-# class UserSignupForm(forms.Form):
-#     # ... [existing fields]
-
-#     def clean_password(self):
-#         password = self.cleaned_data['password']
-#         if len(password) < PASS_MIN_LENGTH:
-#             raise forms.ValidationError(PASS_LENGTH_ERR)
-#         if not any(char.isdigit() for char in password):
-#             raise forms.ValidationError('Password must contain at least one digit.')
-#         if not any(char.isalpha() for char in password):
-#             raise forms.ValidationError('Password must contain at least one letter.')
-#         if not any(char.isupper() for char in password):
-#             raise forms.ValidationError('Password must contain at least one uppercase letter.')
-#         if not any(char in '!@#$%^&*()_+' for char in password):
-#             raise forms.ValidationError('Password must contain at least one of the special characters: !@#$%^&*()_+')
-#         return password
-
-    # ... [other methods remain unchanged]
 
 class OTPVerificationForm(forms.Form):
     otp = forms.CharField(label="Enter OTP", max_length=6, min_length=6)
@@ -281,3 +250,16 @@ class SetNewPasswordForm(forms.Form):
         
         return cleaned_data
 
+
+def validate_password(password):
+    if len(password) < PASS_MIN_LENGTH:
+        raise forms.ValidationError(PASS_LENGTH_ERR)
+    if not any(char.isdigit() for char in password):
+        raise forms.ValidationError('Password must contain at least one digit.')
+    if not any(char.isalpha() for char in password):
+        raise forms.ValidationError('Password must contain at least one letter.')
+    if not any(char.isupper() for char in password):
+        raise forms.ValidationError('Password must contain at least one uppercase letter.')
+    if not any(char in '!@#$%^&*()_+' for char in password):
+        raise forms.ValidationError('Password must contain at least one of the special characters: !@#$%^&*()_+')
+    return password

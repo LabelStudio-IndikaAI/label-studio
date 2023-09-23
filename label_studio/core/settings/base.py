@@ -13,7 +13,13 @@ import os
 import re
 import logging
 import json
+import environ
+env = environ.Env()
+environ.Env.read_env()
 
+emaaail = env('EMAIL', default='default_value')
+
+paas = env('PASSWORD', default='default_value')
 # from core import config
 from datetime import timedelta
 from label_studio.core.utils.params import get_bool_env, get_env
@@ -660,11 +666,47 @@ if CSRF_TRUSTED_ORIGINS:
 REAL_HOSTNAME = os.getenv('HOSTNAME')  # we have to use getenv, because we don't use LABEL_STUDIO_ prefix
 GCS_CLOUD_STORAGE_FORCE_DEFAULT_CREDENTIALS = get_bool_env('GCS_CLOUD_STORAGE_FORCE_DEFAULT_CREDENTIALS', False)
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = config("email")
-# EMAIL_HOST_PASSWORD = config("password")
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+# EMAIL_BACKEND = 'django_ses.SESBackend'
+
+# # Your AWS region where you set up SES (e.g., us-west-2)
+# AWS_SES_REGION_NAME = 'ap-south-1'
+
+# # Your AWS region's endpoint for SES
+# AWS_SES_REGION_ENDPOINT = 'email-smtp.ap-south-1.amazonaws.com'
+
+# # Your AWS Access Key
+# AWS_ACCESS_KEY_ID = ''
+
+# # Your AWS Secret Key
+# AWS_SECRET_ACCESS_KEY = ''
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'WARNING',
+#     }
+# }
 
 

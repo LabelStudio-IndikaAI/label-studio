@@ -5,7 +5,13 @@ import pathlib
 # from core import config 
 from core.settings.base import *
 from core.utils.secret_key import generate_secret_key_if_missing
+import environ
+env = environ.Env()
+environ.Env.read_env()
 
+emaaail = env('EMAIL', default='default_value')
+
+paas = env('PASSWORD', default='default_value')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = generate_secret_key_if_missing(BASE_DATA_DIR)
 
@@ -45,12 +51,26 @@ FRONTEND_SENTRY_ENVIRONMENT = get_env('FRONTEND_SENTRY_ENVIRONMENT', 'opensource
 EDITOR_KEYMAP = json.dumps(get_env("EDITOR_KEYMAP"))
 
 # email settings
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = config("email")
-# EMAIL_HOST_PASSWORD = config("password")
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+# EMAIL_BACKEND = 'django_ses.SESBackend'
+
+# # Your AWS region where you set up SES (e.g., us-west-2)
+# AWS_SES_REGION_NAME = 'ap-south-1'
+
+# # Your AWS region's endpoint for SES
+# AWS_SES_REGION_ENDPOINT = 'email-smtp.ap-south-1.amazonaws.com'
+
+# # Your AWS Access Key
+# AWS_ACCESS_KEY_ID = ''
+
+# # Your AWS Secret Key
+# AWS_SECRET_ACCESS_KEY = ''
 
 
 
@@ -77,3 +97,26 @@ except IOError:
     FEATURE_FLAGS_FROM_FILE = False
 
 STORAGE_PERSISTENCE = get_bool_env('STORAGE_PERSISTENCE', True)
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'WARNING',
+#     }
+# }
+
+
