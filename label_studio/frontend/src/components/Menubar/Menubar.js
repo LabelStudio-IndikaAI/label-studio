@@ -1,6 +1,6 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { StaticContent } from '../../app/StaticContent/StaticContent';
-import { IconFolder, IconPersonInCircle, LsDoor, LsSettings } from '../../assets/icons';
+import { IconBook, IconFolder, IconPersonInCircle, IconTerminal, LsDoor, LsGitHub, LsSettings, LsSlack } from '../../assets/icons';
 import { useConfig } from '../../providers/ConfigProvider';
 import { useContextComponent, useFixedLocation } from '../../providers/RoutesProvider';
 import { cn } from '../../utils/bem';
@@ -24,7 +24,7 @@ const LeftContextMenu = ({ className }) => (
   <StaticContent
     id="context-menu-left"
     className={className}
-  >{(template) => {template;}}</StaticContent>
+  >{(template) => { template; }}</StaticContent>
 );
 
 const RightContextMenu = ({ className, ...props }) => {
@@ -53,6 +53,7 @@ export const Menubar = ({
   const menuDropdownRef = useRef();
   const useMenuRef = useRef();
   const location = useFixedLocation();
+  const helpDropdownRef = useRef();
 
   const config = useConfig();
   const [sidebarOpened, setSidebarOpened] = useState(defaultOpened ?? false);
@@ -149,14 +150,56 @@ export const Menubar = ({
             <LeftContextMenu className={contextItem} />
             <RightContextMenu className={contextItem} />
           </div>
-          <div className="menubar-help-button-box">
-            {/* Help Button */}
-            <div className={menubarClass.elem('help-button')}>
-              <button className='help-icon'>
-                <IconQuestion />
-              </button>
+
+          <Dropdown.Trigger ref={helpDropdownRef} align="right" content={(
+            <Menu>
+              <Menu.Item
+                icon={<IconTerminal />}
+                label="API"
+                href=""
+                data-external
+              />
+              <Menu.Item
+                icon={<IconBook />}
+                label="Docs"
+                href=""
+                data-external
+              />
+              <Menu.Item
+                icon={<LsGitHub />}
+                label="GitHub"
+                href=""
+                data-external
+              />
+              <Menu.Item
+                icon={<LsSlack />}
+                label="Slack"
+                href=""
+                data-external
+              />
+            </Menu>
+          )}>
+            <div className="menubar-help-button-box">
+              <div className={menubarClass.elem('help-button')}>
+                <button className="help-icon" style={{
+                  position: 'relative',
+                  top: '4.5px',
+                  right: '0px',
+                  width: '109px',
+                  height: '38px',
+                  background: '#fff',
+                  border: '1px solid rgba(0,0,0,0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '4px',
+                }}>
+                  <IconQuestion />
+                </button>
+              </div>
             </div>
-          </div>
+          </Dropdown.Trigger>
+
 
           <Dropdown.Trigger ref={useMenuRef} align="right" content={(
             <Menu>

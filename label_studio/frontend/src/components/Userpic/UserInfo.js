@@ -23,7 +23,7 @@ export const UserInfo = forwardRef(({
     console.log("username: ", username);
     
     if (firstName && lastName) {
-      return `${firstName} ${lastName}`;
+      return `${firstName}`;
     } else if (email) {
       return email;
     } else {
@@ -45,6 +45,7 @@ export const UserInfo = forwardRef(({
         name="user-info"
         // onMouseEnter={onMouseEnter}
         // onMouseLeave={onMouseLeave}
+        style={{ margin: '5px' }}
       >
         <div title={fullName} >
           <Elem tag="span" name="full-name">

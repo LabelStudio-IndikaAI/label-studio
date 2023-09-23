@@ -8,11 +8,18 @@ import { Block, Elem } from '../../utils/bem';
 import { absoluteURL } from '../../utils/helpers';
 
 export const ProjectsList = ({ projects, currentPage, totalItems, totalPages, loadNextPage, pageSize }) => {
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
+  // Slice the projects array to display only the projects for the current page
+  const visibleProjects = projects.slice(startIndex, endIndex);
+
   return (
     <>
       <Elem name="projects-container">
         <Elem name="list">
-          {projects.map(project => (
+          {visibleProjects.map(project => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </Elem>

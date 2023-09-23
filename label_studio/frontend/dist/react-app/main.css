@@ -1017,9 +1017,8 @@
 .ls-menu-header__help-button {
   margin-top: 14px;
   margin-right: 50px;
-  padding: 5px;
   width: 10px;
-  height: 10px;
+  height: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2564,6 +2563,7 @@ li.CodeMirror-hint-active {
   border-top: 1px solid rgba(0,0,0,0.1);
   padding-top: 16px;
   margin-bottom: 16px;
+  width: 575px;
 }
 .ls-wizard .ls-configure__object h4 {
   margin-bottom: 8px;
