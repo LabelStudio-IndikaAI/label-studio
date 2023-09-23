@@ -11,8 +11,8 @@ export const SidebarMenu = ({ children, menu, path, menuItems }) => {
       {
         menuItems && menuItems.length > 1 ?
           (
-            <div className={rootClass.elem('navigation')}>
-              <Menu>
+            <div className={rootClass.elem('navigation')} >
+              <Menu style={{ flexDirection: 'row' }}>
                 {menuItems ? Menu.Builder(path, menuItems) : menu}
               </Menu>
             </div>
@@ -24,5 +24,7 @@ export const SidebarMenu = ({ children, menu, path, menuItems }) => {
         {children}
       </div>
     </div>
+    
+    
   );
 };

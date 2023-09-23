@@ -38,6 +38,31 @@ export const Menu = forwardRef(
 Menu.Item = MenuItem;
 Menu.Spacer = () => <Elem  block="main-menu" tag="li" name="spacer"></Elem>;
 Menu.Divider = () => <Elem  block="main-menu" tag="li" name="divider"></Elem>;
+// Menu.Builder = (url, menuItems) => {
+//   return (menuItems ?? []).map((item, index) => {
+//     if (item === "SPACER") return <Menu.Spacer key={index} />;
+//     if (item === "DIVIDER") return <Menu.Divider key={index} />;
+
+//     let pageLabel, pagePath;
+
+//     if (Array.isArray(item)) {
+//       [pagePath, pageLabel] = item;
+//     } else {
+//       const { menuItem, title, path } = item;
+
+//       pageLabel = title ?? menuItem;
+//       pagePath = path;
+//     }
+
+//     if (typeof pagePath === "function") {
+//       return <Menu.Item key={index} onClick={pagePath}>{pageLabel}</Menu.Item>;
+//     }
+
+//     const location = `${url}${pagePath}`.replace(/([/]+)/g, '/');
+
+//     return <Menu.Item key={index} to={location} exact>{pageLabel}</Menu.Item>;
+//   });
+// };
 Menu.Builder = (url, menuItems) => {
   return (menuItems ?? []).map((item, index) => {
     if (item === "SPACER") return <Menu.Spacer key={index} />;
@@ -55,12 +80,20 @@ Menu.Builder = (url, menuItems) => {
     }
 
     if (typeof pagePath === "function") {
-      return <Menu.Item key={index} onClick={pagePath}>{pageLabel}</Menu.Item>;
+      return (
+        <Menu.Item key={index} onClick={pagePath} className="horizontal-menu-item"> {/* Add a class for horizontal items */}
+          {pageLabel}
+        </Menu.Item>
+      );
     }
 
     const location = `${url}${pagePath}`.replace(/([/]+)/g, '/');
 
-    return <Menu.Item key={index} to={location} exact>{pageLabel}</Menu.Item>;
+    return (
+      <Menu.Item key={index} to={location} exact className="horizontal-menu-item"> {/* Add a class for horizontal items */}
+        {pageLabel}
+      </Menu.Item>
+    );
   });
 };
 
