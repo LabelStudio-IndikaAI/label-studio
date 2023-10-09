@@ -107,7 +107,7 @@ export const Inner = () => {
               width: '93%',
               margin: '0 3%',
             }}>
-              <div className="import-content" style={{ width: '50%', margin: '0 4%' }}>
+              <div className="import-content" style={{ width: '90%', margin: '0 4%' }}>
                 <ImportPage project={project} {...pageProps} />
               </div>
             </div>

@@ -35,11 +35,6 @@ input::-ms-reveal {
   display: none;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
 
 html {
   font-family: sans-serif;
@@ -62,6 +57,7 @@ body {
   line-height: 1.5715;
   background-color: #fff;
   font-feature-settings: "tnum";
+  overflow: auto !important;
 }
 
 [tabindex="-1"]:focus {
@@ -35964,7 +35960,7 @@ div.ant-typography-edit-content.ant-typography-rtl {
   box-shadow: inset 0px 1px 0px rgba(127,100,255,0.1), inset 0px 0px 0px 1px rgba(127,100,255,0.1);
 }
 .lsf-tool__tooltip {
-  top: 50%;
+  bottom: 50%;
   display: none;
   font-size: 14px;
   font-size: 14px;

@@ -142,6 +142,7 @@ export const ImportPage = ({
   addColumns,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [error, setError] = useState();
   const api = useAPI();
 
@@ -300,9 +301,7 @@ export const ImportPage = ({
     // Access the clipboard data
     navigator.clipboard.readText()
       .then((clipboardData) => {
-        // Assuming "urlRef" is a React ref to the input field
         if (urlRef.current) {
-          // Set the clipboard data (URL) into the input field
           urlRef.current.value = clipboardData;
         }
       })
@@ -310,6 +309,60 @@ export const ImportPage = ({
         console.error('Failed to read clipboard data:', error);
       });
   };
+
+
+  const handleSelectAll = allFiles => {
+    if (selectedFiles.length === allFiles.length) {
+      setSelectedFiles([]);
+    } else {
+      setSelectedFiles(allFiles);
+    }
+  };  
+
+  const handleFileSelect = file => {
+    const newSelectedFiles = [...selectedFiles];
+
+    if (newSelectedFiles.includes(file)) {
+      newSelectedFiles.splice(newSelectedFiles.indexOf(file), 1);
+    } else {
+      newSelectedFiles.push(file);
+    }
+    setSelectedFiles(newSelectedFiles);
+  };
+
+  const deleteFileApi = async (fileId) => {
+    try {
+      await api.callApi('deleteFileUploads', {
+        params: {
+          pk: project.id,
+        },
+        body: {
+          file_upload_ids: [fileId],
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteFile = async (file) => {
+    if (file.id) {
+      await deleteFileApi(file.id);
+    }
+    const newSelectedFiles = [...selectedFiles];
+
+    newSelectedFiles.splice(newSelectedFiles.indexOf(file), 1);
+    setSelectedFiles(newSelectedFiles);
+  };
+  
+  
+  
+  
+
+  const handleDeleteAll = () => {
+    setSelectedFiles([]);
+  };
+
 
 
 
@@ -345,7 +398,7 @@ export const ImportPage = ({
             </div>
             <input placeholder="Enter Dataset URL" name="url" ref={urlRef} />
             <div className={importClass.elem("button-container")}>
-              <button type="submit">+ Add URL</button>
+              <button type="submit">+ Add Files</button>
             </div>
           </form>
         </div>
@@ -433,9 +486,23 @@ export const ImportPage = ({
           //   </tbody>
           // </table>
 
-            <table style={{ width: '140%', marginTop: '30px' }}>
+            <table style={{ marginTop: '30px' }}>
               <thead>
                 <tr>
+                  <th style={{
+                    fontWeight: 'normal',
+                    fontSize: '1em',
+                    padding: '8px',
+                    textAlign: 'left',
+                    borderBottom: '2px solid #e5e5e5',
+                    backgroundColor: '#F2F2F2',
+                  }}>
+                    <input 
+                      type="checkbox" 
+                      onChange={() => handleSelectAll(files.uploading.concat(files.uploaded))}
+                      checked={selectedFiles.length === files.uploading.length + files.uploaded.length}
+                    />
+                  </th>
                   <th style={{ 
                     fontWeight: 'normal',
                     fontSize: '1em',
@@ -485,6 +552,17 @@ export const ImportPage = ({
                       padding: '8px',
                       borderBottom: '1px solid #e5e5e5',
                       textAlign: 'left',
+                    }}>
+                      <input 
+                        type="checkbox" 
+                        onChange={() => handleFileSelect(file)}
+                        checked={selectedFiles.includes(file)}
+                      />
+                    </td>
+                    <td style={{
+                      padding: '8px',
+                      borderBottom: '1px solid #e5e5e5',
+                      textAlign: 'left',
                     }}>{file.name}</td>
                     <td style={{
                       padding: '8px',
@@ -508,13 +586,25 @@ export const ImportPage = ({
                       borderBottom: '1px solid #e5e5e5',
                       textAlign: 'left',
                     }}>
-                      {/* <button onClick={() => handleDeleteFile(file)}>Delete</button> */}
-                      <button>Delete</button>
+                      {selectedFiles.includes(file) && (
+                        <button onClick={() => handleDeleteFile(file)}>Delete</button>
+                      )}
                     </td>
                   </tr>
                 ))}
                 {files.uploaded.map(file => (
                   <tr key={file.file}>
+                    <td style={{
+                      padding: '8px',
+                      borderBottom: '1px solid #e5e5e5',
+                      textAlign: 'left',
+                    }}>
+                      <input 
+                        type="checkbox" 
+                        onChange={() => handleFileSelect(file)}
+                        checked={selectedFiles.includes(file)}
+                      />
+                    </td>
                     <td style={{
                       padding: '8px',
                       borderBottom: '1px solid #e5e5e5',
@@ -540,12 +630,17 @@ export const ImportPage = ({
                       borderBottom: '1px solid #e5e5e5',
                       textAlign: 'left',
                     }}>
-                      <button>Delete</button>
+                      {selectedFiles.includes(file) && (
+                        <button onClick={() => handleDeleteFile(file)}>Delete</button>
+                      )}
                     </td>
                   </tr>
                 ))}
+                
               </tbody>
+              {selectedFiles.length > 1 && <button onClick={handleDeleteAll}>Delete All</button>}
             </table>
+            
 
           )}
         </Upload>

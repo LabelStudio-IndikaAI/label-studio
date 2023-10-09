@@ -420,7 +420,7 @@
   --button-color: #09f;
 }
 .ls-modal_fullscreen .ls-modal__content {
-  width: calc(100vw - 80px);
+  width: 100%;
   height: calc(100vh - 20px);
 }
 .ls-modal_visible {
@@ -1049,11 +1049,11 @@
 }
 .ls-menu-header__user {
   position: relative;
-  top: 4.5px;
+  top: 7.5px;
   right: 20px;
-  width: 109px;
-  height: 38px;
-  background: #fff;
+  width: 88px;
+  height: 32px;
+  background: #f6f6f6;
   border: 1px solid rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
@@ -2335,7 +2335,8 @@ li.CodeMirror-hint-active {
   width: 100%;
   display: flex;
   flex-direction: row;
-  margin-left: -20px;
+  align-items: center;
+  justify-content: center;
 }
 .ls-sidebar-menu__content > .ls-wizard {
   height: calc(100% + 64px);
@@ -2364,9 +2365,10 @@ li.CodeMirror-hint-active {
   background: none;
 }
 .ls-templates-list {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  grid-template: 3fr auto/214px 880px;
+  width: 100%;
 }
 .ls-templates-list__sidebar {
   padding: 0px 0px 0px 0px;
@@ -2388,14 +2390,15 @@ li.CodeMirror-hint-active {
   padding: 0;
   list-style: none;
   display: flex;
-  flex-direction: column;
-  font-size: 12px;
+  flex-direction: row;
+  font-size: 13px;
   font-style: italic;
+  box-shadow: 0px 1px 0px 0px;
+  align-items: center;
+  justify-content: center;
 }
 .ls-templates-list__group {
-  margin: 0 0 4px;
   padding: 4px 8px;
-  border-radius: 4px;
   cursor: pointer;
   color: #595959;
   font-weight: 500;
@@ -2404,16 +2407,16 @@ li.CodeMirror-hint-active {
   align-items: center;
 }
 .ls-templates-list__group:hover {
-  background-color: #4aa4bd;
+  background-color: #e8e8e8;
 }
 .ls-templates-list__group_active {
-  color: #000;
-  background-color: #67c3fa;
+  color: #1a73e8;
+  border-bottom: 2px solid #1a73e8;
 }
 .ls-templates-list__group svg {
   margin-left: auto;
-  padding-left: 16px;
-  width: 24px;
+  padding-left: 7px;
+  width: 12px;
   flex-shrink: 0;
 }
 .ls-templates-list main {
@@ -2426,10 +2429,10 @@ li.CodeMirror-hint-active {
   display: grid;
   flex-wrap: wrap;
   padding: 0;
-  margin: 16px 8px;
-  grid-template-columns: repeat(auto-fill, 276px);
-  grid-auto-columns: 276px;
-  grid-gap: 16px;
+  grid-template-columns: repeat(auto-fill, 242px);
+  grid-auto-columns: 331px;
+  grid-gap: 10px 8px;
+  justify-content: center;
 }
 .ls-templates-list__template {
   display: flex;
@@ -2437,7 +2440,7 @@ li.CodeMirror-hint-active {
   border-radius: 4px;
   cursor: pointer;
   position: relative;
-  width: 265px;
+  width: 230px;
   border: 1px solid #d9d9d9;
   box-sizing: content-box;
   padding: 5px;
@@ -2452,13 +2455,13 @@ li.CodeMirror-hint-active {
 .ls-templates-list__template h3 {
   margin: 0;
   padding: 12px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   border-top: 1px solid #d9d9d9;
   font-style: italic;
 }
 .ls-templates-list__template img {
-  width: 265px;
+  width: 230px;
   height: 204px;
   object-fit: cover;
   border-radius: 4px 4px 0 0;
@@ -2872,8 +2875,7 @@ div[class^=App_menu]>div {
   width: 500px;
   margin-top: 0px;
   margin-bottom: 32px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-left: 70px;
 }
 .ls-create-project form.ls-project-name > *:not(:first-child) {
   margin-top: 32px;
@@ -2913,6 +2915,7 @@ body {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  margin-bottom: 5%;
 }
 .ls-upload_page__error {
   color: #cf1322;
@@ -2930,7 +2933,7 @@ body {
   background: #fff;
   border-bottom: 1px solid rgba(0,0,0,0.05);
   display: flex;
-  margin: 0px 85%;
+  margin: 0px 40px;
   flex-direction: column;
   align-items: center;
 }
@@ -2984,7 +2987,6 @@ body {
   border-width: 2px;
   border-style: outset;
   color: #6495ed;
-  margin-left: 10px;
 }
 .ls-upload_page__url-form + span {
   margin: 0 16px;
@@ -3099,7 +3101,10 @@ body {
   margin: 0;
   min-height: 100%;
   max-width: 100%;
-  position: absolute;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .ls-dropzone__table-container {
   display: flex;
@@ -3972,6 +3977,7 @@ body {
 .ls-projects-page {
   min-height: calc(100vh - var(--header-height));
   background-color: #e8e8e8;
+/* CSS for the pop-up container */
 }
 .ls-projects-page__loading {
   width: 100%;
@@ -3979,6 +3985,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.ls-projects-page .ls-popup-container {
+  position: absolute;
+  top: 100%; /* Position it below the input */
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000; /* Ensure it's above other elements */
+  max-height: 150px; /* Set a max height for the pop-up */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+  display: none; /* Initially hide it */
+}
+.ls-projects-page .ls-popup-container .ls-popup-container.ls-active {
+  display: block; /* Show the pop-up when active */
 }
 .ls-projects-page__title-container {
   display: flex;
@@ -4005,6 +4026,16 @@ body {
 .ls-projects-page__create-project-button {
   margin: 10px;
 }
+.ls-projects-page__search-query-result {
+  margin: 10px;
+}
+.ls-projects-page__search-query-result h3 {
+  color: #808080;
+  margin: 10px;
+}
+.ls-projects-page__search-query-result h3 span {
+  color: #1a73e8;
+}
 .ls-projects-page__context-area {
   display: flex;
   justify-content: center;
@@ -4028,25 +4059,35 @@ body {
   margin: 20px auto 10px;
   gap: 20px;
 }
+.ls-projects-page__search-query {
+  margin: 8px;
+}
+.ls-projects-page__search-query .ls-clear-button {
+  border: 1px solid #1a73e8;
+  background-color: #fff;
+  color: #1a73e8;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.ls-projects-page__search-query .ls-clear-button .ls-back-icon {
+  margin-right: 5px;
+}
 .ls-projects-page__list {
   padding: 0px;
   display: flex;
   flex-wrap: wrap;
   box-sizing: border-box;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
 }
 .ls-projects-page__link {
   color: #000;
-  display: block;
-  display: flex;
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  width: 45%;
-  margin: 10px auto;
+  width: 48%;
 }
 .ls-projects-page__link:hover {
   color: #000;
@@ -4099,6 +4140,28 @@ body {
 .ls-empty-projects-page__action {
   margin: 72px 0 32px;
 }
+.ls-empty-search-page {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background: #fafafa;
+  border-radius: 10px;
+  width: 80%;
+  height: 50%;
+  margin: auto;
+}
+.ls-empty-search-page h3 {
+  margin: 8px;
+}
+.ls-empty-search-page__error404 {
+  height: 200px;
+  margin-top: 24px;
+}
+.ls-empty-search-page__header {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 16px auto;
+}
 .ls-project-card {
   --text-color: #000;
   flex: 1;
@@ -4147,14 +4210,8 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.ls-project-card__title-created-by,
-.ls-project-card__title display flex,
-.ls-project-card__title flex-direction row-reverse,
-.ls-project-card__title align-items center,
-.ls-project-card__title position relative,
-.ls-project-card__title .ls-userpic {
-  position: absolute;
-  margin-left: 30.5%;
+.ls-project-card__title-created-by {
+  margin-left: 68%;
 }
 .ls-project-card__summary {
   flex: 1;
@@ -4425,6 +4482,7 @@ body {
   --menu-animation-start: -10px;
   --menu-sidebar-width: 240px;
   margin: 0;
+  overflow: auto !important;
 }
 .ls-app-wrapper {
   width: 100vw;

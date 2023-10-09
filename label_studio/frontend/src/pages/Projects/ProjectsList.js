@@ -6,8 +6,9 @@ import { IconDone, IconTime, LsBulb, LsCheck, LsEllipsis, LsMinus } from '../../
 import { Button, Dropdown, Menu, Pagination, Userpic } from '../../components';
 import { Block, Elem } from '../../utils/bem';
 import { absoluteURL } from '../../utils/helpers';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
-export const ProjectsList = ({ projects, currentPage, totalItems, totalPages, loadNextPage, pageSize }) => {
+export const ProjectsList = ({ projects, currentPage, totalItems, totalPages, loadNextPage, pageSize, searchQuery, setSearchQuery }) => {
 
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
@@ -18,6 +19,21 @@ export const ProjectsList = ({ projects, currentPage, totalItems, totalPages, lo
   return (
     <>
       <Elem name="projects-container">
+        {searchQuery && (
+          <Elem name="search-query">
+            <button className="clear-button" onClick={() => setSearchQuery('')} style={{
+              border: '1px solid #1a73e8',
+              backgroundColor: 'white',
+              color: '#1a73e8',
+              padding: '8px 12px',
+              cursor: 'pointer',
+              display: 'flex',
+            }}>
+              <span className="back-icon" style={{ marginRight: '5px' }}><IoMdArrowRoundBack /></span> Back to All Projects
+            </button>
+            <h3>Search For "{searchQuery}"</h3>
+          </Elem>
+        )}
         <Elem name="list">
           {visibleProjects.map(project => (
             <ProjectCard key={project.id} project={project} />
@@ -46,7 +62,7 @@ export const ProjectsList = ({ projects, currentPage, totalItems, totalPages, lo
                     className="pagination-button"
                     onClick={() => loadNextPage(1)}
                     disabled={currentPage === 1}
-                  > 
+                  >
                     &lt;&lt;
                   </button>
                   <button
@@ -64,7 +80,7 @@ export const ProjectsList = ({ projects, currentPage, totalItems, totalPages, lo
                     onClick={() => loadNextPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
                   >
-                    &gt; 
+                    &gt;
                   </button>
                   <button
                     className="pagination-button"
@@ -79,7 +95,7 @@ export const ProjectsList = ({ projects, currentPage, totalItems, totalPages, lo
 
           />
         </Elem>
-      </Elem>
+      </Elem >
     </>
   );
 };
@@ -94,6 +110,33 @@ export const EmptyProjectsList = ({ openModal }) => {
     </Block>
   );
 };
+
+export const EmptySearchList = ({ searchQuery, setSearchQuery }) => {
+  return (
+    <Block name="empty-search-page">
+      {searchQuery && (
+        <Elem name="search-query">
+          <button className="clear-button" onClick={() => setSearchQuery('')} style={{
+            border: '1px solid #1a73e8',
+            backgroundColor: 'white',
+            color: '#1a73e8',
+            padding: '8px 12px',
+            cursor: 'pointer',
+            display: 'flex',
+            margin: '8px',
+          }}>
+            <span className="back-icon" style={{ marginRight: '5px' }}><IoMdArrowRoundBack /></span> Back to All Projects
+          </button>
+          <h3>Search For "{searchQuery}"</h3>
+        </Elem>
+      )}
+      <Elem name="error404" tag="img" src={absoluteURL("/static/icons/slack.svg")} />
+      <Elem name="header" tag="p">Nothing found for the query “LLMs”. Please try again with another search query.</Elem>
+
+    </Block>
+  );
+};
+
 
 const ProjectCard = ({ project }) => {
   const color = useMemo(() => {
@@ -127,7 +170,7 @@ const ProjectCard = ({ project }) => {
           <Elem name="summary">
             <Elem name="annotation">
               <Elem name="total">
-                <IconDone/>{project.finished_task_number} of {project.task_number} tasks completed
+                <IconDone />{project.finished_task_number} of {project.task_number} tasks completed
               </Elem>
               <Elem name="detail">
                 <Elem name="detail-item" mod={{ type: "completed" }}>
@@ -159,7 +202,7 @@ const ProjectCard = ({ project }) => {
 
             </Elem>
             <Elem name="created-date">
-              <IconTime/>{format(new Date(project.created_at), "dd/MM/yyyy 'at' HH:mm")}
+              <IconTime />{format(new Date(project.created_at), "dd/MM/yyyy 'at' HH:mm")}
             </Elem>
           </Elem>
         </Elem>

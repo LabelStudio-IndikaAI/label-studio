@@ -192,7 +192,7 @@ export const GeneralSettings = () => {
                     description={description}
                   />
                 ))}
-                {isFF(FF_LSDV_E_297) && (
+                {/* {isFF(FF_LSDV_E_297) && (
                   <RadioGroup.Button
                     key="uncertainty-sampling"
                     value=""
@@ -207,7 +207,7 @@ export const GeneralSettings = () => {
                       </>
                     )}
                   />
-                )}
+                )} */}
               </RadioGroup>
             </div>
           </div>

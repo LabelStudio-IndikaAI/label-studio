@@ -4,15 +4,18 @@ import { useAPI } from '../../../providers/ApiProvider';
 import { cn } from '../../../utils/bem';
 import './Config.styl';
 import { IconInfo } from '../../../assets/icons';
+import {  AiFillAudio,AiFillDatabase, AiFillFolderOpen , AiFillMessage, AiFillVideoCamera } from 'react-icons/ai';
+import { SiMusicbrainz } from 'react-icons/si';
+import { FaRankingStar } from 'react-icons/fa';
+import { AiOutlineFieldTime } from 'react-icons/ai';
+import { BsFillChatSquareTextFill } from 'react-icons/bs';
+
+
 
 
 const listClass = cn("templates-list");
 
-const Arrow = () => (
-  <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path opacity="0.9" d="M2 10L6 6L2 2" stroke="currentColor" strokeWidth="2" strokeLinecap="square"/>
-  </svg>
-);
+
 
 const TemplatesInGroup = ({ templates, group, onSelectRecipe }) => {
   const picked = templates
@@ -67,7 +70,7 @@ export const TemplatesList = ({ selectedGroup, selectedRecipe, onCustomTemplate,
               })}
             >
               {group}
-              {/* <Arrow /> */}
+              
             </li>
           ))}
         </ul>

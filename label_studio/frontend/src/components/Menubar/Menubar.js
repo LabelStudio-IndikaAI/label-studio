@@ -15,8 +15,8 @@ import { VersionNotifier, VersionProvider } from '../VersionNotifier/VersionNoti
 import './Menubar.styl';
 import './MenuContent.styl';
 import './MenuSidebar.styl';
-
-import { IconQuestion } from '../../assets/icons';
+import { IoMdHelp } from 'react-icons/io';
+//import { IconQuestion } from '../../assets/icons';
 
 export const MenubarContext = createContext();
 
@@ -140,7 +140,7 @@ export const Menubar = ({
           >
             <div className={`${menubarClass.elem('trigger')} main-menu-trigger`}>
               <img src={absoluteURL("/static/icons/slack.jpg")} alt="Data Studio Logo" height="42" style={{ marginRight: '10px' }} />
-              <span style={{ marginLeft: '5px', fontWeight: 'bold' }}>Data Studio</span>
+              <span style={{ marginLeft: '4px', fontWeight: 'bold' }}>Data Studio</span>
               {/* <Hamburger opened={sidebarOpened} /> */}
             </div>
           </Dropdown.Trigger>
@@ -185,16 +185,17 @@ export const Menubar = ({
                   position: 'relative',
                   top: '4.5px',
                   right: '0px',
-                  width: '109px',
-                  height: '38px',
-                  background: '#fff',
+                  width: '60px',
+                  height: '33px',
+                  background: '#f6f6f6',
                   border: '1px solid rgba(0,0,0,0.1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderRadius: '4px',
                 }}>
-                  <IconQuestion />
+                  {/* <IconQuestion style={{ fontSize: '16px' }} /> */}
+                  <IoMdHelp/>
                 </button>
               </div>
             </div>
@@ -209,7 +210,13 @@ export const Menubar = ({
                 href="/user/account"
                 data-external
               />
-              {/* <Menu.Item label="Dark Mode"/> */}
+              <Menu.Item
+                icon={<IconPersonInCircle />}
+                label="Organization"
+                href="/organization"
+                data-external
+                exact
+              />
               <Menu.Item
                 icon={<LsDoor />}
                 label="Log Out"
@@ -260,13 +267,6 @@ export const Menubar = ({
                   label="Projects"
                   to="/projects"
                   icon={<IconFolder />}
-                  data-external
-                  exact
-                />
-                <Menu.Item
-                  label="Organization"
-                  to="/organization"
-                  icon={<IconPersonInCircle />}
                   data-external
                   exact
                 />

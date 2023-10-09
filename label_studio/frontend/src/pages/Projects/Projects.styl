@@ -9,6 +9,22 @@
     align-items center
     justify-content center
 
+  /* CSS for the pop-up container */
+  .popup-container
+    position: absolute;
+    top: 100%; /* Position it below the input */
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure it's above other elements */
+    max-height: 150px; /* Set a max height for the pop-up */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    display: none; /* Initially hide it */
+
+    .popup-container.active
+      display: block; /* Show the pop-up when active */
+
   &__title-container 
     display flex
     justify-content space-between
@@ -36,6 +52,15 @@
   &__create-project-button 
     margin: 10px;
 
+  &__search-query-result
+    margin: 10px
+    h3
+      color: gray
+      margin: 10px
+
+      span
+        color: #1a73e8
+
   &__context-area
     display: flex;
     justify-content: center;
@@ -60,6 +85,19 @@
     background-color: #FAFAFA;
     margin: 20px auto 10px;
     gap: 20px;
+    
+  &__search-query
+    margin: 8px;
+
+    .clear-button
+      border: 1px solid #1a73e8;
+      background-color: white;
+      color: #1a73e8;
+      padding: 8px 12px;
+      cursor: pointer;
+
+      .back-icon
+        margin-right: 5px;
 
   &__list
     padding: 0px;
@@ -67,20 +105,16 @@
     flex-wrap: wrap; 
     box-sizing: border-box;
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
 
   &__link
     color #000
-    display block
-    display flex
     text-decoration none
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    
-    width: 45%; 
-    margin: 10px auto
+    display flex
+    align-items center
+    justify-content center
+    padding 10px
+    width 48%
 
     &:hover
       color #000
@@ -126,6 +160,27 @@
     font-size 24px
   &__action
     margin 72px 0 32px
+
+.empty-search-page
+  display flex
+  justify-content center
+  flex-direction column
+  background #fafafa
+  border-radius 10px
+  width 80%
+  height 50%
+  margin auto
+
+  
+  h3 
+    margin 8px
+  &__error404
+    height 200px
+    margin-top 24px
+  &__header
+    font-size 14px
+    font-weight 500
+    margin 16px auto
 
 .project-card
   --text-color #000
@@ -176,14 +231,10 @@
       text-overflow ellipsis
 
     &-created-by
-    display flex
-    flex-direction row-reverse  
-    align-items center
-    position relative
+      margin-left: 68%;
 
     .userpic {
-      position: absolute;
-      margin-left: 30.5%; 
+       
     }
 
   &__summary

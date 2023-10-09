@@ -301,6 +301,7 @@
 .dm-dropdown.dm-visible {
   opacity: 1;
   display: flex;
+  top: 48px;
 }
 .dm-dropdown.dm-before-disappear {
   opacity: 1;
@@ -1646,7 +1647,7 @@
 }
 .dm-filters:not(.dm-filters_sidebar) {
   padding-top: 10px;
-  min-width: 400px;
+  min-width: 290px;
   border-radius: 2px;
   box-shadow: 0 3px 6px -4px rgba(0,0,0,0.12), 0 6px 16px 0 rgba(0,0,0,0.08), 0 9px 28px 8px rgba(0,0,0,0.05);
 }
@@ -1682,9 +1683,15 @@
   padding: 0 10px 10px;
   justify-content: space-between;
 }
+.dm-filters__actions button {
+  box-shadow: 0px 0px;
+  color: #1a73e8;
+  font-size: 14px;
+  padding: auto;
+}
 .dm-filters__empty {
   padding: 0 10px;
-  font-size: 14px;
+  font-size: 16px;
   color: #585858;
 }
 .dm-filters__list {
@@ -2325,7 +2332,7 @@ input.dm-form-input[type=range] {
   line-height: 22px;
 }
 .dm-modal_fullscreen .dm-modal__content {
-  width: calc(100vw - 80px);
+  width: 100%;
   height: calc(100vh - 80px);
 }
 .dm-modal_visible {
@@ -2523,14 +2530,13 @@ input.dm-form-input[type=range] {
   --font-size: 16px;
   --button-padding: 0 10px;
   --button-checked-shadow: 0px 1px 0px rgba(0,0,0,0.1), 0px 0px 0px 1px rgba(0,0,0,0.02), 0px 5px 10px rgba(0,0,0,0.15);
-  height: var(--height);
   border-radius: var(--radius);
   padding: var(--padding);
   background: linear-gradient(0deg, rgba(0,0,0,0.05), rgba(0,0,0,0.05)), #fff;
   box-shadow: inset 0px 1px 0px rgba(0,0,0,0.05), inset 0px 0px 0px 1px rgba(0,0,0,0.05);
 }
 .dm-radio-group__buttons {
-  height: calc(var(--height) - calc(var(--padding) * 2));
+  height: auto;
   display: grid;
   grid-auto-columns: 1fr;
   grid-auto-flow: column;
@@ -2538,7 +2544,7 @@ input.dm-form-input[type=range] {
 .dm-radio-group__button {
   display: flex;
   opacity: 0.6;
-  padding: var(--button-padding);
+  padding: 1px 10px;
   font-weight: 500;
   position: relative;
   text-align: center;
@@ -2546,7 +2552,7 @@ input.dm-form-input[type=range] {
   justify-content: center;
   font-size: var(--font-size);
   border-radius: calc(var(--radius) - var(--padding));
-  height: calc(var(--height) - calc(var(--padding) * 2));
+  height: 25px;
   cursor: pointer;
 }
 .dm-radio-group__button_checked {
@@ -2623,21 +2629,25 @@ input.dm-form-input[type=range] {
 }
 .dm-tabs__list {
   display: flex;
+  margin: 1px;
   min-width: 0;
 }
 .dm-tabs__item {
-  color: rgba(0,0,0,0.5);
+  color: #000;
   width: 150px;
   overflow: hidden;
   cursor: pointer;
+  margin-right: 2px;
   position: relative;
-  box-shadow: -0.5px 0 0 #d9d9d9 inset, 0.5px 0 0 #d9d9d9 inset;
+  background-color: #dedede;
+  border-radius: 5px;
+  box-shadow: 0px 0px 1px 1px #d9d9d9 inset, 0.5px 0 0 #d9d9d9 inset;
 }
 .dm-tabs__item_active {
   color: #000;
   cursor: default;
-  background-color: #ddecff;
-  box-shadow: 0px -2px 0 #1a73e8 inset, 0.5px 0 0 #d9d9d9 inset;
+  background-color: #fff;
+  box-shadow: 0px 0px 1px 1px #868686 inset, 0px 0px 0px 0px #d9d9d9 inset;
 }
 .dm-tabs__item_active .dm-tabs__item-right-button {
   display: flex;
@@ -2693,10 +2703,7 @@ input.dm-form-input[type=range] {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #f4f4f4;
-  background: #1a73e8;
-  border-radius: 50%;
-  margin-left: 5px;
+  color: #5b5b5b;
 }
 .dm-tabs__add:focus {
   box-shadow: none;
@@ -2704,16 +2711,7 @@ input.dm-form-input[type=range] {
 .dm-tabs__add:hover {
   color: rgba(0,0,0,0.35) !important;
 }
-.dm-tabsextra {
-  height: 36px;
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  margin: 5px;
-  background-color: #fff;
-  box-shadow: 0px 1px #adabab;
-}
-.dm-tabsextra__extra {
+.dm-tabs__extra {
   display: flex;
   align-items: center;
   justify-content: center;

@@ -21,14 +21,11 @@ import { IconDelete, IconSave, IconWarning } from '../../assets/icons';
 
 
 
-const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, setDescription, show = true }) => !show ? null : (
+const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, setDescription, show = true, onNext }) => !show ? null : (
   <form className={cn("project-name")} onSubmit={e => { e.preventDefault(); onSubmit(); }}>
     <div className="field field--wide">
       <label htmlFor="project_name">Project Name</label>
       <input name="name" id="project_name" value={name} onChange={e => setName(e.target.value)} onBlur={onSaveName} />
-      <p style={{ fontSize: 'xx-small', color: 'tomato', display: 'flex', alignItems: 'center' }}>
-        <IconWarning style={{ fontSize: 'xx-small', verticalAlign: 'middle' }} /> Project names should be unique
-      </p>
       {error && <span className="error">{error}</span>}
     </div>
     <div className="field field--wide">
@@ -42,25 +39,61 @@ const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, 
         onChange={e => setDescription(e.target.value)}
       />
     </div>
-    {isFF(FF_LSDV_E_297) && (
-      <div className="field field--wide">
-        <label>
-          Workspace
-          <EnterpriseBadge />
-        </label>
-        <Select placeholder="Select an option" disabled options={[]} />
-        <Caption>
-          Simplify project management by organizing projects into workspaces.
-          <a href={createURL('https://docs.humansignal.com/guide/manage_projects#Create-workspaces-to-organize-projects', {
-            experiment: "project_creation_dropdown",
-            treatment: "simplify_project_management",
-          })} target="_blank">Learn more</a>
-        </Caption>
-        <HeidiTips collection="projectCreation" />
-      </div>
-    )}
   </form>
 );
+// const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, setDescription, show = true, onNext }) => {
+//   const handleNext = () => {
+//     // Perform validation for unique and non-empty project name
+//     if (name.trim() === '') {
+//       setError('Project name cannot be empty.');
+//     } else if (name === ) {
+//       setError('Project name must be unique.');
+//   } else {
+//     // Validation passed, move to the next step
+//     setError(null); // Clear any previous error
+//   onNext();
+// }
+//   };
+
+// const handleSaveName = async () => {
+//   // Perform validation for non-empty project name
+//   if (name.trim() === '') {
+//     setError('Project name cannot be empty.');
+//   } else if (name === ) {
+//     setError('Project name must be unique.');
+// } else {
+//   // Validation passed, save the project name
+//   setError(null); // Clear any previous error
+// await onSaveName();
+//     }
+//   };
+
+// return !show ? null : (
+//   <form className={cn("project-name")} onSubmit={e => { e.preventDefault(); onSubmit(); }}>
+//     <div className="field field--wide">
+//       <label htmlFor="project_name">Project Name</label>
+//       <input name="name" id="project_name" value={name} onChange={e => setName(e.target.value)} onBlur={onSaveName} />
+//       {error && <span className="error">{error}</span>}
+//     </div>
+//     <div className="field field--wide">
+//       <label htmlFor="project_description">Projet Description (Optional)</label>
+//       <textarea
+//         name="description"
+//         id="project_description"
+//         placeholder="Optional description of your project"
+//         rows="4"
+//         value={description}
+//         onChange={e => setDescription(e.target.value)}
+//       />
+//     </div>
+//   </form>
+
+//       { error && <span className="error">{error}</span> }
+// <button type="button" onClick={handleNext}>Next</button>
+//     </form >
+//   );
+// };
+
 
 export const CreateProject = ({ onClose }) => {
   const [step, setStep] = React.useState("name"); // name | import | config
@@ -166,7 +199,7 @@ export const CreateProject = ({ onClose }) => {
     >
       <div className={rootClass}>
         <Modal.Header>
-          
+
           <Space direction="horizontal"
             size="large"
             className="space-container"
@@ -206,7 +239,6 @@ export const CreateProject = ({ onClose }) => {
               borderRadius: '8px',
               padding: '0px',
               backgroundColor: '#fff',
-              width: '95%',
               margin: '10px 3%',
             }}>
               <div className="project-create" onClick={() => toggleForm(stepKey)} style={{
@@ -223,7 +255,7 @@ export const CreateProject = ({ onClose }) => {
                 {step === stepKey ? <TiMinus className='expand-icon' /> : <TiPlus className='expand-icon' />}
               </div>
               {step === stepKey && (
-                <div className="form-content" style={{ width: '50%', margin: '0 4%' }}>
+                <div className="form-content" style={{ width: '100%', margin: '0 0%' }}>
                   {stepKey === 'name' && (
                     <div className='project-naming' style={{ textAlign: 'left', marginBottom: '30px' }}>
                       <ProjectName
