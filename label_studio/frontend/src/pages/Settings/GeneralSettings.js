@@ -138,7 +138,7 @@ export const GeneralSettings = () => {
               width: '100%',
               maxWidth: '528px',
               marginBottom: '20px',
-              backgroundColor: '#f5f5f5',
+              backgroundColor: '#ffffff',
               border: '1px solid #ddd',
               padding: '20px',
               borderRadius: '5px',
@@ -167,7 +167,7 @@ export const GeneralSettings = () => {
               width: '100%',
               maxWidth: '528px',
               marginBottom: '20px',
-              backgroundColor: '#f5f5f5',
+              backgroundColor: '#ffffff',
               border: '1px solid #ddd',
               padding: '20px',
               borderRadius: '5px',
@@ -217,13 +217,13 @@ export const GeneralSettings = () => {
             <Form.Indicator>
               <span case="success">Saved!</span>
             </Form.Indicator>
-            <Button type="submit" look="primary" style={{ width: 120, marginRight: 20 }}>Save</Button>
+            <Button type="submit" look="primary" style={{ width: 120, marginRight: 27 }}>Save</Button>
           </Form.Actions>
         </Form>
       </Elem>
-      {isFF(FF_LSDV_E_297) && (
+      {/* {isFF(FF_LSDV_E_297) && (
         <HeidiTips collection="projectSettings" />
-      )}
+      )} */}
     </Block>
 
   );

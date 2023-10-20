@@ -1188,17 +1188,18 @@
   flex-direction: column;
 }
 .ls-sidebar-menu__navigation {
-  width: var(--menu-sidebar-width);
+  width: 100%;
   display: flex;
   flex-shrink: 0;
   align-items: center;
+  box-shadow: 0px 2px 1px 0px #d6d6d6;
 }
 .ls-sidebar-menu__content {
   flex: 1;
   overflow: auto;
-  padding-top: 32px;
+  padding-top: 40px;
   padding-bottom: 32px;
-  padding-left: 50px;
+  background-color: #f6f6f6;
   box-shadow: -1px 0 0 0 rgba(0,0,0,0.1);
 }
 
@@ -3918,8 +3919,17 @@ body {
 }
 
 .ls-storage-settings {
-  max-width: 680px;
-  padding: 40px;
+  width: 100%;
+  maxWidth: 100%;
+  margin: auto;
+  marginBottom: 20px;
+  backgroundColor: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  borderRadius: 5px;
+  boxShadow: rgba(0,0,0,0.1) 0px 4px 6px;
+  color: #333;
+  fontSize: 16px;
 }
 .ls-storage-settings__description {
   font-size: 16px;

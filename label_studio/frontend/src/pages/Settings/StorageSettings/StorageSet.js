@@ -7,9 +7,9 @@ import { useProject } from '../../../providers/ProjectProvider';
 import { StorageCard } from './StorageCard';
 import { StorageForm } from './StorageForm';
 
-export const StorageSet = ({title, target, rootClass, buttonLabel}) => {
+export const StorageSet = ({ title, target, rootClass, buttonLabel }) => {
   const api = useContext(ApiContext);
-  const {project} = useProject();
+  const { project } = useProject();
   const [storages, setStorages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
