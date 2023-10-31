@@ -17,7 +17,7 @@ import { Caption } from '../../components/Caption/Caption';
 import { FF_LSDV_E_297, isFF } from '../../utils/feature-flags';
 import { createURL } from '../../components/HeidiTips/utils';
 import { TiMinus, TiPlus } from 'react-icons/ti';
-import { IconDelete, IconSave, IconWarning } from '../../assets/icons';
+import { IconDelete, IconSave, IconTick, IconWarning } from '../../assets/icons';
 
 
 
@@ -221,7 +221,7 @@ export const CreateProject = ({ onClose }) => {
               disabled={!project || uploadDisabled || error}
               className="save-button"
             >
-              <IconSave /> Save Project
+              <IconTick /> Save Project
             </Button>
           </Space>
         </Modal.Header>

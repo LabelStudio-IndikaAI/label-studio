@@ -2,7 +2,7 @@ import chr from 'chroma-js';
 import { format } from 'date-fns';
 import React, { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
-import { IconDone, IconTime, LsBulb, LsCheck, LsEllipsis, LsMinus } from '../../assets/icons';
+import { annotation,  ban, IconDone, IconTime,  LsCheck, LsEllipsis, LsMinus, spark  } from '../../assets/icons';
 import { Button, Dropdown, Menu, Pagination, Userpic } from '../../components';
 import { Block, Elem } from '../../utils/bem';
 import { absoluteURL } from '../../utils/helpers';
@@ -131,7 +131,7 @@ export const EmptySearchList = ({ searchQuery, setSearchQuery }) => {
         </Elem>
       )}
       <Elem name="error404" tag="img" src={absoluteURL("/static/icons/slack.svg")} />
-      <Elem name="header" tag="p">Nothing found for the query “LLMs”. Please try again with another search query.</Elem>
+      <Elem name="header" tag="p">Nothing found for the query "{searchQuery}". Please try again with another search query.</Elem>
 
     </Block>
   );
@@ -174,15 +174,15 @@ const ProjectCard = ({ project }) => {
               </Elem>
               <Elem name="detail">
                 <Elem name="detail-item" mod={{ type: "completed" }}>
-                  <Elem tag={LsCheck} name="icon" />
+                  <Elem tag={annotation} name="icon" />
                   {project.total_annotations_number}
                 </Elem>
                 <Elem name="detail-item" mod={{ type: "rejected" }}>
-                  <Elem tag={LsMinus} name="icon" />
+                  <Elem tag={ban} name="icon" />
                   {project.skipped_annotations_number}
                 </Elem>
                 <Elem name="detail-item" mod={{ type: "predictions" }}>
-                  <Elem tag={LsBulb} name="icon" />
+                  <Elem tag={spark} name="icon" />
                   {project.total_predictions_number}
                 </Elem>
                 <Elem name="menu" onClick={(e) => {

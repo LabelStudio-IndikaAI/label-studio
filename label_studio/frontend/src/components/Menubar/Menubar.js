@@ -139,8 +139,8 @@ export const Menubar = ({
             closeOnClickOutside={!sidebarPinned}
           >
             <div className={`${menubarClass.elem('trigger')} main-menu-trigger`}>
-              <img src={absoluteURL("/static/icons/slack.jpg")} alt="Data Studio Logo" height="42" style={{ marginRight: '10px' }} />
-              <span style={{ marginLeft: '4px', fontWeight: 'bold' }}>Data Studio</span>
+              <img src={absoluteURL("/static/icons/DATA.JPg")} alt="Data Studio Logo" height="42" style={{ marginRight: '5px' }} />
+              {/* <span style={{ marginLeft: '4px', fontWeight: 'bold' }}>Data Studio</span> */}
               {/* <Hamburger opened={sidebarOpened} /> */}
             </div>
           </Dropdown.Trigger>

@@ -37,3 +37,7 @@ export { default as IconGreentech } from './greentech.svg';
 export { default as IconDoneimport } from './doneimport.svg';
 export { default as IconDelete } from './delete.svg';
 export { default as IconSave } from './save.svg';
+export { default as annotation } from './annotation.svg';
+export { default as ban } from './ban.svg';
+export { default as spark } from './spark.svg';
+export { default as IconTick } from './tick.svg';
