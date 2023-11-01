@@ -4026,12 +4026,14 @@ body {
   color: #000;
   font-size: 18px;
   font-weight: 600;
+  margin-bottom: 0px;
 }
 .ls-projects-page__title-container p {
   margin-left: 20px;
   color: #000;
   font-size: 14px;
   font-weight: 50;
+  margin-bottom: 0px;
 }
 .ls-projects-page__create-project-button {
   margin: 10px;
