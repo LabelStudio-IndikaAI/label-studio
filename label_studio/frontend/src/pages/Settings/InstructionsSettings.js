@@ -23,31 +23,30 @@ export const InstructionsSettings = () => {
       maxWidth: '90%',
       margin: 'auto',
       marginBottom: '20px',
-      backgroundColor: '#ffffff',
-      border: '1px solid rgb(221, 221, 221)',
+      backgroundColor: '#f6f6f6',
+      border: '1px solid #f6f6f6',
       padding: '20px',
       borderRadius: '5px',
-      boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px',
+      //boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px',
       color: 'rgb(51, 51, 51)',
       fontSize: '16px',
     }}>
       <Form ref={formRef} action="updateProject" formData={{ ...project }} params={{ pk: project.id }} onSubmit={updateProject}>
         <Form.Row columnCount={1}>
-          <Label text="Instructions" large/>
-          <Label text="Labeling Instructions" small/>
+          <Label text="Labeling Instructions" large/>
           <div style={{
             padding: '3px',
-            width: '48%',
+            width: '47.7%',
             color: '#1A73E8',
-            backgroundColor: '#d9f1ff',
-            fontSize: '10px',
+            backgroundColor: '#D7E2FF',
+            fontSize: '14px',
             boxSizing: 'border-box',
-            borderRadius: '30px',
+            borderRadius: '5px',
             boxShadow: '0px 0px 0px 0px',
             marginLeft: '17px',
             
           }}>
-            <p style={{ display: 'flex', alignItems: 'center', margin: 'auto' }}><FcInfo/> The instruction field supports HTML markup and integrate with images and iframes (PDF).</p>
+            <p style={{ display: 'flex', alignItems: 'center', margin: 'auto', gap: '5px', lineHeight: '1rem' }}><FcInfo size={20}/> The instruction field supports HTML markup and integrate with images and iframes (PDF).</p>
           </div>
         </Form.Row>
 

@@ -4022,18 +4022,20 @@ body {
   margin: 20px auto 0;
 }
 .ls-projects-page__title-container h3 {
+  margin: 0;
+  padding: 0;
   margin-left: 20px;
   color: #000;
   font-size: 18px;
   font-weight: 600;
-  margin-bottom: 0px;
 }
 .ls-projects-page__title-container p {
+  margin: 0;
+  padding: 0;
   margin-left: 20px;
   color: #000;
   font-size: 14px;
   font-weight: 50;
-  margin-bottom: 0px;
 }
 .ls-projects-page__create-project-button {
   margin: 10px;

@@ -88,9 +88,9 @@ async function get(projectName, ref = 'master') {
 
   await new Promise(async (resolve, reject) => {
     try {
-      await finished(Readable.fromWeb(res.body).pipe(fileStream)) 
+      await finished(Readable.fromWeb(res.body).pipe(fileStream)); 
     } catch (err) {
-      reject(err)
+      reject(err);
     }
     
     console.info('Downloaded:', filename);
