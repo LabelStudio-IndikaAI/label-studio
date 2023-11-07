@@ -1,0 +1,40 @@
+.checkbox
+  display block
+  position relative
+  cursor pointer
+
+  &__input
+    margin: 0
+    opacity: 0
+    position: absolute
+
+  &__indicator
+    width: 18px
+    height: 18px
+    border: 2px solid #007bff
+    border-radius: 4px
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-right: 10px
+
+  &_checked &__indicator
+    background-color: #007bff
+    border-color: #007bff
+    color: white
+    position: relative
+  
+    &::before
+      content: "";
+      position: relative;
+      display: flex;
+      width: 13px;
+      margin: auto;
+      top: -2px;
+      height: 5px;
+      align-items: center;
+      border-width: 2px;
+      justify-content: stretch;
+      border-style: solid;
+      border-color: transparent transparent #fff #fff;
+      transform: rotate(-47deg);

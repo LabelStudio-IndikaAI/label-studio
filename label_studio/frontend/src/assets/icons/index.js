@@ -41,3 +41,7 @@ export { default as annotation } from './annotation.svg';
 export { default as ban } from './ban.svg';
 export { default as spark } from './spark.svg';
 export { default as IconTick } from './tick.svg';
+export { default as Icondesinfo } from './desinfo.svg';
+export { default as Icondeslink } from './deslink.svg';
+export { default as Iconmldelete } from './mldelete.svg';
+export { default as Iconmledit } from './mledit.svg';
