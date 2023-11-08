@@ -20,7 +20,6 @@ aws_params_import: &aws_params_import
   - type: text
     name: s3_endpoint
     label: S3 Endpoint
-  - null
   - type: password
     name: aws_access_key_id
     label: Access Key ID
@@ -96,23 +95,34 @@ ImportStorage:
     fields: *aws_params_import
 
   # 2 columns grid
-  - columnCount: 2
+  - columnCount: 1
     columns:
-      - width: 345
+      - width: 539
         fields:
           - type: toggle
             name: use_blob_urls
             label: Treat every bucket object as a source file
             description: If unchecked, treat every bucket object as a JSON-formatted task. Optional
+  - columnCount: 1
+    columns:
+      - width: 368
+        fields:
           - type: toggle
             name: recursive_scan
             label: Recursive scan
             description: Perform recursive scan over the bucket content
-      - fields:
+  - columnCount: 1
+    columns:
+      - width: 220
+        fields:
           - type: toggle
             name: presign
             label: Use pre-signed URLs
             value: true
+  - columnCount: 1
+    columns:
+      - width: 345
+        fields:
           - type: counter
             name: presign_ttl
             label: Expiration minutes

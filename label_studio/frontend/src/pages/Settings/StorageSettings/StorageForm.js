@@ -6,6 +6,9 @@ import { Oneof } from '../../../components/Oneof/Oneof';
 import { ApiContext } from '../../../providers/ApiProvider';
 import { Block, Elem } from '../../../utils/bem';
 import { isDefined } from '../../../utils/helpers';
+import { BsCheck, BsCloudy, BsPlus } from 'react-icons/bs';
+import { MdDone } from 'react-icons/md';
+
 
 export const StorageForm = forwardRef(({
   onSubmit,
@@ -32,7 +35,7 @@ export const StorageForm = forwardRef(({
     }).then(formFields => setFormFields(formFields ?? []));
   }, [type]);
 
-  const storageTypeSelect = { columnCount: 1, fields: [{
+  const storageTypeSelect = { columnCount: 2, fields: [{
     skip: true,
     type: "select",
     name: "storage_type",
@@ -104,10 +107,14 @@ export const StorageForm = forwardRef(({
       )}>
         <Input type="hidden" name="project" value={project}/>
         <Button.Group className={rootClass.elem('buttons')}>
-          <Button type="button" waiting={checking} onClick={validateStorageConnection}>
-            Check Connection
+          <Button type="button" waiting={checking} onClick={validateStorageConnection} style={{ display: 'flex', alignItems: 'center' }}>
+            <BsCloudy/> Check Connection
           </Button>
-          <Button type="submit" look="primary">{storage ? "Save" : "Add Storage"}</Button>
+          <Button 
+            type="submit" 
+            look="primary">
+            {storage ? <BsCheck /> : null}
+          </Button>
         </Button.Group>
       </Form.Actions>
 

@@ -29,16 +29,21 @@ export const MachineLearningSettings = () => {
   const [selectedBackend, setSelectedBackend] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedModel, setSelectedModel] = useState(null);
+  const [showMLFormModal, setShowMLFormModal] = useState(false);
+
 
   const handleModelSelect = (model) => {
-    setShowModal(true); // Show the modal regardless of whether a model is selected
     setSelectedModel(model);
+    setSelectedBackend(null); // Resetting the selected backend ensures the form is in "add" mode
+    setShowMLFormModal(true); // Assuming you have a state to control the visibility of the modal
   };
 
-  const handleAddNewModel = () => {
-    setShowModal(true); // Show the modal for adding a new model
+
+  // Function to reset the selected model
+  const resetSelectedModel = () => {
     setSelectedModel(null);
   };
+
 
   const fetchAndSetBackends = async () => {
     if (!project.id) {
@@ -73,15 +78,32 @@ export const MachineLearningSettings = () => {
 
   const formTitle = selectedBackend ? 'Edit ML Model' : 'Add New ML Model';
   const ShowMLFormModal = ({ project, fetchBackends, backend, setMLError, setSelectedBackend, selectedModelData }) => {
-    const [formData, setFormData] = useState(backend ?? {});
+    //const [formData, setFormData] = useState(backend ?? {});
     //const formTitle = `${backend ? 'Edit' : 'Add'} model`;
+    const [formData, setFormData] = useState(selectedModelData ?? backend ?? {});
+
+    useEffect(() => {
+      if (selectedModelData) {
+        setFormData(selectedModelData);
+      } else {
+        setFormData(backend ?? {});
+      }
+    }, [selectedModelData, backend]);
 
 
 
+    // const resetForm = () => {
+    //   setFormData({});
+    //   setSelectedBackend(null);
+    // };
     const resetForm = () => {
-      setFormData({});
+      setFormData(backend ?? {});
       setSelectedBackend(null);
+      if (resetSelectedModel) {
+        resetSelectedModel();
+      }
     };
+
     const handleSubmit = async (response) => {
       try {
         if (!response.error_message) {
@@ -96,13 +118,10 @@ export const MachineLearningSettings = () => {
       }
     };
 
-    
-
-
-
     return (
       <Form
-        action={backend ? "updateMLBackend" : "addMLBackend"}
+        //action={backend ? "updateMLBackend" : "addMLBackend"}
+        action={selectedModelData ? "addMLBackend" : (backend ? "updateMLBackend" : "addMLBackend")}
         formData={formData}
         params={{ pk: backend?.id }}
         onSubmit={handleSubmit}
@@ -112,18 +131,18 @@ export const MachineLearningSettings = () => {
 
         <Form.Row columnCount={1}>
           <Input name="title" label="Model Name" placeholder="Enter the model name"
-            
+
           />
         </Form.Row>
         <Form.Row columnCount={1}>
           <Input name="url" label="Model URL" placeholder="Enter a valid URL for this model" required
-           
+
           />
         </Form.Row>
 
         <Form.Row columnCount={1}>
           <TextArea name="description" label="Model Description (Optional)" placeholder="Describe this ML model in a few words" style={{ minHeight: 60 }}
-           
+
           />
         </Form.Row>
 
@@ -196,9 +215,16 @@ export const MachineLearningSettings = () => {
     );
   };
 
+  // const onEditBackend = useCallback((backend) => {
+  //   setSelectedBackend(backend);
+  // }, []);
+
   const onEditBackend = useCallback((backend) => {
     setSelectedBackend(backend);
-  }, []);
+    // Also reset the selected model if editing is distinct from selecting a model
+    setSelectedModel(null);
+  }, [setSelectedBackend, setSelectedModel]);
+
 
 
 
@@ -253,12 +279,17 @@ export const MachineLearningSettings = () => {
               <p style={{ display: 'flex', alignItems: 'center', margin: 'auto', gap: '5px', lineHeight: '1rem' }}><FcInfo size={20} />You can add one or more machine learning models to predict labels for your data.</p>
             </div>
           </Description>
-          <div style={{ width: '95%', gap: '10px', marginBottom: '10px', border: '2px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px' }}>
-            <ModelListDropdown models={models} onSelectModel={handleModelSelect} onAddNewModel={handleAddNewModel} />
+          <div style={{ width: '95%', gap: '10px', marginBottom: '10px' }}>
+            <ModelListDropdown
+              models={models}
+              selectedModelTitle={selectedModel?.title}
+              onSelectModel={handleModelSelect}
+              
+            />
 
           </div>
           {/* <Divider height={32} border="1px solid black" /> */}
-          <div style={{ width: '95%', gap: '10px', border: '2px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px' }}>
+          <div style={{ width: '95%', gap: '10px', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px' }}>
             <Form action="updateProject"
               formData={{ ...project }}
               params={{ pk: project.id }}
@@ -268,11 +299,15 @@ export const MachineLearningSettings = () => {
               {/* {(!isFF(FF_DEV_1682) || !backends.length) && (
                 <ProjectModelVersionSelector />
               )} */}
+              <div style={{ background: '#D1D3D6', color: 'black', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
+                ML Assisted Labeling Preferences
+              </div>
               <Form.Row columnCount={1}>
-                <Label text="ML Assisted Labeling Preferences" large />
+                
 
                 <div style={{ paddingLeft: 16, fontSize: 12 }}>
                   <Checkbox
+                    style={{ fontSize: '12px !important' }}
                     label="Start model training after any annotations are submitted or updated"
                     name="start_training_on_annotation_update"
                   />
@@ -358,17 +393,20 @@ export const MachineLearningSettings = () => {
             </div>
             {/* {showMLFormModal()} */}
             <div style={{ padding: '5px' }}>
+
               <ShowMLFormModal
                 project={project}
                 fetchBackends={fetchBackends}
                 backend={selectedBackend}
                 selectedModelData={selectedModel}
+                resetSelectedModel={resetSelectedModel}
                 setMLError={setMLError}
                 setSelectedBackend={setSelectedBackend}
               />
+
             </div>
           </div>
-          
+
         </div>
       </div>
     </>

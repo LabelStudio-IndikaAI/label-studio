@@ -63,7 +63,7 @@ export const StorageSet = ({ title, target, rootClass, buttonLabel }) => {
     const modalRef = modal({
       title,
       closeOnClickOutside: false,
-      style: { width: 760 },
+      style: { width: '760px', height: '500px', overflow: 'auto' },
       body: (
         <StorageForm
           target={target}
@@ -77,13 +77,13 @@ export const StorageSet = ({ title, target, rootClass, buttonLabel }) => {
           }}
         />
       ),
-      footer: (
-        <>
-          Save completed annotations to Amazon S3, Google Cloud, Microsoft Azure, or Redis.
-          <br/>
-          <a href="https://labelstud.io/guide/storage.html">See more in the documentation</a>.
-        </>
-      ),
+      // footer: (
+      //   <>
+      //     Save completed annotations to Amazon S3, Google Cloud, Microsoft Azure, or Redis.
+      //     <br/>
+      //     <a href="https://labelstud.io/guide/storage.html">See more in the documentation</a>.
+      //   </>
+      // ),
     });
   }, [project, fetchStorages, target, rootClass]);
 

@@ -2,19 +2,19 @@
     {
       "id": "1",
       "title": "Model A",
-      "url": "http://model-a.com/api",
+      "url": "http://3.111.44.251:8080/",
       "description": "This is a description for Model A."
     },
     {
       "id": "2",
       "title": "Model B",
-      "url": "http://model-b.com/api",
+      "url": "http://3.111.44.251:8081/",
       "description": "This is a description for Model B."
     },
     {
       "id": "3",
       "title": "Model C",
-      "url": "http://model-c.com/api",
+      "url": "http://3.111.44.251:9090/",
       "description": "This is a description for Model C."
     }
 ]

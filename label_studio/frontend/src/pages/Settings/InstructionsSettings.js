@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef } from 'react';
 import { Button } from '../../components';
-import { Form, Label, TextArea, Toggle } from '../../components/Form';
+import { Checkbox, Form, Label, TextArea, Toggle } from '../../components/Form';
 import { MenubarContext } from '../../components/Menubar/Menubar';
 import { ProjectContext } from '../../providers/ProjectProvider';
 import { FcInfo } from 'react-icons/fc';
@@ -57,7 +57,7 @@ export const InstructionsSettings = () => {
         <Form.Row columnCount={1}>
           <Label text="Instructions Display" large/>
           <div style={{ paddingLeft: 16 }}>
-            <Toggle label="Show instructions on labeling UI" name="show_instruction" small/>
+            <Checkbox label="Show instructions on labeling UI" name="show_instruction" small/>
           </div>
         </Form.Row>
 
