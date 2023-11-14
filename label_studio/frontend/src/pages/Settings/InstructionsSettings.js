@@ -33,7 +33,7 @@ export const InstructionsSettings = () => {
     }}>
       <Form ref={formRef} action="updateProject" formData={{ ...project }} params={{ pk: project.id }} onSubmit={updateProject}>
         <Form.Row columnCount={1}>
-          <Label text="Labeling Instructions" large/>
+          <Label text="Labeling Instructions" large />
           <div style={{
             padding: '3px',
             width: '47.7%',
@@ -44,20 +44,20 @@ export const InstructionsSettings = () => {
             borderRadius: '5px',
             boxShadow: '0px 0px 0px 0px',
             marginLeft: '17px',
-            
+
           }}>
-            <p style={{ display: 'flex', alignItems: 'center', margin: 'auto', gap: '5px', lineHeight: '1rem' }}><FcInfo size={20}/> The instruction field supports HTML markup and integrate with images and iframes (PDF).</p>
+            <p style={{ display: 'flex', alignItems: 'center', margin: 'auto', gap: '5px', lineHeight: '1rem' }}><FcInfo size={20} /> The instruction field supports HTML markup and integrate with images and iframes (PDF).</p>
           </div>
         </Form.Row>
 
         <Form.Row columnCount={2}>
-          <TextArea name="expert_instruction" style={{ minHeight: '128px', marginLeft: '17px' }}/>
+          <TextArea name="expert_instruction" style={{ minHeight: '128px', marginLeft: '17px' }} />
         </Form.Row>
 
         <Form.Row columnCount={1}>
-          <Label text="Instructions Display" large/>
+          <Label text="Instructions Display" large />
           <div style={{ paddingLeft: 16 }}>
-            <Checkbox label="Show instructions on labeling UI" name="show_instruction" small/>
+            <Checkbox label="Show instructions on labeling UI" name="show_instruction" small />
           </div>
         </Form.Row>
 
@@ -67,8 +67,9 @@ export const InstructionsSettings = () => {
           </Form.Indicator>
           <Button type="submit" look="primary" style={{ width: 120 }}>Save</Button>
         </Form.Actions>
-      </Form>
-    </div>
+
+      </Form >
+    </div >
   );
 };
 

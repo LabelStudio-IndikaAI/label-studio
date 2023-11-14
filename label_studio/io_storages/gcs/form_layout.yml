@@ -3,19 +3,22 @@ title_bucket_prefix: &title_bucket_prefix
   - type: text
     name: title
     label: Storage Title
+    placeholder: Enter title for this storage
   - type: text
     name: bucket
     label: Bucket Name
+    placeholder: Enter the bucket name
     required: true
   - type: text
     name: prefix
     label: Bucket Prefix
+    placeholder: Enter the bucket prefix
 
 gcs_credentials: &gcs_credentials
   - type: password
     name: google_application_credentials
-    label: Google Application Credentials, leave blank to use default credentials (ADC)
-    placeholder: Paste the contents of credentials.json here OR leave blank to use ADC
+    label: Google Application Credentials (Leave blank to use default credentials (ADC))
+    placeholder: Enter Google application credentials
     autoComplete: "new-password"
     skipAutofill: true
     allowEmpty: false
@@ -25,8 +28,8 @@ gcs_credentials: &gcs_credentials
 project_id: &project_id
   - type: text
     name: google_project_id
-    label: Google Project ID
-    placeholder: 'Leave blank to inherit from the Google Application Credentials...'
+    label: Google Project ID (Leave blank to inherit from the google application credentials)
+    placeholder: 'Enter Google project ID'
 
 ImportStorage:
   # Title, Bucket, Prefix
@@ -42,33 +45,40 @@ ImportStorage:
         validators:
           - regexp
 
-  # 2 columns grid
-  - columnCount: 2
-    columns:
-      - width: 345
-        fields:
-          - type: toggle
-            name: use_blob_urls
-            label: Treat every bucket object as a source file
-            description: If unchecked, treat every bucket object as a JSON-formatted task. Optional
-      - fields:
-          - type: toggle
-            name: presign
-            label: Use pre-signed URLs
-            value: true
-          - type: counter
-            name: presign_ttl
-            label: Expiration minutes
-            min: 1
-            value: 15
-            dependency: presign
-
   # GCS credentials
   - columnCount: 1
     fields: *gcs_credentials
   # Project ID
   - columnCount: 1
     fields: *project_id
+
+  # 2 columns grid
+  - columnCount: 1
+    columns:
+      - width: 539
+        fields:
+          - type: toggle
+            name: use_blob_urls
+            label: Treat every bucket object as a source file
+            description: If unchecked, treat every bucket object as a JSON-formatted task. Optional
+  - columnCount: 1
+    columns:
+      - width: 220
+        fields:
+          - type: toggle
+            name: presign
+            label: Use pre-signed URLs
+            value: true
+  - columnCount: 1
+    columns:
+      - width: 345
+        fields:
+          - type: counter
+            name: presign_ttl
+            label: Expiration minutes
+            min: 1
+            value: 15
+            dependency: presign
 
 ExportStorage:
   - columnCount: 3

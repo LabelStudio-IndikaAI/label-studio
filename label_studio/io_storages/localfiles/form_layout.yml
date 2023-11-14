@@ -3,9 +3,11 @@ title_bucket_prefix: &title_bucket_prefix
   - type: text
     name: title
     label: Storage Title
+    placeholder: Enter title for this storage
   - type: text
     name: path
     label: Absolute local path
+    placeholder: Enter the absolute local path
     required: true
 
 ImportStorage:
@@ -25,7 +27,7 @@ ImportStorage:
   # 2 columns grid
   - columnCount: 2
     columns:
-      - width: 371
+      - width: 539
         fields:
           - type: toggle
             name: use_blob_urls

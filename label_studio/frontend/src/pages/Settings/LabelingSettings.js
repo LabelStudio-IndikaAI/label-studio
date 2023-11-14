@@ -58,13 +58,16 @@ export const LabelingSettings = () => {
   if (!project.id) return null;
 
   return (
+
     <ConfigPage
       config={project.label_config}
       project={project}
       onUpdate={onUpdate}
       onSaveClick={onSave}
       onValidate={onValidate}
+      
     />
+
   );
 };
 

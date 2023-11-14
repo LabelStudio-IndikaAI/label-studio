@@ -3,24 +3,28 @@ title_container_prefix: &title_container_prefix
   - type: text
     name: title
     label: Storage Title
+    placeholder: Enter title for this storage
   - type: text
     name: container
     label: Container Name
+    placeholder: Enter the container name
     required: true
   - type: text
     name: prefix
     label: Container Prefix
+    placeholder: Enter the container prefix
 
 # 1x3 grid
 azure_params: &azure_params
   - type: text
     name: account_name
     label: Account Name
+    placeholder: Enter the account name
   - type: password
     name: account_key
     label: Account Key
     autoComplete: "new-password"
-  - null
+    placeholder: Enter the account key
 
 ImportStorage:
   # Title, Bucket, Prefix
@@ -40,19 +44,26 @@ ImportStorage:
     fields: *azure_params
 
   # 2 columns grid
-  - columnCount: 2
+  - columnCount: 1
     columns:
-      - width: 345
+      - width: 539
         fields:
           - type: toggle
             name: use_blob_urls
             label: Treat every bucket object as a source file
             description: If unchecked, treat every bucket object as a JSON-formatted task. Optional
-      - fields:
+  - columnCount: 1
+    columns:
+      - width: 220
+        fields:
           - type: toggle
             name: presign
             label: Use pre-signed URLs
             value: true
+  - columnCount: 1
+    columns:
+      - width: 345
+        fields:
           - type: counter
             name: presign_ttl
             label: Expiration minutes

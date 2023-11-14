@@ -22,19 +22,19 @@ export const DangerZone = () => {
       buttonLook: "destructive",
       onOk: async () => {
         setProcessing(type);
-        if(type === 'annotations') {
+        if (type === 'annotations') {
           // console.log('delete annotations');
-        } else if(type === 'tasks') {
+        } else if (type === 'tasks') {
           // console.log('delete tasks');
-        } else if(type === 'predictions') {
+        } else if (type === 'predictions') {
           // console.log('delete predictions');
-        } else if(type === 'tabs') {
+        } else if (type === 'tabs') {
           await api.callApi('deleteTabs', {
             body: {
               project: project.id,
             },
           });
-        } else if(type === 'project') {
+        } else if (type === 'project') {
           await api.callApi('deleteProject', {
             params: {
               pk: project.id,
@@ -68,32 +68,46 @@ export const DangerZone = () => {
   }], [project]);
 
   return (
-    <div style={{ width: 480 }}>
-      <Label
-        text="Delete Annotations, Tasks, or Project"
-        description="Perform these actions at your own risk. Actions you take on this page can't be reverted. Make sure your data is backed up."
-        style={{ display: 'block', width: 415 }}
-      />
+    <div style={{
+      width: '100%',
+      maxWidth: '95%',
+      margin: 'auto',
+      marginBottom: '20px',
+      backgroundColor: '#f6f6f6',
+      border: '1px solid #f6f6f6',
+      padding: '20px',
+      borderRadius: '5px',
+      //boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px',
+      color: 'rgb(51, 51, 51)',
+      fontSize: '16px',
+    }}>
+      <div style={{ width: '50%', margin: 'auto', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.2) 0px 0px 80px', marginBottom: '10px' }}>
+        <Label
+          text="Delete Annotations, Tasks, or Project"
+          description="Perform these actions at your own risk. Actions you take on this page can't be reverted. Make sure your data is backed up."
+          style={{ display: 'flex', marginTop: '22px' }}
+        />
 
-      {project.id ? (
-        <Space direction="vertical" spread style={{ marginTop: 32 }}>
-          {buttons.map((btn) => {
-            const waiting = processing === btn.type;
-            const disabled = btn.disabled || (processing && !waiting);
+        {project.id ? (
+          <Space direction="vertical" spread style={{ marginTop: 32, marginBottom: 20, display: 'flex', justifyContent: 'center' }}>
+            {buttons.map((btn) => {
+              const waiting = processing === btn.type;
+              const disabled = btn.disabled || (processing && !waiting);
 
-            return (btn.disabled !== true) && (
-              <Button key={btn.type} look="danger" disabled={disabled} waiting={waiting} onClick={handleOnClick(btn.type)}>
-                {btn.label}
-              </Button>
-            );
-          })}
-        </Space>
-      ) : (
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
-          <Spinner size={32}/>
-          {/* <Spinner /> */}
-        </div>
-      )}
+              return (btn.disabled !== true) && (
+                <Button key={btn.type} look="danger" disabled={disabled} waiting={waiting} onClick={handleOnClick(btn.type)}>
+                  {btn.label}
+                </Button>
+              );
+            })}
+          </Space>
+        ) : (
+          <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
+            <Spinner size={32} />
+            {/* <Spinner /> */}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

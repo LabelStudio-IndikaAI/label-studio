@@ -3,17 +3,21 @@ redis_params: &redis_params
   - type: text
     name: path
     label: Path
+    placeholder: Enter the path
   - type: password
     name: password
     label: Password
+    placeholder: Enter the password
     autoComplete: "new-password"
   - type: text
     name: host
     label: Host
+    placeholder: Enter the host
     placeholder: localhost
   - type: text
     name: port
     label: Port
+    placeholder: Enter the port
 
 ImportStorage:
   # Title, Bucket, Prefix
@@ -31,11 +35,13 @@ ImportStorage:
 
   # 2 columns grid
   - columnCount: 1
-    fields:
-      - type: toggle
-        name: use_blob_urls
-        label: Treat every bucket object as a source file
-        description: If unchecked, treat every bucket object as a JSON-formatted task. Optional
+    columns:
+      - width: 539
+        fields:
+          - type: toggle
+            name: use_blob_urls
+            label: Treat every bucket object as a source file
+            description: If unchecked, treat every bucket object as a JSON-formatted task. Optional
 
 ExportStorage:
   - columnCount: 2

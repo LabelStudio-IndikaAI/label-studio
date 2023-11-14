@@ -6,8 +6,9 @@ import { ApiContext } from '../../../providers/ApiProvider';
 import { useProject } from '../../../providers/ProjectProvider';
 import { StorageCard } from './StorageCard';
 import { StorageForm } from './StorageForm';
+import { LsPlus } from '../../../assets/icons';
 
-export const StorageSet = ({ title, target, rootClass, buttonLabel }) => {
+export const StorageSet = ({ title, target, rootClass, buttonLabel, onStoragesUpdated }) => {
   const api = useContext(ApiContext);
   const { project } = useProject();
   const [storages, setStorages] = useState([]);
@@ -54,6 +55,14 @@ export const StorageSet = ({ title, target, rootClass, buttonLabel }) => {
 
     setLoading(false);
   }, [project]);
+
+  useEffect(() => {
+    fetchStorages();
+  }, [fetchStorages]);
+
+  useEffect(() => {
+    onStoragesUpdated(storages.length);
+  }, [storages, onStoragesUpdated]);
 
   const showStorageFormModal = useCallback((storage) => {
     const action = storage ? "Edit" : "Add";
@@ -114,32 +123,65 @@ export const StorageSet = ({ title, target, rootClass, buttonLabel }) => {
     fetchStorages();
   }, [fetchStorages]);
 
-  return (
-    <Columns.Column title={title}>
-      <div className={rootClass.elem("controls")}>
-        <Button onClick={() => showStorageFormModal()}>
-          {buttonLabel}
-        </Button>
-      </div>
+  // return (
+  //   <Columns.Column>
+  //     {(loading && !loaded) ? (
+  //       <div className={rootClass.elem("empty")}>
+  //         <Spinner size={32} />
+  //         {/* <Spinner /> */}
+  //       </div>
+  //     ) : storages.length === 0 ? (
+  //       null
+  //     ) : storages.map(storage => (
+  //       <StorageCard
+  //         key={storage.id}
+  //         storage={storage}
+  //         target={target}
+  //         rootClass={rootClass}
+  //         storageTypes={storageTypes}
+  //         onEditStorage={onEditStorage}
+  //         onDeleteStorage={onDeleteStorage}
+  //       />
+  //     ))}
 
+  //     <div className={rootClass.elem("controls")} style={{ marginTop: '10px' }}>
+  //       <Button onClick={() => showStorageFormModal()}>
+  //         {buttonLabel}
+  //       </Button>
+  //     </div>
+  //   </Columns.Column>
+  // );
+  return (
+    <Columns.Column>
       {(loading && !loaded) ? (
         <div className={rootClass.elem("empty")}>
-          <Spinner size={32}/>
-          {/* <Spinner /> */}
+          <Spinner size={32} />
         </div>
       ) : storages.length === 0 ? (
         null
-      ) : storages.map(storage => (
-        <StorageCard
-          key={storage.id}
-          storage={storage}
-          target={target}
-          rootClass={rootClass}
-          storageTypes={storageTypes}
-          onEditStorage={onEditStorage}
-          onDeleteStorage={onDeleteStorage}
-        />
-      ))}
+      ) : (
+        <div>
+          {storages.map((storage, index) => (
+            <div key={storage.id}>
+              <StorageCard
+                storage={storage}
+                target={target}
+                rootClass={rootClass}
+                storageTypes={storageTypes}
+                onEditStorage={onEditStorage}
+                onDeleteStorage={onDeleteStorage}
+              />
+              {index < storages.length - 1 && <hr />} {/* Horizontal line */}
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className={rootClass.elem("controls")} style={{ marginTop: '10px' }}>
+        <Button look="primary" onClick={() => showStorageFormModal()} style={{ display: 'flex', gap: '5px' }}>
+          <LsPlus /> {buttonLabel}
+        </Button>
+      </div>
     </Columns.Column>
   );
 };
