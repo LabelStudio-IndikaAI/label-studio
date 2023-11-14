@@ -4,4 +4,4 @@ export { default as Label } from './Label/Label';
 export { default as Select } from './Select/Select';
 export { default as TextArea } from './TextArea/TextArea';
 export { default as Toggle } from './Toggle/Toggle';
-export { default as Checkbox } from './checkbox/Checkbox';
+export { default as Checkbox } from './Checkbox/Checkbox';
