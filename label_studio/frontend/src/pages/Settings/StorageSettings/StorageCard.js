@@ -88,7 +88,7 @@ export const StorageCard = ({
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div >
+        <div>
           {storageData.title.slice(0, 70) ?? `Untitled ${storageData.type}`}
         </div>
         <div className={rootClass.elem('actions')} style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
