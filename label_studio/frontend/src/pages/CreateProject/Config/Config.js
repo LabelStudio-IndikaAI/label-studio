@@ -17,6 +17,7 @@ import './Config.styl';
 import { Preview } from './Preview';
 import { DEFAULT_COLUMN, EMPTY_CONFIG, isEmptyConfig, Template } from './Template';
 import { TemplatesList } from './TemplatesList';
+import { BiRefresh } from "react-icons/bi";
 
 import './codemirror.css';
 import './config-hint';
@@ -483,20 +484,23 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
     });
   }
 
-  const extra = (
-    <p className={configClass.elem('tags-link')}>
-      Configure the labeling interface with tags.
-      <br />
-      <a href="https://labelstud.io/tags/" target="_blank">See all available tags</a>
-      .
-    </p>
-  );
+  // const extra = (
+  //   <p className={configClass.elem('tags-link')}>
+  //     Configure the labeling interface with tags.
+  //     <br />
+  //     <a href="https://labelstud.io/tags/" target="_blank">See all available tags</a>
+  //     .
+  //   </p>
+  // );
 
   return (
     <div className={configClass}>
       <div className={configClass.elem("container")}>
         <header>
-          <button onClick={onBrowse}>Browse Templates</button>
+          <button onClick={onBrowse} style={{ border: '1px solid #1A73E8', borderRadius: '4px', padding: '8px', display: 'flex', alignItems: 'center' }}>
+            <BiRefresh style={{ marginRight: '8px', color: '#1A73E8' }} />
+            <span style={{ color: '#1A73E8' }}>Change Templates</span>
+          </button>
           <SwitchToggle items={{ code: "Code", visual: "Visual" }} active={configure} onSelect={onSelect} />
         </header>
         <div className={configClass.elem('editor')}>
@@ -539,7 +543,8 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
           )}
         </div>
         {disableSaveButton !== true && onSaveClick && (
-          <Form.Actions size="small" extra={configure === "code" && extra} valid>
+          // <Form.Actions size="small" extra={configure === "code" && extra} valid>
+          <Form.Actions size="small" extra={configure === "code" } valid>
             {saved && (
               <Block name="form-indicator">
                 <Elem tag="span" mod={{ type: 'success' }} name="item">Saved!</Elem>

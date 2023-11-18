@@ -3,12 +3,15 @@ import { Spinner } from '../../../components';
 import { useAPI } from '../../../providers/ApiProvider';
 import { cn } from '../../../utils/bem';
 import './Config.styl';
-import { IconInfo } from '../../../assets/icons';
-import {  AiFillAudio,AiFillDatabase, AiFillFolderOpen , AiFillMessage, AiFillVideoCamera } from 'react-icons/ai';
-import { SiMusicbrainz } from 'react-icons/si';
-import { FaRankingStar } from 'react-icons/fa';
-import { AiOutlineFieldTime } from 'react-icons/ai';
-import { BsFillChatSquareTextFill } from 'react-icons/bs';
+// import { FaImages } from "react-icons/fa6";
+// import { GiArtificialIntelligence, GiBrain } from "react-icons/gi";
+// import { AiFillAudio } from "react-icons/ai";
+// import { HiOutlineChatAlt } from "react-icons/hi";
+// import { MdDashboard, MdOutlineBarChart, MdOutlineVideocam } from "react-icons/md";
+// import { IoIosTimer } from "react-icons/io";
+
+
+
 
 
 
@@ -55,6 +58,19 @@ export const TemplatesList = ({ selectedGroup, selectedRecipe, onCustomTemplate,
   }, []);
 
   const selected = selectedGroup || groups[0];
+
+  // const groupIcons = {
+  //   'Images': FaImages,
+  //   'Brain': GiBrain,
+  //   'Audio': AiFillAudio,
+  //   'Chat': HiOutlineChatAlt,
+  //   'BarChart': MdOutlineBarChart,
+  //   'Dashboard': MdDashboard,
+  //   'Timer': IoIosTimer,
+  //   'Videocam': MdOutlineVideocam,
+  //   'AI': GiArtificialIntelligence,
+  // };
+  
 
   return (
     <div className={listClass}>

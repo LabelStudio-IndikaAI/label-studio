@@ -2377,15 +2377,12 @@ li.CodeMirror-hint-active {
   flex: 1;
   min-height: 0;
   height: 100%;
-  width: 100%;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 }
 .ls-sidebar-menu__content > .ls-wizard {
   height: calc(100% + 64px);
-  margin: -32px -40px;
+  margin: -32px 0px;
 }
 .ls-wizard > .ls-configure {
   flex: 1;
@@ -2399,7 +2396,7 @@ li.CodeMirror-hint-active {
 .ls-wizard .ls-configure__container {
   display: flex;
   flex-direction: column;
-  padding: 0px -5px 0px 0px;
+  padding: 16px 11px 16px 20px;
   overflow-y: scroll;
   background-color: #fff;
 }
@@ -2416,7 +2413,7 @@ li.CodeMirror-hint-active {
   width: 100%;
 }
 .ls-templates-list__sidebar {
-  padding: 0px 0px 0px 0px;
+  padding: 8px 16px 8px 16px;
 }
 .ls-templates-list__sidebar h3:not(:first-child) {
   margin-top: 2em;
@@ -2437,15 +2434,18 @@ li.CodeMirror-hint-active {
   display: flex;
   flex-direction: row;
   font-size: 13px;
-  font-style: italic;
-  box-shadow: 0px 1px 0px 0px;
+  font-style: normal;
   align-items: center;
   justify-content: center;
+  flex-flow: wrap;
+  gap: 5px;
+  border-bottom: 1px solid #000;
 }
 .ls-templates-list__group {
-  padding: 4px 8px;
+  padding: 4px 33px;
   cursor: pointer;
   color: #595959;
+  background-color: #f6f6f6;
   font-weight: 500;
   line-height: 24px;
   display: flex;
@@ -2456,7 +2456,7 @@ li.CodeMirror-hint-active {
 }
 .ls-templates-list__group_active {
   color: #1a73e8;
-  border-bottom: 2px solid #1a73e8;
+  border: 1px solid #1a73e8;
 }
 .ls-templates-list__group svg {
   margin-left: auto;
@@ -2474,7 +2474,8 @@ li.CodeMirror-hint-active {
   display: grid;
   flex-wrap: wrap;
   padding: 0;
-  grid-template-columns: repeat(auto-fill, 242px);
+  margin: 8px;
+  grid-template-columns: repeat(auto-fill, 250px);
   grid-auto-columns: 331px;
   grid-gap: 10px 8px;
   justify-content: center;
@@ -2611,7 +2612,6 @@ li.CodeMirror-hint-active {
   border-top: 1px solid rgba(0,0,0,0.1);
   padding-top: 16px;
   margin-bottom: 16px;
-  width: 575px;
 }
 .ls-wizard .ls-configure__object h4 {
   margin-bottom: 8px;
@@ -2668,11 +2668,13 @@ li.CodeMirror-hint-active {
 }
 .ls-wizard .ls-configure__labels ul {
   overflow-y: scroll;
-  padding: 0 0em;
+  padding: 0em 0.5em;
   margin: 0;
+  gap: 4px;
   list-style: auto;
   min-width: 140px;
   display: flex;
+  flex-flow: wrap;
   flex-direction: row;
   align-items: self-start;
   flex: 1;
@@ -2796,7 +2798,7 @@ li.CodeMirror-hint-active {
 .ls-wizard .ls-configure__preview {
   flex-grow: 10;
   min-width: 500px;
-  padding: 0px 0px 0;
+  padding: 16px 16px 0;
   overflow-y: auto;
   border-left: 1px solid rgba(0,0,0,0.1);
   background-color: #fafafa;
@@ -2841,6 +2843,9 @@ li.CodeMirror-hint-active {
   flex: 1;
   max-width: 100%;
 }
+.ls-wizard .ls-configure__preview .lsf-main-view__annotation {
+  padding: 0;
+}
 div[class^=App_menu]>div {
   width: 100%;
 }
@@ -2872,7 +2877,6 @@ div[class^=App_menu]>div {
   color: #ddd;
 }
 .CodeMirror-hint-description {}
-
 .ls-create-project {
   flex: 1;
   min-height: 0;

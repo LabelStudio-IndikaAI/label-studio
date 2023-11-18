@@ -228,9 +228,9 @@ export const CreateProject = ({ onClose }) => {
         <div className="toggle" style={{
           position: 'relative',
           maxWidth: '100%',
-          display: 'grid',
+          
           borderRadius: '16px',
-          gridTemplateColumns: 'repeat(1, 1fr)',
+          
           boxSizing: 'border-box',
         }}>
           {Object.entries(steps).map(([stepKey, stepValue], index) => (
