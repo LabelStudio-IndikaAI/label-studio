@@ -254,11 +254,11 @@ const Webhook = () => {
           </div> */}
           <div style={{ width: '100%', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px', marginTop: '10px', marginBottom: '10px' }}>
             {webhooks && webhooks.length > 0 ? (
-              <div style={{ background: '#D1D3D6', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
+              <div style={{ background: '#E6E6E6',color: '#616161', padding: '10px', textAlign: 'start' }}>
                 {webhooks.length} Webhook{webhooks.length !== 1 ? 's' : ''} added
               </div>
             ) : (
-              <div style={{ background: '#D1D3D6', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
+              <div style={{ background: '#E6E6E6',color: '#616161', padding: '10px', textAlign: 'start' }}>
                 No webhook added
               </div>
             )}

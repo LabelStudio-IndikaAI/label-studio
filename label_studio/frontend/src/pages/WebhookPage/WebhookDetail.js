@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Button } from '../../components';
-import { Checkbox, Form, Input, Label } from '../../components/Form';
+import { Checkbox, Form, Input, Label, Toggle } from '../../components/Form';
 import { Block, cn, Elem } from '../../utils/bem';
 import { cloneDeep } from 'lodash';
 import { Iconmldelete, LsPlusgray } from '../../assets/icons';
@@ -89,7 +89,7 @@ const WebhookDetail = ({ webhook, webhooksInfo, fetchWebhooks, onBack, onSelectA
     setSendPayload(webhook.send_payload);
     setUrl(webhook.url || ''); // Set the URL from the webhook prop
   }, [webhook]);
-  
+
 
   const resetForm = () => {
     setHeaders([]);
@@ -153,11 +153,13 @@ const WebhookDetail = ({ webhook, webhooksInfo, fetchWebhooks, onBack, onSelectA
                   className={rootClass.elem('url-input')}
                   placeholder="URL" />
                 <Space align='end' className={rootClass.elem('activator')}>
-                  <Checkbox
-                    skip
-                    checked={isActive}
-                    onChange={(e) => { setIsActive(e.target.checked); }}
-                  />
+                  <div>
+                    <Checkbox
+                      skip
+                      checked={isActive}
+                      onChange={(e) => { setIsActive(e.target.checked); }}
+                    />
+                  </div>
                   <span className={rootClass.elem('black-text')}>Active</span>
                 </Space>
               </Space>
@@ -296,7 +298,7 @@ const WebhookDetail = ({ webhook, webhooksInfo, fetchWebhooks, onBack, onSelectA
                 style={{
                   color: 'red',
                   cursor: 'pointer',
-                  
+
                 }}
                 className={rootClass.elem('cancel-button')}
                 onClick={() => {

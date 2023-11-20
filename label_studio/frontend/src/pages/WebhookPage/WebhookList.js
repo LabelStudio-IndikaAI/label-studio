@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import { Iconmldelete, Iconmledit } from '../../assets/icons';
 import { Button } from '../../components';
-import { Checkbox, Form, Input, Label } from '../../components/Form';
+import { Checkbox, Form, Input, Label, Toggle } from '../../components/Form';
+//import { Checkbox } from '../../components';
 import { modal } from '../../components/Modal/Modal';
 import { Block, Elem } from '../../utils/bem';
 import "./WebhookPage.styl";
@@ -19,6 +20,7 @@ const WebhookList = ({ onSelectActive, onAddWebhook, webhooks, fetchWebhooks }) 
   if (webhooks === null) return <></>;
 
   const onActiveChange = useCallback(async (event) => {
+    console.log('Checkbox changed:', event.target.checked);
     let value = event.target.checked;
 
     await api.callApi('updateWebhook', {
@@ -53,7 +55,7 @@ const WebhookList = ({ onSelectActive, onAddWebhook, webhooks, fetchWebhooks }) 
                           <Elem name='item-url' onClick={() => onSelectActive(obj.id)}>
                             {obj.url}
                           </Elem>
-                          <Elem name='item-active' style={{ display: 'flex' }}>
+                          <Elem name='item-active' style={{ display: 'flex', marginLeft: '-13px' }}>
                             <Checkbox
                               name={obj.id}
                               checked={obj.is_active}

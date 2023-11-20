@@ -125,7 +125,7 @@ export const CreateProject = ({ onClose }) => {
   const tabClass = rootClass.elem("tab");
   const steps = {
     name: <span className={tabClass.mod({ disabled: !!error })}>Project Information</span>,
-    config: "Config Template",
+    config: "Configure Template",
     import: <span className={tabClass.mod({ disabled: uploadDisabled })}>Import Files</span>,
   };
 
@@ -251,11 +251,11 @@ export const CreateProject = ({ onClose }) => {
                 width: '93%',
                 margin: '0 3%',
               }}>
-                <h4 style={{ fontSize: 'large', fontStyle: 'italic' }}>{stepValue}</h4>
+                <h4 style={{ fontSize: 'large', fontStyle: 'normal' }}>{stepValue}</h4>
                 {step === stepKey ? <TiMinus className='expand-icon' /> : <TiPlus className='expand-icon' />}
               </div>
               {step === stepKey && (
-                <div className="form-content" style={{ width: '100%', margin: '0 0%' }}>
+                <div className="form-content" style={{ width: '95%', margin: 'auto' }}>
                   {stepKey === 'name' && (
                     <div className='project-naming' style={{ textAlign: 'left', marginBottom: '30px' }}>
                       <ProjectName

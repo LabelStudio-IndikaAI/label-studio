@@ -22,11 +22,11 @@ export const StorageSettings = () => {
       maxWidth: '90%',
       margin: 'auto',
       marginBottom: '10px',
-      backgroundColor: '#f6f6f6',
-      border: '1px solid #f6f6f6',
+      //backgroundColor: '#f6f6f6',
+      //border: '1px solid #f6f6f6',
       padding: '0px 20px',
       borderRadius: '5px,',
-      boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px',
+      //boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px',
       color: 'rgb(51, 51, 51)',
       fontSize: '16px',
     }}>
@@ -39,9 +39,10 @@ export const StorageSettings = () => {
           padding: '3px',
           width: '100%',
           color: '#1A73E8',
-          backgroundColor: '#D7E2FF',
+          backgroundColor: '#FFFFFF',
           fontSize: '14px',
           boxSizing: 'border-box',
+          borderRadius: '20px',
           boxShadow: '0px 0px 0px 0px',
 
         }}><FcInfo />Use cloud or database storage as the source for your labeling tasks or the target of your completed annotations.</p>
@@ -63,8 +64,8 @@ export const StorageSettings = () => {
 
           </div>
         </div> */}
-        <div style={{ width: '95%', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px', marginBottom: '10px' }}>
-          <div style={{ background: '#D1D3D6', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
+        <div style={{ width: '95%', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px', marginBottom: '10px', backgroundColor: '#ffffff' }}>
+          <div style={{ background: '#E6E6E6', color: '#616161', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
             {sourceStorageCount > 0 ? `${sourceStorageCount} Source Cloud Storage${sourceStorageCount > 1 ? 's' : ''} Added` : 'Source Cloud Storage'}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', padding: '10px' }}>
@@ -84,8 +85,8 @@ export const StorageSettings = () => {
 
 
 
-        <div style={{ width: '95%', gap: '10px', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px', marginBottom: '10px' }}>
-          <div style={{ background: '#D1D3D6', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
+        <div style={{ width: '95%', gap: '10px', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px', marginBottom: '10px', backgroundColor: '#ffffff' }}>
+          <div style={{ background: '#E6E6E6', color: '#616161', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
             {targetStorageCount > 0 ? `${targetStorageCount} Target Cloud Storage${targetStorageCount > 1 ? 's' : ''} Added` : 'Target Cloud Storage'}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', padding: '10px' }}>

@@ -27,7 +27,7 @@ export const InstructionsSettings = () => {
       border: '1px solid #f6f6f6',
       padding: '20px',
       borderRadius: '5px',
-      //boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px',
+      boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px',
       color: 'rgb(51, 51, 51)',
       fontSize: '16px',
     }}>
@@ -41,7 +41,7 @@ export const InstructionsSettings = () => {
             backgroundColor: '#D7E2FF',
             fontSize: '14px',
             boxSizing: 'border-box',
-            borderRadius: '5px',
+            borderRadius: '20px',
             boxShadow: '0px 0px 0px 0px',
             marginLeft: '17px',
 

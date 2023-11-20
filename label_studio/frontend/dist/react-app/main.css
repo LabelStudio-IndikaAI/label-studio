@@ -1199,7 +1199,7 @@
   overflow: auto;
   padding-top: 40px;
   padding-bottom: 32px;
-  background-color: #f6f6f6;
+  background-color: #dedede;
   box-shadow: -1px 0 0 0 rgba(0,0,0,0.1);
 }
 
@@ -1672,19 +1672,19 @@ input.ls-input[type=radio] {
 }
 
 .ls-checkbox {
-  display: block;
+  display: -webkit-inline-box;
   position: relative;
   cursor: pointer;
 }
 .ls-checkbox__input {
   margin: 0;
   opacity: 0;
-  position: absolute;
+  position: relative;
 }
 .ls-checkbox__indicator {
   width: 18px;
   height: 18px;
-  border: 2px solid #007bff;
+  border: 1px solid #007bff;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -1692,25 +1692,28 @@ input.ls-input[type=radio] {
   margin-right: 10px;
 }
 .ls-checkbox_checked .ls-checkbox__indicator {
-  background-color: #007bff;
+  background: #007bff;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg%20width=%2713%27%20height=%2710%27%20viewBox=%270%200%2013%2010%27%20fill=%27none%27%20xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath%20d=%27M1.5%204.5L5%208L11%202%27%20stroke=%27white%27%20stroke-width=%272%27%20stroke-linecap=%27square%27/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: all 120ms ease;
   border-color: #007bff;
   color: #fff;
   position: relative;
 }
 .ls-checkbox_checked .ls-checkbox__indicator::before {
-  content: "";
-  position: relative;
-  display: flex;
   width: 13px;
   margin: auto;
   top: -2px;
   height: 5px;
-  align-items: center;
-  border-width: 2px;
-  justify-content: stretch;
-  border-style: solid;
-  border-color: transparent transparent #fff #fff;
-  transform: rotate(-47deg);
+}
+.ls-checkbox_disabled .ls-checkbox__indicator {
+  transition: none;
+}
+.ls-checkbox_disabled .ls-checkbox__indicator::before {
+  background-color: #ccc;
+  box-shadow: none;
+  transition: none;
 }
 
 .ls-pagination {
@@ -2382,7 +2385,8 @@ li.CodeMirror-hint-active {
 }
 .ls-sidebar-menu__content > .ls-wizard {
   height: calc(100% + 64px);
-  margin: -32px 0px;
+  margin: 0px 50px;
+  background-color: #fff;
 }
 .ls-wizard > .ls-configure {
   flex: 1;
@@ -2439,7 +2443,6 @@ li.CodeMirror-hint-active {
   justify-content: center;
   flex-flow: wrap;
   gap: 5px;
-  border-bottom: 1px solid #000;
 }
 .ls-templates-list__group {
   padding: 4px 33px;
@@ -2460,8 +2463,8 @@ li.CodeMirror-hint-active {
 }
 .ls-templates-list__group svg {
   margin-left: auto;
-  padding-left: 7px;
-  width: 12px;
+  padding-left: 0px;
+  width: 20px;
   flex-shrink: 0;
 }
 .ls-templates-list main {
@@ -2504,7 +2507,7 @@ li.CodeMirror-hint-active {
   font-size: 12px;
   font-weight: 500;
   border-top: 1px solid #d9d9d9;
-  font-style: italic;
+  font-style: normal;
 }
 .ls-templates-list__template img {
   width: 230px;
@@ -3434,7 +3437,7 @@ body {
   margin-bottom: 10px;
   background-color: #f6f6f6;
   border: 1px solid #f6f6f6;
-  padding: 0px 20px;
+  padding: 12px 20px;
   border-radius: 5px;
   box-shadow: rgba(0,0,0,0.1) 0px 4px 6px;
   color: #333;
@@ -3448,7 +3451,7 @@ body {
   background-color: #d7e2ff;
   font-size: 13px;
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: 20px;
   box-shadow: 0px 0px 0px 0px;
 }
 .ls-webhook-wrap__header p {
@@ -3459,8 +3462,7 @@ body {
   margin: auto;
 }
 .ls-webhook__title {
-  background: #1a73e8;
-  color: #fff;
+  color: #000;
   padding: 10px;
   text-align: start;
   font-weight: 500;
@@ -3515,7 +3517,7 @@ body {
 .ls-webhook-form__form-row {
   paddingLeft: 16;
 }
-.ls-webhook-form__form-toggle {
+.ls-webhook-form__form-checkbox {
   justify-content: flex-end;
 }
 .ls-webhook-detail__width-button {
@@ -3609,6 +3611,30 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(35%, 1fr));
   align-items: baseline;
+}
+
+.ls-description {
+  font-size: 16px;
+  color: #000;
+  opacity: 1;
+}
+.ls-description_size_small {
+  font-size: 12px;
+}
+.ls-description_size_medium {
+  font-size: 16px;
+}
+.ls-description_size_large {
+  font-size: 22px;
+}
+.ls-description:not(.ls-description_noOffset).ls-description_size_small {
+  margin: 16px 0;
+}
+.ls-description:not(.ls-description_noOffset).ls-description_size_medium {
+  margin: 10px 0;
+}
+.ls-description:not(.ls-description_noOffset).ls-description_size_large {
+  margin: 40px 0;
 }
 
 .ls-radio-group {
@@ -3786,30 +3812,6 @@ body {
   height: 22px;
   display: flex;
   margin-bottom: 4px;
-}
-
-.ls-description {
-  font-size: 16px;
-  color: #000;
-  opacity: 1;
-}
-.ls-description_size_small {
-  font-size: 12px;
-}
-.ls-description_size_medium {
-  font-size: 16px;
-}
-.ls-description_size_large {
-  font-size: 22px;
-}
-.ls-description:not(.ls-description_noOffset).ls-description_size_small {
-  margin: 16px 0;
-}
-.ls-description:not(.ls-description_noOffset).ls-description_size_medium {
-  margin: 10px 0;
-}
-.ls-description:not(.ls-description_noOffset).ls-description_size_large {
-  margin: 40px 0;
 }
 
 .ls-dl {

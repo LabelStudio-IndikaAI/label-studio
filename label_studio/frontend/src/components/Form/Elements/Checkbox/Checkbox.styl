@@ -1,40 +1,49 @@
+$check-icon = "data:image/svg+xml;charset=UTF-8,%3csvg width='13' height='10' viewBox='0 0 13 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M1.5 4.5L5 8L11 2' stroke='white' stroke-width='2' stroke-linecap='square'/%3e%3c/svg%3e"
+
 .checkbox
-  display block
+  display -webkit-inline-box
   position relative
   cursor pointer
+  
 
   &__input
     margin: 0
     opacity: 0
-    position: absolute
+    position: relative
 
   &__indicator
     width: 18px
     height: 18px
-    border: 2px solid #007bff
+    border: 1px solid #007bff
     border-radius: 4px
     display: flex
     align-items: center
     justify-content: center
     margin-right: 10px
+    
+
 
   &_checked &__indicator
-    background-color: #007bff
-    border-color: #007bff
-    color: white
-    position: relative
+    background #007bff
+    background-image url($check-icon)
+    background-repeat no-repeat
+    background-position center
+    transition all 120ms ease
+    border-color #007bff
+    color white
+    position relative
   
     &::before
-      content: "";
-      position: relative;
-      display: flex;
+      
       width: 13px;
       margin: auto;
       top: -2px;
       height: 5px;
-      align-items: center;
-      border-width: 2px;
-      justify-content: stretch;
-      border-style: solid;
-      border-color: transparent transparent #fff #fff;
-      transform: rotate(-47deg);
+
+  &_disabled &__indicator
+    transition none
+
+  &_disabled &__indicator::before
+    background-color #ccc
+    box-shadow none
+    transition none

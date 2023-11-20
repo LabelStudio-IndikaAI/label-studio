@@ -499,7 +499,7 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
         <header>
           <button onClick={onBrowse} style={{ border: '1px solid #1A73E8', borderRadius: '4px', padding: '8px', display: 'flex', alignItems: 'center' }}>
             <BiRefresh style={{ marginRight: '8px', color: '#1A73E8' }} />
-            <span style={{ color: '#1A73E8' }}>Change Templates</span>
+            <span style={{ color: '#1A73E8' }}>Choose Templates</span>
           </button>
           <SwitchToggle items={{ code: "Code", visual: "Visual" }} active={configure} onSelect={onSelect} />
         </header>

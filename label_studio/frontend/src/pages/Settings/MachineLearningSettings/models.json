@@ -1,20 +1,32 @@
 [
     {
       "id": "1",
-      "title": "Model A",
+      "title": "Segment Anything Model",
       "url": "http://3.111.44.251:8080/",
-      "description": "This is a description for Model A."
+      "description": "This is a description for Segment Anything Model."
     },
     {
       "id": "2",
-      "title": "Model B",
+      "title": "YOLO Model",
       "url": "http://3.111.44.251:8081/",
-      "description": "This is a description for Model B."
+      "description": "This is a description for YOLO Model."
     },
     {
       "id": "3",
-      "title": "Model C",
-      "url": "http://3.111.44.251:9090/",
-      "description": "This is a description for Model C."
+      "title": "GPT-4",
+      "url": "http://3.111.44.251:8082/",
+      "description": "This is a description for GPT-4 Model."
+    },
+    {
+      "id": "3",
+      "title": "GPT-3.5",
+      "url": "http://3.111.44.251:8083/",
+      "description": "This is a description for GPT-3.5 Model."
+    },
+    {
+      "id": "3",
+      "title": "LLAMA Model",
+      "url": "http://3.111.44.251:8084/",
+      "description": "This is a description for LLAMA Model."
     }
 ]

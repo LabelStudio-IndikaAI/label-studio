@@ -253,25 +253,25 @@ export const MachineLearningSettings = () => {
         margin: 'auto',
         marginBottom: '10px',
         backgroundColor: '#f6f6f6',
-        border: '1px solid #f6f6f6',
+        //border: '1px solid #f6f6f6',
         padding: '0px 20px',
         borderRadius: '5px',
-        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px',
+        //boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px',
         color: 'rgb(51, 51, 51)',
         fontSize: '16px',
         display: 'flex',
         justifyContent: 'center',
       }}>
-        <div>
+        <div style={{ width: '50%' }}>
           <Description>
             <div style={{
               padding: '3px',
               width: '95%',
               color: '#1A73E8',
               backgroundColor: '#D7E2FF',
-              fontSize: '15px',
+              fontSize: '12px',
               boxSizing: 'border-box',
-              borderRadius: '5px',
+              borderRadius: '20px',
               boxShadow: '0px 0px 0px 0px',
               //marginLeft: '17px',
 
@@ -288,8 +288,9 @@ export const MachineLearningSettings = () => {
             />
 
           </div>
-          {/* <Divider height={32} border="1px solid black" /> */}
-          <div style={{ width: '95%', gap: '10px', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px' }}>
+          {/* <Divider height={32} backgroundColor={"black"} /> */}
+          <hr style={{ marginLeft: 'initial', width: '95%' }} />
+          <div style={{ width: '95%', gap: '10px' }}>
             <Form action="updateProject"
               formData={{ ...project }}
               params={{ pk: project.id }}
@@ -299,30 +300,30 @@ export const MachineLearningSettings = () => {
               {/* {(!isFF(FF_DEV_1682) || !backends.length) && (
                 <ProjectModelVersionSelector />
               )} */}
-              <div style={{ background: '#D1D3D6', color: 'black', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
+              <div style={{ background: '#F6F6F6', color: 'black', padding: '10px', textAlign: 'start' }}>
                 ML Assisted Labeling Preferences
               </div>
               <Form.Row columnCount={1}>
                 
 
-                <div style={{ paddingLeft: 16, fontSize: 12 }}>
+                <div style={{ paddingLeft: 0, fontSize: 12 }}>
                   <Checkbox
                     style={{ fontSize: '12px !important' }}
-                    label="Start model training after any annotations are submitted or updated"
+                    label="Start model training after annotations are submitted or updated"
                     name="start_training_on_annotation_update"
                   />
                 </div>
 
-                <div style={{ paddingLeft: 16, fontSize: 12 }}>
+                <div style={{ paddingLeft: 0, fontSize: 12 }}>
                   <Checkbox
                     label="Retrieve predictions when loading a task automatically"
                     name="evaluate_predictions_automatically"
                   />
                 </div>
 
-                <div style={{ paddingLeft: 16, fontSize: 12 }}>
+                <div style={{ paddingLeft: 0, fontSize: 12 }}>
                   <Checkbox
-                    label="Show predictions to annotators in the Label Stream and Quick View"
+                    label="Show predictions in the Label Stream and Quick View"
                     name="show_collab_predictions"
                   />
                 </div>
@@ -338,15 +339,14 @@ export const MachineLearningSettings = () => {
               </Form.Actions>
             </Form>
           </div>
-
-
-          <div style={{ width: '95%', gap: '10px', border: '2px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px', marginTop: '20px', marginBottom: '10px' }}>
+          <hr style={{ marginLeft: 'initial', width: '95%' }} />
+          <div style={{ width: '95%', gap: '10px', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px', marginTop: '20px', marginBottom: '10px' }}>
             {totalCount > 0 ? (
-              <div style={{ background: '#D1D3D6', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
+              <div style={{ background: '#E6E6E6', color: '#616161', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
                 {totalCount} ML models added
               </div>
             ) : (
-              <div style={{ background: '#D1D3D6', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
+              <div style={{ background: '#E6E6E6', color: '#616161', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
                 No ML models added
               </div>
             )}
@@ -388,7 +388,7 @@ export const MachineLearningSettings = () => {
         <div style={{ width: '50%' }}>
 
           <div style={{ width: '95%', margin: '10px auto', border: '1px solid #D1D3D6', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px' }}>
-            <div style={{ background: '#1A73E8', color: '#fff', padding: '10px', textAlign: 'start', fontWeight: 'bold' }}>
+            <div style={{ background: '#F6F6F6', color: 'black', padding: '10px', textAlign: 'start' }}>
               {formTitle}
             </div>
             {/* {showMLFormModal()} */}
@@ -414,5 +414,5 @@ export const MachineLearningSettings = () => {
 
 };
 
-MachineLearningSettings.title = "Machine Learning";
+MachineLearningSettings.title = "ML Model";
 MachineLearningSettings.path = "/ml";

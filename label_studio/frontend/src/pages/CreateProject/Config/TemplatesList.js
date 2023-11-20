@@ -3,16 +3,13 @@ import { Spinner } from '../../../components';
 import { useAPI } from '../../../providers/ApiProvider';
 import { cn } from '../../../utils/bem';
 import './Config.styl';
-// import { FaImages } from "react-icons/fa6";
-// import { GiArtificialIntelligence, GiBrain } from "react-icons/gi";
-// import { AiFillAudio } from "react-icons/ai";
-// import { HiOutlineChatAlt } from "react-icons/hi";
-// import { MdDashboard, MdOutlineBarChart, MdOutlineVideocam } from "react-icons/md";
-// import { IoIosTimer } from "react-icons/io";
-
-
-
-
+import { FaRegImages } from "react-icons/fa";
+import { GiArtificialIntelligence, GiBrain } from "react-icons/gi";
+import { AiFillAudio } from "react-icons/ai";
+import { HiOutlineChatAlt } from "react-icons/hi";
+import { BiBarChart } from "react-icons/bi";
+import { MdDashboard, MdVideocam } from "react-icons/md";
+import { IoIosTimer } from "react-icons/io";
 
 
 
@@ -42,6 +39,19 @@ const TemplatesInGroup = ({ templates, group, onSelectRecipe }) => {
   );
 };
 
+const groupIcons = {
+  'Generative AI': <GiArtificialIntelligence/>,
+  'Conversational AI': <HiOutlineChatAlt />,
+  'Computer Vision': <FaRegImages />,
+  'Natural Language Processing': <GiBrain />,
+  'Structured Data Parsing': <BiBarChart />,
+  'Audio/Speech Processing': <AiFillAudio />,
+  'Ranking & Scoring': <MdDashboard />,
+  'Time Series Analysis': <IoIosTimer />,
+  'Videos': <MdVideocam />,
+};
+
+
 export const TemplatesList = ({ selectedGroup, selectedRecipe, onCustomTemplate, onSelectGroup, onSelectRecipe }) => {
   const [groups, setGroups] = React.useState([]);
   const [templates, setTemplates] = React.useState();
@@ -58,18 +68,6 @@ export const TemplatesList = ({ selectedGroup, selectedRecipe, onCustomTemplate,
   }, []);
 
   const selected = selectedGroup || groups[0];
-
-  // const groupIcons = {
-  //   'Images': FaImages,
-  //   'Brain': GiBrain,
-  //   'Audio': AiFillAudio,
-  //   'Chat': HiOutlineChatAlt,
-  //   'BarChart': MdOutlineBarChart,
-  //   'Dashboard': MdDashboard,
-  //   'Timer': IoIosTimer,
-  //   'Videocam': MdOutlineVideocam,
-  //   'AI': GiArtificialIntelligence,
-  // };
   
 
   return (
@@ -85,7 +83,7 @@ export const TemplatesList = ({ selectedGroup, selectedRecipe, onCustomTemplate,
                 selected: selectedRecipe?.group === group,
               })}
             >
-              {group}
+              {groupIcons[group]}{group}
               
             </li>
           ))}
