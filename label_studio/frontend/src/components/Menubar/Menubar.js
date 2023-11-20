@@ -183,10 +183,10 @@ export const Menubar = ({
               <div className={menubarClass.elem('help-button')}>
                 <button className="help-icon" style={{
                   position: 'relative',
-                  top: '4.5px',
+                  top: '4px',
                   right: '0px',
                   width: '60px',
-                  height: '33px',
+                  height: '31px',
                   background: '#f6f6f6',
                   border: '1px solid rgba(0,0,0,0.1)',
                   display: 'flex',

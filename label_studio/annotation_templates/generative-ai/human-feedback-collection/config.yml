@@ -2,7 +2,7 @@ title: "Human Preference collection for RLHF"
 type: community
 group: Generative AI
 order: 2
-image: /static/templates/generative-pairwise-human-preference.png
+image: /static/templates/generative-pairwise-human-preference.jpg
 details:  Gathering comparison data to establish human preferences for model-generated responses. This stage involves ranking multiple responses based on quality, which are then used to train a reward model. The reward model captures human preferences and helps in reinforcement learning to optimize the LLM's performance.
 config: |
   <View className="root">

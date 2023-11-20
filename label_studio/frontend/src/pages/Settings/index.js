@@ -1,4 +1,11 @@
 import React from 'react';
+import { ApiContext } from '../../providers/ApiProvider';
+import { useContextProps } from '../../providers/RoutesProvider';
+import { useParams as useRouterParams } from 'react-router';
+import { Redirect } from 'react-router-dom';
+import { Space } from '../../components/Space/Space';
+import { NavLink } from 'react-router-dom';
+import { Button } from '../../components';
 import { SidebarMenu } from '../../components/SidebarMenu/SidebarMenu';
 import { WebhookPage } from '../WebhookPage/WebhookPage';
 import { DangerZone } from './DangerZone';
@@ -26,6 +33,28 @@ export const MenuLayout = ({ children, ...routeProps }) => {
     />
   );
 };
+
+// SettingsPage.context = () => {
+//   const links = {
+//     '/settings': 'Settings',
+//   };
+
+//   return (
+//     <Space size="small">
+//       {Object.entries(links).map(([path, label]) => (
+//         <Button
+//           key={path}
+//           tag={NavLink}
+//           size="compact"
+//           to="#"
+//           data-external
+//         >
+//           {label}
+//         </Button>
+//       ))}
+//     </Space>
+//   );
+// };
 
 export const SettingsPage = {
   title: "Settings",

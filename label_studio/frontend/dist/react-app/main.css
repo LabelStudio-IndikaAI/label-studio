@@ -120,7 +120,7 @@
   background-color: #cf1322;
 }
 .ls-button_size_compact {
-  height: 36px;
+  height: 31px;
   font-size: 14px;
 }
 .ls-button_size_medium {
@@ -1052,7 +1052,7 @@
   top: 7.5px;
   right: 20px;
   width: 88px;
-  height: 32px;
+  height: 30px;
   background: #f6f6f6;
   border: 1px solid rgba(0,0,0,0.1);
   display: flex;

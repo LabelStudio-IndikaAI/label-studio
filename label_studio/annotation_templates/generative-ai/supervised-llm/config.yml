@@ -2,7 +2,7 @@ title: "Supervised Language Model Fine-tuning"
 type: community
 group: Generative AI
 order: 1
-image: /static/templates/generative-supervised-llm.png
+image: /static/templates/generative-supervised-llm.jpg
 details: Collecting labeled text data for training an initial LLM, focusing on task-specific performance improvement. This stage involves gathering instructions and responses to adapt the base model to a wide range of tasks, enhancing its ability to generate more accurate and useful responses.
 config: |
   <View className="root">
