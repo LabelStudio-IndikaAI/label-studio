@@ -1018,7 +1018,7 @@
   margin-top: 14px;
   margin-right: 50px;
   width: 10px;
-  height: 12px;
+  height: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1028,9 +1028,9 @@
 .ls-menu-header__context {
   flex: 1;
   display: flex;
-  padding: 0 20px;
+  padding: 0 30px;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 }
 .ls-menu-header__context-item {
   height: 100%;
@@ -1039,7 +1039,7 @@
 }
 .ls-menu-header__trigger {
   display: flex;
-  padding: 0 48px;
+  padding: 0 15px;
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
@@ -1049,10 +1049,10 @@
 }
 .ls-menu-header__user {
   position: relative;
-  top: 7.5px;
+  top: 8px;
   right: 20px;
   width: 88px;
-  height: 30px;
+  height: 31px;
   background: #f6f6f6;
   border: 1px solid rgba(0,0,0,0.1);
   display: flex;
@@ -4267,7 +4267,7 @@ body {
   text-overflow: ellipsis;
 }
 .ls-project-card__title-created-by {
-  margin-left: 68%;
+  margin-left: auto;
 }
 .ls-project-card__summary {
   flex: 1;
@@ -4326,7 +4326,7 @@ body {
 .ls-project-card__info {
   display: flex;
   align-items: center;
-  padding: 16px 16px 10px 16px;
+  padding: 0px 10px;
   justify-content: space-between;
 }
 .ls-project-card__created-date {

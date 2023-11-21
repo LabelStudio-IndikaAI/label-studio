@@ -7,7 +7,7 @@ import { cn } from '../../utils/bem';
 import { absoluteURL, isDefined } from '../../utils/helpers';
 //import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs';
 import { Dropdown } from "../Dropdown/Dropdown";
-//import { Hamburger } from "../Hamburger/Hamburger";
+import { Hamburger } from "../Hamburger/Hamburger";
 import { Menu } from '../Menu/Menu';
 import { Userpic } from '../Userpic/Userpic';
 import { UserInfo } from '../Userpic/UserInfo';
@@ -141,7 +141,7 @@ export const Menubar = ({
             <div className={`${menubarClass.elem('trigger')} main-menu-trigger`}>
               <img src={absoluteURL("/static/icons/DATA.jpg")} alt="Data Studio Logo" height="42" style={{ marginRight: '5px' }} />
               {/* <span style={{ marginLeft: '4px', fontWeight: 'bold' }}>Data Studio</span> */}
-              {/* <Hamburger opened={sidebarOpened} /> */}
+              <Hamburger opened={sidebarOpened} />
             </div>
           </Dropdown.Trigger>
 
@@ -183,7 +183,7 @@ export const Menubar = ({
               <div className={menubarClass.elem('help-button')}>
                 <button className="help-icon" style={{
                   position: 'relative',
-                  top: '4px',
+                  top: '5px',
                   right: '0px',
                   width: '60px',
                   height: '31px',

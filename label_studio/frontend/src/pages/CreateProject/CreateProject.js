@@ -16,7 +16,7 @@ import { EnterpriseBadge } from '../../components/Badges/Enterprise';
 import { Caption } from '../../components/Caption/Caption';
 import { FF_LSDV_E_297, isFF } from '../../utils/feature-flags';
 import { createURL } from '../../components/HeidiTips/utils';
-import { TiMinus, TiPlus } from 'react-icons/ti';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { IconDelete, IconSave, IconTick, IconWarning } from '../../assets/icons';
 
 
@@ -249,10 +249,11 @@ export const CreateProject = ({ onClose }) => {
                 alignItems: 'center',
                 cursor: 'pointer',
                 width: '93%',
+                height: '3rem',
                 margin: '0 3%',
               }}>
-                <h4 style={{ fontSize: 'large', fontStyle: 'normal' }}>{stepValue}</h4>
-                {step === stepKey ? <TiMinus className='expand-icon' /> : <TiPlus className='expand-icon' />}
+                <h4 style={{ fontSize: 'large', fontStyle: 'normal', marginTop: '0', marginBottom: '0' }}>{stepValue}</h4>
+                {step === stepKey ? <MdKeyboardArrowUp className='expand-icon' /> : <MdKeyboardArrowDown className='expand-icon' />}
               </div>
               {step === stepKey && (
                 <div className="form-content" style={{ width: '95%', margin: 'auto' }}>

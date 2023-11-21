@@ -256,7 +256,7 @@ ProjectsPage.context = ({ showButton, searchQuery, setSearchQuery }) => {
   return (
     <div className="context-area" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       {/* Search Box */}
-      <div className="search-box" style={{ position: 'relative', width: '500px', marginRight: '100px' }}>
+      <div className="search-box" style={{ position: 'relative', width: '500px', marginRight: '215px' }}>
         <div style={{ position: 'absolute', left: '10px', top: '58%', transform: 'translateY(-50%)' }}>
           <FaSearch style={{ color: '#999', fontSize: '1.2rem' }} />
         </div>
