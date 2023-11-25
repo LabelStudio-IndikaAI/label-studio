@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { Modal } from '../../../components/Modal/Modal';
+import { Elem } from '../../../utils/bem';
+import { Space } from '../../../components/Space/Space';
+import { Button } from '../../../components';
 import { cn } from '../../../utils/bem';
 import { unique } from '../../../utils/helpers';
 import "./Import.styl";
@@ -45,7 +48,7 @@ function traverseFileTree(item, path) {
       const dirReader = item.createReader();
       const dirPath = path + item.name + "/";
 
-      dirReader.readEntries(function(entries) {
+      dirReader.readEntries(function (entries) {
         Promise.all(entries.map(entry => traverseFileTree(entry, dirPath)))
           .then(flatten)
           .then(resolve);
@@ -80,6 +83,65 @@ function getFiles(files) {
 //     </Modal.Footer>
 //   );
 // };
+const PopupContent = ({ onClose }) => (
+  <Modal
+    title="Import File Guideline"
+    halfscreen
+    visible
+    bare
+  >
+    <div className="popup-content" style={{
+      flex: '1',
+      minHeight: '0',
+      display: 'flex',
+      flexDirection: 'column',
+      overflowY: 'auto',
+    }}>
+      <Modal.Header divided>
+        <Elem block="modal" name="title">Import File Guideline</Elem>
+
+        <Space>
+          <Button onClick={onClose} className="close-button">Close</Button>
+        </Space>
+      </Modal.Header>
+      <div className="table-container" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '10px',
+        alignItems: 'flex-start',
+      }}>
+        <div className="table-left">
+
+          <div className={dropzoneClass.elem("content")}>
+            <h4 style={{ display: 'flex', alignItems: 'center', fontWeight: 'bold' }}><IconDoneimport style={{ verticalAlign: 'middle' }} /> Support File Formats</h4>
+            <dl>
+              <dt>Common Formats</dt><dd>{supportedExtensions.common.join(', ')}</dd>
+              <dt>Text</dt><dd>{supportedExtensions.text.join(', ')}</dd>
+              <dt>Audio</dt><dd>{supportedExtensions.audio.join(', ')}</dd>
+              <dt>Video</dt><dd>mpeg4/H.264 webp, webm* {/* Keep in sync with supportedExtensions.video */}</dd>
+              <dt>Images</dt><dd>{supportedExtensions.image.join(', ')}</dd>
+              <dt>HTML</dt><dd>{supportedExtensions.html.join(', ')}</dd>
+              <dt>Time Series</dt><dd>{supportedExtensions.timeSeries.join(', ')}</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div className="table-right">
+
+          {/* Add the second table here */}
+          <div className={dropzoneClass.elem("content")}>
+            <h4 style={{ display: 'flex', alignItems: 'baseline', marginRight: '330px', fontWeight: 'bold' }}><IconGreentech style={{ verticalAlign: 'middle' }} /> Import File Guideline</h4>
+            <dl>
+              <dt>• Make sure you upload or import files according to your configured template</dt><dd></dd>
+              <dt>• Use cloud storages for importing a large number of files</dt><dd></dd>
+              <dt>* Video files support depends on the browser</dt><dd></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Modal >
+);
 
 const Upload = ({ children, sendFiles }) => {
   const [hovered, setHovered] = useState(false);
@@ -147,14 +209,30 @@ export const ImportPage = ({
   const api = useAPI();
 
   const processFiles = (state, action) => {
+    console.log('Reducer action received:', action);
+
     if (action.sending) {
-      return { ...state, uploading: [...action.sending, ...state.uploading] };
+      const newState = { ...state, uploading: [...action.sending, ...state.uploading] };
+
+      return newState;
     }
     if (action.sent) {
-      return { ...state, uploading: state.uploading.filter(f => !action.sent.includes(f)) };
+      const newState = { ...state, uploading: state.uploading.filter(f => !action.sent.includes(f)) };
+
+      return newState;
     }
     if (action.uploaded) {
-      return { ...state, uploaded: unique([...state.uploaded, ...action.uploaded], (a, b) => a.id === b.id) };
+      const newState = { ...state, uploaded: unique([...state.uploaded, ...action.uploaded], (a, b) => a.id === b.id) };
+
+      return newState;
+    }
+    if (action.type === 'DELETE_FILE') {
+      const newState = {
+        ...state,
+        uploaded: state.uploaded.filter(file => file.id !== action.deletedFileId),
+      };
+
+      return newState;
     }
     if (action.ids) {
       const ids = unique([...state.ids, ...action.ids]);
@@ -317,7 +395,7 @@ export const ImportPage = ({
     } else {
       setSelectedFiles(allFiles);
     }
-  };  
+  };
 
   const handleFileSelect = file => {
     const newSelectedFiles = [...selectedFiles];
@@ -330,39 +408,154 @@ export const ImportPage = ({
     setSelectedFiles(newSelectedFiles);
   };
 
+  // Existing deleteFileApi function with enhanced error handling
   const deleteFileApi = async (fileId) => {
     try {
-      await api.callApi('deleteFileUploads', {
-        params: {
-          pk: project.id,
-        },
-        body: {
-          file_upload_ids: [fileId],
-        },
+      console.log("Deleting file with ID:", fileId);
+      const response = await api.callApi('deleteFileUploads', {
+        method: 'DELETE',
+        params: { pk: project.id },
+        body: { file_upload_ids: [fileId] },
       });
+
+      console.log("Response from delete API:", response);
+      return response;
     } catch (error) {
-      console.error(error);
+      console.error("Error deleting file:", error);
+      alert("Error deleting file: " + error.message);
+      return { deleted: false }; // Ensure a consistent response structure
     }
   };
+
+
+
 
   const handleDeleteFile = async (file) => {
-    if (file.id) {
-      await deleteFileApi(file.id);
+    if (file && file.id) {
+      const response = await deleteFileApi(file.id);
+
+      if (response && response.deleted) {
+        const updatedSelectedFiles = selectedFiles.filter(f => f.id !== file.id);
+
+        setSelectedFiles(updatedSelectedFiles);
+        dispatch({ type: 'DELETE_FILE', deletedFileId: file.id });
+      } else {
+        console.error('File deletion failed:', file);
+      }
+    } else {
+      console.error("Invalid file or file ID");
     }
-    const newSelectedFiles = [...selectedFiles];
-
-    newSelectedFiles.splice(newSelectedFiles.indexOf(file), 1);
-    setSelectedFiles(newSelectedFiles);
-  };
-  
-  
-  
-  
-
-  const handleDeleteAll = () => {
-    setSelectedFiles([]);
   };
 
+  // Function to delete multiple files
+  const deleteMultipleFilesApi = async (fileIds) => {
+    try {
+      console.log("Deleting files with IDs:", fileIds);
+      const response = await api.callApi('deleteFileUploads', {
+        method: 'DELETE',
+        params: { pk: project.id },
+        body: { file_upload_ids: fileIds },
+      });
+
+      console.log("Response from delete API:", response);
+      return response;
+    } catch (error) {
+      console.error("Error deleting files:", error);
+      alert("Error deleting files: " + error.message);
+      return { deleted: false }; // Ensure a consistent response structure
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    const fileIdsToDelete = selectedFiles.map(file => file.id);
+    const response = await deleteMultipleFilesApi(fileIdsToDelete);
+
+    if (response && response.deleted) {
+      // Clear selected files and update the state
+      setSelectedFiles([]);
+      fileIdsToDelete.forEach(fileId => {
+        dispatch({ type: 'DELETE_FILE', deletedFileId: fileId });
+      });
+    } else {
+      console.error('Files deletion failed:', selectedFiles);
+    }
+  };
+
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleShowPopup = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
+  // const TextPreview = ({ file }) => {
+  //   // Placeholder for text content preview
+  //   return <span>Text: {file.name}</span>;
+  // };
+
+  // const AudioPreview = ({ file }) => (
+  //   <audio controls src={file.url} style={{ maxWidth: '100%' }} />
+  // );
+
+  // const VideoPreview = ({ file }) => (
+  //   <video controls src={file.url} style={{ maxWidth: '100%' }} width="320" height="240" />
+  // );
+
+  // const ImagePreview = ({ file }) => (
+  //   <img src={file.url} alt={file.name} style={{ maxWidth: '100%' }} />
+  // );
+
+  // const HTMLPreview = ({ file }) => {
+  //   // Caution: Ensure to sanitize the HTML content
+  //   return <iframe src={file.url} title={file.name} style={{ maxWidth: '100%' }} width="320" height="240" />;
+  // };
+
+  // const UnsupportedPreview = () => <span>Unsupported file type</span>;
+
+  // const FilePreview = ({ file }) => {
+  //   const fileExtension = getFileExtension(file.name);
+
+  //   console.log(`Previewing file: ${file.name}, Extension: ${fileExtension}`);
+
+  //   switch (fileExtension) {
+  //     case 'txt':
+  //     case 'csv':
+  //     case 'tsv':
+  //     case 'json':
+  //       return <TextPreview file={file} />;
+  //     case 'wav':
+  //     case 'mp3':
+  //     case 'flac':
+  //     case 'm4a':
+  //     case 'ogg':
+  //       return <AudioPreview file={file} />;
+  //     case 'mp4':
+  //     case 'webm':
+  //       return <VideoPreview file={file} />;
+  //     case 'jpg':
+  //     case 'jpeg':
+  //     case 'png':
+  //     case 'gif':
+  //     case 'bmp':
+  //     case 'svg':
+  //     case 'webp':
+  //       return <ImagePreview file={file} />;
+  //     case 'html':
+  //     case 'htm':
+  //     case 'xml':
+  //       return <HTMLPreview file={file} />;
+  //     default:
+  //       return <UnsupportedPreview />;
+  //   }
+  // };
+
+  const countSelectedFiles = () => {
+    return selectedFiles.length;
+  };
 
 
 
@@ -382,6 +575,16 @@ export const ImportPage = ({
               <IconUpload width="16" height="16" className={importClass.elem("upload-icon")} />
               Browse Local {files.uploaded.length ? "More " : ""}Device
             </button>
+            <span onClick={handleShowPopup} className="guide-button" style={{ color: '#00bfff', marginTop: '10px', cursor: 'pointer' }}>
+              Click Me!
+            </span>
+
+
+            {showPopup && (
+              <div className="overlay" onClick={handleClosePopup}>
+                <PopupContent onClose={handleClosePopup} />
+              </div>
+            )}
           </div>
           <div className={importClass.elem("csv-handling").mod({ highlighted: highlightCsvHandling, hidden: !csvHandling })}>
             <span>Treat CSV/TSV as</span>
@@ -403,245 +606,233 @@ export const ImportPage = ({
           </form>
         </div>
 
-        <div className={importClass.elem("status")}>
+        {/* <div className={importClass.elem("status")}>
           {files.uploaded.length ? `${files.uploaded.length} files uploaded` : null}
-        </div>
+        </div> */}
+        <ErrorMessage error={error} />
       </header>
 
 
 
-      <ErrorMessage error={error} />
 
       <main>
         <Upload sendFiles={sendFiles} project={project}>
-          {!showList && (
-            // <label htmlFor="file-input">
-            //   <div className={dropzoneClass.elem("content")}>
-            //     <dl>
-            //       <dt>Text</dt><dd>{supportedExtensions.text.join(', ')}</dd>
-            //       <dt>Audio</dt><dd>{supportedExtensions.audio.join(', ')}</dd>
-            //       <dt>Video</dt><dd>mpeg4/H.264 webp, webm* {/* Keep in sync with supportedExtensions.video */}</dd>
-            //       <dt>Images</dt><dd>{supportedExtensions.image.join(', ')}</dd>
-            //       <dt>HTML</dt><dd>{supportedExtensions.html.join(', ')}</dd>
-            //       <dt>Time Series</dt><dd>{supportedExtensions.timeSeries.join(', ')}</dd>
-            //       <dt>Common Formats</dt><dd>{supportedExtensions.common.join(', ')}</dd>
-            //     </dl>
-            //   </div>
-            // </label>
-            <div className="table-container" style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              justifyContent: 'flex-start',
-              gap: '20px',
-            }}>
-              <div className="table-left">
-
-                <div className={dropzoneClass.elem("content")}>
-                  <h4 style={{ display: 'flex', alignItems: 'baseline', marginRight: '200px', fontWeight: 'bold' }}><IconDoneimport style={{ verticalAlign: 'middle' }} /> Support File Formats</h4>
-                  <dl>
-                    <dt>Common Formats</dt><dd>{supportedExtensions.common.join(', ')}</dd>
-                    <dt>Text</dt><dd>{supportedExtensions.text.join(', ')}</dd>
-                    <dt>Audio</dt><dd>{supportedExtensions.audio.join(', ')}</dd>
-                    <dt>Video</dt><dd>mpeg4/H.264 webp, webm* {/* Keep in sync with supportedExtensions.video */}</dd>
-                    <dt>Images</dt><dd>{supportedExtensions.image.join(', ')}</dd>
-                    <dt>HTML</dt><dd>{supportedExtensions.html.join(', ')}</dd>
-                    <dt>Time Series</dt><dd>{supportedExtensions.timeSeries.join(', ')}</dd>
-                  </dl>
-                </div>
+          {showList && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'end', gap: '5px' }}>
+                <span>{countSelectedFiles()} Selected Files</span>
+                {/* {selectedFiles.length > 1 && <button onClick={handleDeleteAll}>Delete All</button>} */}
+                <button
+                  onClick={selectedFiles.length > 1 ? handleDeleteAll : null}
+                  disabled={selectedFiles.length <= 1}
+                  style={{
+                    cursor: selectedFiles.length > 1 ? 'pointer' : 'not-allowed',
+                    color: selectedFiles.length > 1 ? 'red' : '#a9a9a9',
+                    borderColor: selectedFiles.length > 1 ? 'red' : '#a9a9a9',
+                  }}
+                >
+                  Delete Files
+                </button>
               </div>
+              <div>
+                <table style={{ margin: 'auto' }}>
+                  <thead>
+                    <tr>
+                      <th style={{
+                        fontWeight: 'normal',
+                        fontSize: '1em',
+                        padding: '16px',
+                        textAlign: 'left',
+                        borderBottom: '2px solid #e5e5e5',
+                        backgroundColor: '#F2F2F2',
+                      }}>
+                        <input
+                          type="checkbox"
+                          onChange={() => handleSelectAll(files.uploading.concat(files.uploaded))}
+                          checked={selectedFiles.length === files.uploading.length + files.uploaded.length}
+                        />
+                      </th>
+                      <th style={{
+                        fontWeight: 'normal',
+                        fontSize: '1em',
+                        padding: '16px',
+                        textAlign: 'left',
+                        borderBottom: '2px solid #e5e5e5',
+                        backgroundColor: '#F2F2F2',
+                      }}>File Name</th>
+                      <th style={{
+                        fontWeight: 'normal',
+                        fontSize: '1em',
+                        padding: '16px',
+                        textAlign: 'left',
+                        borderBottom: '2px solid #e5e5e5',
+                        backgroundColor: '#F2F2F2',
+                      }}>File Type</th>
+                      <th style={{
+                        fontWeight: 'normal',
+                        fontSize: '1em',
+                        padding: '16px',
+                        textAlign: 'left',
+                        borderBottom: '2px solid #e5e5e5',
+                        backgroundColor: '#F2F2F2',
+                      }}>Status</th>
+                      {/* <th style={{
+                    fontWeight: 'normal',
+                    fontSize: '1em',
+                    padding: '8px',
+                    textAlign: 'left',
+                    borderBottom: '2px solid #e5e5e5',
+                    backgroundColor: '#F2F2F2',
+                  }}>File Preview</th> */}
+                      <th style={{
+                        fontWeight: 'normal',
+                        fontSize: '1em',
+                        padding: '18px',
+                        textAlign: 'left',
+                        borderBottom: '2px solid #e5e5e5',
+                        backgroundColor: '#F2F2F2',
+                      }}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {files.uploading.map((file, idx) => (
+                      console.log('Uploading File:', file),
+                      <tr key={`${idx}-${file.name}`}>
+                        <td style={{
+                          padding: '16px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>
+                          <input
+                            type="checkbox"
+                            onChange={() => handleFileSelect(file)}
+                            checked={selectedFiles.includes(file)}
+                          />
+                        </td>
+                        <td style={{
+                          padding: '16px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>{file.name}</td>
+                        <td style={{
+                          padding: '16px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>{getFileExtension(file.name)}</td>
+                        <td style={{
+                          padding: '16px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>
+                          <span className={importClass.elem("file-status").mod({ uploading: true })} />
+                        </td>
+                        {/* <td style={{
+                      padding: '8px',
+                      borderBottom: '1px solid #e5e5e5',
+                      textAlign: 'left',
+                    }}><FilePreview file={{ name: file.name, url: URL.createObjectURL(file) }} /></td> */}
+                        <td style={{
+                          padding: '0px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>
+                          {/* {selectedFiles.includes(file) && (
+                          <button onClick={() => handleDeleteFile(file)}>Delete</button>
+                        )} */}
+                          {selectedFiles.includes(file) ? (
+                            <button
+                              onClick={() => handleDeleteFile(file)}
+                              className="button-active"
+                            >
+                              Delete
+                            </button>
+                          ) : (
+                            <button
+                              disabled
+                              className="button-inactive"
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                    {files.uploaded.map(file => (
+                      console.log('Uploaded File:', file),
+                      <tr key={file.file}>
+                        <td style={{
+                          padding: '16px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>
+                          <input
+                            type="checkbox"
+                            onChange={() => handleFileSelect(file)}
+                            checked={selectedFiles.includes(file)}
+                          />
+                        </td>
+                        <td style={{
+                          padding: '16px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>{file.file}</td>
+                        <td style={{
+                          padding: '16px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>{getFileExtension(file.file)}</td>
+                        <td style={{
+                          padding: '16px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>Imported</td>
+                        {/* <td style={{
+                      padding: '8px',
+                      borderBottom: '1px solid #e5e5e5',
+                      textAlign: 'left',
+                    }}><FilePreview file={{ name: file.name, url: file instanceof File ? URL.createObjectURL(file) : '' }} /></td> */}
+                        <td style={{
+                          padding: '0px',
+                          borderBottom: '1px solid #e5e5e5',
+                          textAlign: 'left',
+                        }}>
+                          {/* {selectedFiles.includes(file) && (
+                          <button onClick={() => handleDeleteFile(file)}>Delete</button>
+                        )} */}
+                          {selectedFiles.includes(file) ? (
+                            <button
+                              onClick={() => handleDeleteFile(file)}
 
-              <div className="table-right">
+                              style={{
+                                cursor: 'pointer',
+                                color: 'red',
+                                borderColor: 'red',
+                              }}
+                            >
+                              Delete
+                            </button>
+                          ) : (
+                            <button
+                              disabled
 
-                {/* Add the second table here */}
-                <div className={dropzoneClass.elem("content")}>
-                  <h4 style={{ display: 'flex', alignItems: 'baseline', marginRight: '330px', fontWeight: 'bold' }}><IconGreentech style={{ verticalAlign: 'middle' }} /> Import File Guideline</h4>
-                  <dl>
-                    <dt>• Make sure you upload or import files according to your configured template</dt><dd></dd>
-                    <dt>• Use cloud storages for importing a large number of files</dt><dd></dd>
-                    <dt>* Video files support depends on the browser</dt><dd></dd>
-                  </dl>
-                </div>
+                              style={{
+                                cursor: 'not-allowed',
+                                color: '#a9a9a9',
+                                borderColor: '#a9a9a9',
+                              }}
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+
+                  </tbody>
+
+                </table>
               </div>
             </div>
-
-
-          )}
-
-          {showList && (
-          // <table>
-          //   <tbody>
-          //     {files.uploading.map((file, idx) => (
-          //       <tr key={`${idx}-${file.name}`}>
-          //         <td>{file.name}</td>
-          //         <td><span className={importClass.elem("file-status").mod({ uploading: true })} /></td>
-          //       </tr>
-          //     ))}
-          //     {files.uploaded.map(file => (
-          //       <tr key={file.file}>
-          //         <td>{file.file}</td>
-          //         <td><span className={importClass.elem("file-status")} /></td>
-          //         <td>{file.size}</td>
-          //       </tr>
-          //     ))}
-          //   </tbody>
-          // </table>
-
-            <table style={{ marginTop: '30px' }}>
-              <thead>
-                <tr>
-                  <th style={{
-                    fontWeight: 'normal',
-                    fontSize: '1em',
-                    padding: '8px',
-                    textAlign: 'left',
-                    borderBottom: '2px solid #e5e5e5',
-                    backgroundColor: '#F2F2F2',
-                  }}>
-                    <input 
-                      type="checkbox" 
-                      onChange={() => handleSelectAll(files.uploading.concat(files.uploaded))}
-                      checked={selectedFiles.length === files.uploading.length + files.uploaded.length}
-                    />
-                  </th>
-                  <th style={{ 
-                    fontWeight: 'normal',
-                    fontSize: '1em',
-                    padding: '8px',
-                    textAlign: 'left',
-                    borderBottom: '2px solid #e5e5e5',
-                    backgroundColor: '#F2F2F2',
-                  }}>File Name</th>
-                  <th style={{ 
-                    fontWeight: 'normal',
-                    fontSize: '1em',
-                    padding: '8px',
-                    textAlign: 'left',
-                    borderBottom: '2px solid #e5e5e5',
-                    backgroundColor: '#F2F2F2',
-                  }}>File Type</th>
-                  <th style={{ 
-                    fontWeight: 'normal',
-                    fontSize: '1em',
-                    padding: '8px',
-                    textAlign: 'left',
-                    borderBottom: '2px solid #e5e5e5',
-                    backgroundColor: '#F2F2F2',
-                  }}>Status</th>
-                  <th style={{ 
-                    fontWeight: 'normal',
-                    fontSize: '1em',
-                    padding: '8px',
-                    textAlign: 'left',
-                    borderBottom: '2px solid #e5e5e5',
-                    backgroundColor: '#F2F2F2',
-                  }}>File Preview</th>
-                  <th style={{ 
-                    fontWeight: 'normal',
-                    fontSize: '1em',
-                    padding: '8px',
-                    textAlign: 'left',
-                    borderBottom: '2px solid #e5e5e5',
-                    backgroundColor: '#F2F2F2',
-                  }}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {files.uploading.map((file, idx) => (
-                  <tr key={`${idx}-${file.name}`}>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>
-                      <input 
-                        type="checkbox" 
-                        onChange={() => handleFileSelect(file)}
-                        checked={selectedFiles.includes(file)}
-                      />
-                    </td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>{file.name}</td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>{getFileExtension(file.name)}</td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>
-                      <span className={importClass.elem("file-status").mod({ uploading: true })} />
-                    </td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>File Preview Here</td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>
-                      {selectedFiles.includes(file) && (
-                        <button onClick={() => handleDeleteFile(file)}>Delete</button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-                {files.uploaded.map(file => (
-                  <tr key={file.file}>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>
-                      <input 
-                        type="checkbox" 
-                        onChange={() => handleFileSelect(file)}
-                        checked={selectedFiles.includes(file)}
-                      />
-                    </td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>{file.file}</td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>{getFileExtension(file.file)}</td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>Imported</td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>File Preview Here</td>
-                    <td style={{
-                      padding: '8px',
-                      borderBottom: '1px solid #e5e5e5',
-                      textAlign: 'left',
-                    }}>
-                      {selectedFiles.includes(file) && (
-                        <button onClick={() => handleDeleteFile(file)}>Delete</button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-                
-              </tbody>
-              {selectedFiles.length > 1 && <button onClick={handleDeleteAll}>Delete All</button>}
-            </table>
-            
-
           )}
         </Upload>
       </main>

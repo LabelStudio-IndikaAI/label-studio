@@ -80,6 +80,7 @@ export class Modal extends React.Component {
 
     const mods = {
       fullscreen: !!this.props.fullscreen,
+      halfscreen: !!this.props.halfscreen,
       bare: this.props.bare,
       visible: this.props.visible || this.state.visible,
     };

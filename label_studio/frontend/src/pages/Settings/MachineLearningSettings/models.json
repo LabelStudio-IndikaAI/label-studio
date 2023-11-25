@@ -2,7 +2,7 @@
     {
       "id": "1",
       "title": "Segment Anything Model",
-      "url": "http://3.111.44.251:8080/",
+      "url": "http://3.110.205.71:9090/",
       "description": "This is a description for Segment Anything Model."
     },
     {
@@ -28,5 +28,29 @@
       "title": "LLAMA Model",
       "url": "http://3.111.44.251:8084/",
       "description": "This is a description for LLAMA Model."
+    },
+    {
+      "id": "4",
+      "title": "Roberta Model",
+      "url": "http://3.111.44.251:8084/",
+      "description": "This is a description for Roberta Model."
+    },
+    {
+      "id": "5",
+      "title": "StyleGAN Model",
+      "url": "http://3.111.44.251:8084/",
+      "description": "This is a description for StyleGAN Model."
+    },
+    {
+      "id": "6",
+      "title": "Lifespan_Age_Transformation_Synthesis (LATs) Model",
+      "url": "http://3.111.44.251:8084/",
+      "description": "This is a description for LATs Model."
+    },
+    {
+      "id": "6",
+      "title": "Style_based_age_synthesis (SbAS) Model",
+      "url": "http://3.111.44.251:8084/",
+      "description": "This is a description for SbAS Model."
     }
 ]

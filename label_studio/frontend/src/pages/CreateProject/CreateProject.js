@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useHistory } from 'react-router';
 import { Button, ToggleItems } from '../../components';
 import { Modal } from '../../components/Modal/Modal';
@@ -117,8 +117,18 @@ export const CreateProject = ({ onClose }) => {
 
   const rootClass = cn("create-project");
   //const tabClass = rootClass.elem("tab");
+  const scrollContainerRef = useRef(null);
 
+  React.useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+
+    if (scrollContainer) {
+      scrollContainer.scrollTop = 0;
+    }
+  }, [step]);
+  
   const toggleForm = (formName) => {
+
     setStep(formName); // Update the currently active form
   };
 
@@ -191,7 +201,7 @@ export const CreateProject = ({ onClose }) => {
   return (
     <Modal
       onHide={onDelete}
-      closeOnClickOutside={true}
+      closeOnClickOutside={false}
       allowToInterceptEscape
       fullscreen
       visible
@@ -225,12 +235,12 @@ export const CreateProject = ({ onClose }) => {
             </Button>
           </Space>
         </Modal.Header>
-        <div className="toggle" style={{
+        <div className="toggle" ref={scrollContainerRef} style={{
           position: 'relative',
           maxWidth: '100%',
-          
+
           borderRadius: '16px',
-          
+
           boxSizing: 'border-box',
         }}>
           {Object.entries(steps).map(([stepKey, stepValue], index) => (

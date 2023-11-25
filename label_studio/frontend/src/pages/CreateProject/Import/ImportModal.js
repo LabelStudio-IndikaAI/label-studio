@@ -57,7 +57,7 @@ export const Inner = () => {
       title="Import data"
       ref={modal}
       onHide={() => backToDM()}
-      closeOnClickOutside={true}
+      closeOnClickOutside={false}
       fullscreen
       visible
       bare
@@ -94,7 +94,6 @@ export const Inner = () => {
             padding: '0px',
             backgroundColor: '#fff',
             width: '80%',
-            height: '150%',
             margin: '10px 10%',
           }}>
             <div className="import-create" style={{

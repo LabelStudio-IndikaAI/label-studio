@@ -10,5 +10,6 @@ module.exports.version = versionNumber;
 
 module.exports.getReleaseName = () => {
   const version = require("./release");
+  
   return `${version.name}@${version.version}-frontend`
 }

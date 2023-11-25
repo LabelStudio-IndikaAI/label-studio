@@ -36,7 +36,8 @@ body {
   margin-bottom: 5%
   &__error
     color: $red_7
-    padding: 0 32px
+    margin-top: 10px
+    padding: 0px
   button
     line-height: 1em
     border-width: 2px;
@@ -46,7 +47,6 @@ body {
     font-size: 14px
     padding: 24px 32px
     background: white
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05)
     display: flex
     margin: 0px 40px
     flex-direction: column
@@ -63,7 +63,6 @@ body {
     padding: 10px
     will-change: width
     width: 900px
-    height: 300px
     margin-bottom: 30px
     justify-content: center
     border-radius: 5px 5px 5px 5px
@@ -76,10 +75,9 @@ body {
     align-items: center
     border: 1px solid #e5e5e5
     border-radius: 5px
-    padding: 10px
+    padding: 0px 15px
     will-change: width
     width: 900px
-    margin-bottom: 30px
     justify-content: center
   
   &__button-container
@@ -91,7 +89,7 @@ body {
     align-items: center
     input
       line-height: 1em
-      width: 672px
+      width: 688px
       border-radius: 5px 0 0 5px
     button
       border-radius: 5px 5px 5px 5px
@@ -174,10 +172,20 @@ body {
     opacity: 0.5
     height: 16px
     margin-right: 8px
+
   &__info-icon
     margin-right: 8px
     vertical-align: -5px
     height: 20px
+
+  &__button-inactive
+    cursor: not-allowed
+    color: #a9a9a9;
+    border-color: #a9a9a9;
+  &__button-active
+    cursor: pointer
+    color: deepskyblue
+    border-color: deepskyblue
 
   &__csv-handling
     margin: 0 auto
@@ -248,11 +256,11 @@ body {
   &__content
     display: flex
     flex-direction: column
-    align-items: center
+    align-items: flex-start
     opacity: 1.7
 
     > *:not(:first-child)
-      margin-top: 32px
+      margin-top: 0px
 
     header
       font-size: 24px
@@ -265,7 +273,6 @@ body {
       grid-template: auto / auto auto
       font-size: 12px
       line-height: 20px
-      gap: 0 30px
 
       dd
         font-weight: 900
