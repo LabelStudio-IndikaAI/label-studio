@@ -25,7 +25,6 @@ body {
   list-style: none;
   display: grid;
   grid-template: auto / auto;
-  gap: 12px;
 }
 .account-page .user-some-actions {
   display: flex;
@@ -45,7 +44,7 @@ body {
   grid-row: span 2;
 }
 .user-pic > *:last-child {
-  align-self: end;
+  align-self: center;
 }
 .user-pic input,
 .user-pic button {

@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom';
 import { Button } from '../../components';
 import { Oneof } from '../../components/Oneof/Oneof';
 import { Spinner } from '../../components/Spinner/Spinner';
-
 import { ApiContext } from '../../providers/ApiProvider';
 import { useContextProps } from '../../providers/RoutesProvider';
 import { useAbortController } from "../../hooks/useAbortController";
@@ -16,10 +15,6 @@ import { SettingsPage } from '../Settings';
 import './Projects.styl';
 import { EmptyProjectsList, EmptySearchList, ProjectsList } from './ProjectsList';
 import { FaSearch, FaTimes } from 'react-icons/fa';
-
-
-
-
 const getCurrentPage = () => {
   const pageNumberFromURL = new URLSearchParams(location.search).get("page");
 
@@ -40,20 +35,6 @@ export const ProjectsPage = () => {
   const openModal = setModal.bind(null, true);
   const closeModal = setModal.bind(null, false);
   const [searchQuery, setSearchQuery] = useState('');
-  // const [recentSearches, setRecentSearches] = useState([]);
-  // const [isSearchFocused, setIsSearchFocused] = useState(false);
-
-  // Function to update recent searches
-  // const updateRecentSearches = (query) => {
-  //   const updatedSearches = [query, ...recentSearches.filter((search) => search !== query)].slice(0, 3);
-
-  //   setRecentSearches(updatedSearches);
-  // };
-
-
-
-
-
   const fetchProjects = async () => {
     setNetworkState('loading');
     abortController.renew(); // Cancel any in flight requests
@@ -122,10 +103,6 @@ export const ProjectsPage = () => {
       }
     }
   };
-
-
-
-
   const loadNextPage = async (page, pageSize) => {
     setCurrentPage(page);
     await fetchProjects(page, pageSize);
@@ -268,7 +245,7 @@ ProjectsPage.context = ({ showButton, searchQuery, setSearchQuery }) => {
           style={{
             width: '100%',
             borderRadius: '5px',
-            padding: '6px', 
+            padding: '6px',
             paddingLeft: '40px',
             fontSize: '1rem',
             lineHeight: '1.2',
@@ -349,7 +326,7 @@ ProjectsPage.routes = ({ store }) => [
     component: () => {
       const params = useRouterParams();
 
-
+      
       return (
         <>
           <Redirect to={`/projects/${params.id}/data`} />

@@ -22,163 +22,510 @@
 {% block content %}
 
 
-<div class="full_content">
-  <div class="account-page">
-    <form action="{% url 'user-detail' pk=user.pk %}" method="patch" class="user__info">
-      <input type="hidden" name="_method" value="patch"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
 
-      <header>Account info</header>
-      <ul>
-        <li class="field">
-          <label for="">E-mail</label>
-          <input type="text" class="ls-input" value="{{user.email}}" disabled />
-        </li>
-        <li class="field">
-          <label for="">First Name</label>
-          <input type="text" class="ls-input" name="first_name" value="{{user.first_name}}" />
-        </li>
-        <li class="field">
-          <label for="">Last Name</label>
-          <input type="text" class="ls-input" name="last_name" value="{{user.last_name}}" />
-        </li>
-        <li class="field">
-          <label for="">Phone</label>
-          <input type="text" class="ls-input" name="phone" value="{{user.phone}}" />
-          <!-- <span>We'll send you sms with code if you change your number</span>
-          <span class="error">Incorrect phone number!</span> -->
-        </li>
-      </ul>
-      <div class="user-some-actions">
+<style>
+  body {
+  /* margin-top: 20px; */
+  color: #020202;
+  background-color: #f4f6f9;
+  font-family: Arial, sans-serif;
+}
 
-        <div class="user-pic {{ user.avatar|yesno:'can_delete,can_upload' }}">
-          <div class="userpic userpic--big">
-            {% if user.avatar %}
-              <img src="{{user.avatar_url}}" alt="User photo" width="92" />
-            {% endif %}
+.page-title {
+  color: #303030;
+  border-bottom: 2px solid #303030;
+}
 
-            {% if user.get_initials %}
-              <span>{{user.get_initials}}</span>
-            {% else %}
-              <span>{{user.username}}</span>
-            {% endif %}
-          </div>
+.nav-tabs {
+    line-height: 1rem;
+    gap: 5px;
+    list-style: none;
+  }
 
-          <button class="ls-button ls-button_look_danger" name="delete-avatar" type="button">
-            Delete
-          </button>
+.nav-tabs .nav-item {
+    margin-bottom: 5px;
+    list-style: none;
+  }
 
-          <input class="file-input" type="file" name="avatar" value="Choose"
-                accept="image/png, image/jpeg, image/jpg"/>
+.nav-tabs .nav-link {
+  border: none;
+  color: #333;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+
+
+.nav-tabs .nav-link:hover {
+  background-color: #e0e0e0;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: #F1F1F1;
+  color: #303030;
+}
+
+.user__info{
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.field label, .info-label {
+  font-weight: bold;
+}
+
+.ls-input {
+  width: 100%;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.main-container {
+  background-color: #ffffff;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  align-items: center;
+}
+
+.main-container1 {
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin: 5px ;
+  align-items: center;
+  width: 600px;
+}
+
+.ls-button {
+  margin-right: 15px;
+  font-size: 16px;
+  border-radius: 4px;
+  height: 2rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: none;
+}
+
+.ls-button_look_primary {
+  background-color: #1A73E8;
+  color: #fff;
+}
+
+.ls-button_look_danger {
+  border: 1px solid #D72C0D;
+  
+  color: #D72C0D;
+}
+
+.file-input-container {
+    position: relative;
+    overflow: hidden;
+    margin-top: 7px;
+  }
+
+.file-input-label {
+    display: inline-block;
+    padding: 3px 10px;
+    height: 2rem;
+    border-radius: 4px;
+    border: 1px solid #1A73E8;
+    color: #1A73E8;
+    cursor: pointer;
+  }
+
+.blinking-status {
+    display: inline-block;
+    padding: 3px 10px;
+    height: 2rem;
+    border-radius: 4px;
+    border: 1px solid #1A73E8;
+    color: #1A73E8 !important;
+    cursor: pointer;
+}
+
+.file-input {
+    position: absolute;
+    font-size: 100px;
+    opacity: 0;
+    right: 0;
+    top: 0;
+  }
+
+.file-delete-label {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-bottom: 1px;
+    border: 1px solid #D72C0D;
+    color: #D72C0D;
+    cursor: pointer;
+  }
+
+.svg-icon {
+    margin-right: 8px;
+  }
+
+
+.userpic-container, .user-pic {
+    display: flex;
+    align-items: center;
+}
+
+.userpic {
+    width: 70px;
+    height: 50px;     /* Adjust height for rectangular shape */
+    border-radius: 10px; /* Adjust curvature */
+    background-color: #d9d9d9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #fff;
+    margin-right: 10px;
+}
+
+footer {
+  margin-top: 0px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label.upload-label {
+  background-color: #1A73E8;
+  color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.header {
+  font-size: 16px;
+  background-color: #dedede;
+  border-bottom: 1px solid #e9ecef;
+  padding: 10px;
+}
+
+.sub-header {
+  font-size: 14px;
+  color: #adb5bd;
+  margin-bottom: 20px;
+}
+
+.access_token__info {
+  padding: 10px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dedede;
+  padding: 0px 5px;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.info-value {
+  color: #495057;
+}
+
+.notification-checkbox {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.notification-label {
+  margin: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: normal;
+}
+</style>
+
+<div >
+  
+  <h2 class="h3 mb-2 page-title">Account Settings</h2>
+  <div class="my-2">
+    
+    <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Account and Nodifications</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Access Token</a>
+      </li>
+    </ul>
+    
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="account-page container">
+          <form action="{% url 'user-detail' pk=user.pk %}" method="patch" class="user__info container" style="height: 470px; gap: 10px;">      
+            <input type="hidden" name="_method" value="patch"/>
+            
+            <!-- <header style="border: #adb5bd;">Account info</header> -->
+            <!-- <div class="header">Account Info</div> -->
+            <div class="user-some-actions">
+              <div class="user-pic {{ user.avatar|yesno:'can_delete,can_upload' }} container">
+                <div class="userpic userpic--big">
+                  {% if user.avatar %}
+                  <img src="{{user.avatar_url}}" alt="User photo" width="150" height="100" />
+                  {% endif %}
+                  
+                  {% if user.get_initials %}
+                  <span>{{user.get_initials}}</span>
+                  {% else %}
+                  <span>{{user.username}}</span>
+                  {% endif %}
+                </div>
+                
+                <button class="ls-button ls-button_look_danger" name="delete-avatar" type="button">
+                  <span class="svg-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <mask id="mask0_902_966" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+                      <rect width="16" height="16" fill="#D9D9D9"/>
+                      </mask>
+                      <g mask="url(#mask0_902_966)">
+                      <path d="M4.6665 14C4.29984 14 3.98595 13.8694 3.72484 13.6083C3.46373 13.3472 3.33317 13.0333 3.33317 12.6667V4H2.6665V2.66667H5.99984V2H9.99984V2.66667H13.3332V4H12.6665V12.6667C12.6665 13.0333 12.5359 13.3472 12.2748 13.6083C12.0137 13.8694 11.6998 14 11.3332 14H4.6665ZM11.3332 4H4.6665V12.6667H11.3332V4ZM5.99984 11.3333H7.33317V5.33333H5.99984V11.3333ZM8.6665 11.3333H9.99984V5.33333H8.6665V11.3333Z" fill="#D72C0D"/>
+                      </g>
+                      </svg>
+                      
+                  </span>
+                  <span>Remove Photo</span>
+                </button>
+                <!-- <label class="ls-button ls-button_look_danger" name="delete-avatar" type="button">
+                  <span class="svg-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <mask id="mask0_902_966" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+                      <rect width="16" height="16" fill="#D9D9D9"/>
+                      </mask>
+                      <g mask="url(#mask0_902_966)">
+                      <path d="M4.6665 14C4.29984 14 3.98595 13.8694 3.72484 13.6083C3.46373 13.3472 3.33317 13.0333 3.33317 12.6667V4H2.6665V2.66667H5.99984V2H9.99984V2.66667H13.3332V4H12.6665V12.6667C12.6665 13.0333 12.5359 13.3472 12.2748 13.6083C12.0137 13.8694 11.6998 14 11.3332 14H4.6665ZM11.3332 4H4.6665V12.6667H11.3332V4ZM5.99984 11.3333H7.33317V5.33333H5.99984V11.3333ZM8.6665 11.3333H9.99984V5.33333H8.6665V11.3333Z" fill="#D72C0D"/>
+                      </g>
+                      </svg>
+                      
+                  </span>
+                  <span>Remove Photo</span>
+                </label> -->
+                <div class="file-input-container">
+                  <label class="file-input-label" for="avatarInput">
+                    <span class="svg-icon">
+                      <svg width="12" height="13" viewBox="0 0 12 13" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 11.6663H12V12.9997H0V11.6663ZM6.66667 2.88529V10.333H5.33333V2.88529L1.28595 6.93267L0.343147 5.98987L6 0.333008L11.6569 5.98987L10.7141 6.93267L6.66667 2.88529Z" fill="#1A73E8"/>
+                      </svg>
+                    </span>
+                    <span>Upload Photo</span>
+                  </label>
+                  <input class="file-input" type="file" name="avatar" id="avatarInput"
+                  accept="image/png, image/jpeg, image/jpg" />
+                </div>
+                <!-- <input class="file-input" type="file" name="avatar" value="Choose"
+                accept="image/png, image/jpeg, image/jpg" style="
+                padding-bottom: 18px;
+            "/>               -->
+              </div>
+            </div>
+            <div class="container" >
+            <ul >
+              <li >
+                <div class="input-container">
+                    <label for="email" style="font-weight: bold;">E-mail</label>
+                    <input type="text" id="email" class="ls-input" value="{{user.email}}" disabled />
+                </div>
+            </li>
+              <li >
+                  <div class="input-container">
+                      <label for="first_name" style="font-weight: bold;">First Name</label>
+                      <input type="text" id="first_name" class="ls-input" name="first_name" value="{{user.first_name}}" />
+                  </div>
+              </li>
+              <li >
+                  <div class="input-container">
+                      <label for="last_name" style="font-weight: bold;">Last Name</label>
+                      <input type="text" id="last_name" class="ls-input" name="last_name" value="{{user.last_name}}" />
+                  </div>
+              </li>
+              
+              <li >
+                  <div class="input-container">
+                      <label for="phone" style="font-weight: bold;">Phone</label>
+                      <input type="text" id="phone" class="ls-input" name="phone" value="{{user.phone}}" />
+                  </div>
+              </li>
+          </ul>
         </div>
+          
 
-        <!-- <div class="user-activity">
-          <p>Inspect all your actions<br/>performed on the platform</p>
-          <button type="button">Activity Log<img src="" /></button>
-        </div> -->
+            <footer style="display: flex; flex-direction: column;align-items: flex-end;">
+              <button class="ls-button ls-button_look_primary" onclick=smart_submit()>Save</button>            
+            </footer>
+          </form>
+
+                          
+      
+      
+          <div class="user__info container" style="margin-bottom: 500px;">
+            <div class="main-container" style="align-items: center;">
+              <div class="header">User Info and Notifications</div>
+          
+              <form action="{% url 'user-detail' pk=user.pk %}?update-notifications=1" method="patch" id="notifications">
+                <input name="email" type="hidden" value="{{ user.email }}">
+                <input name="first_name" type="hidden" value="{{ user.first_name }}">
+                <input name="last_name" type="hidden" value="{{ user.last_name }}">
+    
+                <div class="info-item">
+                  <div class="info-label">User ID</div>
+                  <div class="info-value">{{ user.pk }}</div>
+                </div>
+                
+                <div class="info-item">
+                  <div class="info-label">Email Address</div>
+                  <div class="info-value">{{ user.email }}</div>
+                </div>
+                
+                <div class="info-item">
+                  <div class="info-label">Registered on</div>
+                  <div class="info-value">{{ user.date_joined|date:"M j, Y" }}</div>
+                </div>
+                
+                <div class="notification-checkbox">
+                  <input type="checkbox" id="allow_newsletters_visual" name="allow_newsletters_visual" {% if user.allow_newsletters %}checked="true"{% endif %} onclick=smart_submit()>
+                  <label for="allow_newsletters_visual" class="notification-label">
+                    Email me about new tips, guide, and new updates
+                  </label>
+                  <img src="{{ settings.HOSTNAME }}{% static 'images/favicon.ico' %}" alt="DataStudio" width="25" style="display: inline; position: relative;">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-      <footer>
-        <p class="secondary">Registered {{ user.date_joined|date:"M j, Y" }}, user ID {{ user.id }}</p>
-        <button class="ls-button ls-button_look_primary" onclick="smart_submit()">Save</button>
-      </footer>
-    </form>
 
-    <!-- Token -->
-    <form action="" class="access_token__info">
-      <header>Access Token</header>
-      <div class="field field--wide">
-        <label for="access_token">Use this token to authenticate with our API:</label>
-        <input id="access_token" class="ls-input" name="access_token" type="text" value="{{token}}" readonly />
-        <p class="actions">
-          <button type="button" class="blinking-status ls-button" data-copy="access_token">Copy</button>
-          <button type="button" class="blinking-status ls-button" name="renew">Renew</button>
-        </p>
+
+      <div class="tab-pane fade  active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="user__info container">
+          <div class="main-container1">
+            <div class="header-container">
+              <div class="header">API authentication</div>
+            </div>
+            <form action="" class="access_token__info">
+              <div class="info-item-container">
+                <div class="info-label-container">
+                  <div class="info-token" style="margin-bottom: 10px;">Use this token to authenticate with our API</div>
+                </div>
+                <div class="input-container">
+                    <input id="access_token" class="ls-input" name="access_token" type="text" value="{{token}}" readonly />
+                  </div>
+                  <div class="actions-container">
+                    <form action="" class="access_token__info" style="position: absolute;">
+                      <p class="actions">
+                        <button type="button" class="blinking-status ls-button" data-copy="access_token">
+                          <span>
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <mask id="mask0_902_841" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                              <rect width="17" height="17" fill="#D9D9D9"/>
+                              </mask>
+                              <g mask="url(#mask0_902_841)">
+                              <path d="M6.375 12.7498C5.98542 12.7498 5.65191 12.6111 5.37448 12.3337C5.09705 12.0563 4.95833 11.7228 4.95833 11.3332V2.83317C4.95833 2.44359 5.09705 2.11008 5.37448 1.83265C5.65191 1.55522 5.98542 1.4165 6.375 1.4165H12.75C13.1396 1.4165 13.4731 1.55522 13.7505 1.83265C14.028 2.11008 14.1667 2.44359 14.1667 2.83317V11.3332C14.1667 11.7228 14.028 12.0563 13.7505 12.3337C13.4731 12.6111 13.1396 12.7498 12.75 12.7498H6.375ZM6.375 11.3332H12.75V2.83317H6.375V11.3332ZM3.54167 15.5832C3.15208 15.5832 2.81858 15.4445 2.54115 15.167C2.26372 14.8896 2.125 14.5561 2.125 14.1665V4.24984H3.54167V14.1665H11.3333V15.5832H3.54167Z" fill="#1A73E8"/>
+                              </g>
+                              </svg>                              
+                          </span>
+                          <span>Copy</span>
+                        </button>
+                        <button type="button" class="blinking-status ls-button" name="renew">
+                          <span>
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <mask id="mask0_902_834" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                              <rect width="17" height="17" fill="#D9D9D9"/>
+                              </mask>
+                              <g mask="url(#mask0_902_834)">
+                              <path d="M8.5 15.5835C7.61458 15.5835 6.78524 15.4153 6.01198 15.0788C5.23872 14.7424 4.5658 14.2878 3.99323 13.7153C3.42066 13.1427 2.96615 12.4698 2.62969 11.6965C2.29323 10.9233 2.125 10.0939 2.125 9.2085H3.54167C3.54167 10.5897 4.02274 11.7614 4.9849 12.7236C5.94705 13.6858 7.11875 14.1668 8.5 14.1668C9.88125 14.1668 11.053 13.6858 12.0151 12.7236C12.9773 11.7614 13.4583 10.5897 13.4583 9.2085C13.4583 7.82725 12.9773 6.65554 12.0151 5.69339C11.053 4.73124 9.88125 4.25016 8.5 4.25016H8.39375L9.49167 5.34808L8.5 6.37516L5.66667 3.54183L8.5 0.708496L9.49167 1.73558L8.39375 2.8335H8.5C9.38542 2.8335 10.2148 3.00173 10.988 3.33818C11.7613 3.67464 12.4342 4.12916 13.0068 4.70173C13.5793 5.27429 14.0339 5.94721 14.3703 6.72048C14.7068 7.49374 14.875 8.32308 14.875 9.2085C14.875 10.0939 14.7068 10.9233 14.3703 11.6965C14.0339 12.4698 13.5793 13.1427 13.0068 13.7153C12.4342 14.2878 11.7613 14.7424 10.988 15.0788C10.2148 15.4153 9.38542 15.5835 8.5 15.5835Z" fill="#1A73E8"/>
+                              </g>
+                              </svg>                              
+                          </span>
+                          <span>Renew</span>
+                        </button>
+                      </p>
+              </form>
+                </div>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Example -->
+          <div class="main-container1">
+            <div class="header-container" style="color: #020202;;">
+              <div class="header">Example fetch projects data</div>
+            </div>
+            <form action="" class="access_token__info">
+              <div class="example-container">
+                <div class="field field--wide">
+                  <div class="textarea-container">
+                    <textarea id="example_fetch" class="ls-input" readonly
+          style="height: 100px; font-size: 14px; border: none; background-color: #f7f7f7; resize: none;">
+{% if settings.HOSTNAME %}
+    curl -X GET {{ settings.HOSTNAME }}/api/projects/ -H 'Authorization: Token {{token}}'
+{% else %}
+    curl -X GET http://localhost:8080/api/projects/ -H 'Authorization: Token {{token}}'
+{% endif %}
+</textarea>
+                  </div>
+                  <div class="actions">
+                    <p class="actions-container">
+                      <button type="button" class="blinking-status ls-button" data-copy="example_fetch">
+                        <span>
+                          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <mask id="mask0_902_841" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                            <rect width="17" height="17" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_902_841)">
+                            <path d="M6.375 12.7498C5.98542 12.7498 5.65191 12.6111 5.37448 12.3337C5.09705 12.0563 4.95833 11.7228 4.95833 11.3332V2.83317C4.95833 2.44359 5.09705 2.11008 5.37448 1.83265C5.65191 1.55522 5.98542 1.4165 6.375 1.4165H12.75C13.1396 1.4165 13.4731 1.55522 13.7505 1.83265C14.028 2.11008 14.1667 2.44359 14.1667 2.83317V11.3332C14.1667 11.7228 14.028 12.0563 13.7505 12.3337C13.4731 12.6111 13.1396 12.7498 12.75 12.7498H6.375ZM6.375 11.3332H12.75V2.83317H6.375V11.3332ZM3.54167 15.5832C3.15208 15.5832 2.81858 15.4445 2.54115 15.167C2.26372 14.8896 2.125 14.5561 2.125 14.1665V4.24984H3.54167V14.1665H11.3333V15.5832H3.54167Z" fill="#1A73E8"/>
+                            </g>
+                            </svg>
+                        </span>
+                        <span>Copy</span>
+                      </button>
+                      <a class="blinking-status"
+                      {% if settings.VERSION_EDITION == 'Enterprise' %}
+                      href="https://docs.heartex.com/guide/api.html"
+                      {% else %}
+                      href="https://labelstud.io/guide/api.html"
+                      {% endif %} target="_blank">
+                      <span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <mask id="mask0_902_848" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+                          <rect width="16" height="16" fill="#D9D9D9"/>
+                          </mask>
+                          <g mask="url(#mask0_902_848)">
+                          <path d="M3.33333 14C2.96667 14 2.65278 13.8694 2.39167 13.6083C2.13056 13.3472 2 13.0333 2 12.6667V3.33333C2 2.96667 2.13056 2.65278 2.39167 2.39167C2.65278 2.13056 2.96667 2 3.33333 2H8V3.33333H3.33333V12.6667H12.6667V8H14V12.6667C14 13.0333 13.8694 13.3472 13.6083 13.6083C13.3472 13.8694 13.0333 14 12.6667 14H3.33333ZM6.46667 10.4667L5.53333 9.53333L11.7333 3.33333H9.33333V2H14V6.66667H12.6667V4.26667L6.46667 10.4667Z" fill="#1A73E8"/>
+                          </g>
+                          </svg>                          
+                      </span>
+                      <span>Documentation</span>
+                    </a>
+                    </p>
+                    
+                  </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <!-- Example -->
-      <div class="field field--wide">
-        <label for="example_fetch">Example fetch projects data:</label>
-        <textarea id="example_fetch" class="example_code ls-textarea" type="text" readonly
-                  style="height: 92px; font-size: 14px">
-          {% if settings.HOSTNAME %}
-            curl -X GET {{ settings.HOSTNAME }}/api/projects/ -H 'Authorization: Token {{token}}'
-          {% else %}
-            curl -X GET http://localhost:8080/api/projects/ -H 'Authorization: Token {{token}}'
-          {% endif %}
-        </textarea>
-        <p class="actions">
-          <button type="button" class="blinking-status ls-button" data-copy="example_fetch">Copy</button>
-          <a class="ls-button"
-             {% if settings.VERSION_EDITION == 'Enterprise' %}
-             href="https://docs.heartex.com/guide/api.html"
-             {% else %}
-             href="https://labelstud.io/guide/api.html"
-             {% endif %} target="_blank">Documentation
-          </a>
-        </p>
-      </div>
-    </form>
-
-
-    <!-- Organization -->
-    <form action="" class="organization block-info" id="organization">
-      <header>
-        {{ user.active_organization.title }}
-        <br>
-        <sub style="font-size: 16px; margin-top: 0; color: rgba(0,0,0,0.2); ">Your active organization</sub>
-      </header>
-
-      <table>
-        {% with user.get_pretty_role as role %}
-          {% if role %}
-            <tr><td>Your role</td><td>{{ user.get_pretty_role }}</td></tr>
-          {% endif %}
-        {% endwith %}
-        <tr><td>Annotations completed by you</td><td>{{ user.active_organization_annotations.count }}</td></tr>
-        <tr><td>Projects contributed by you</td><td>{{ user.active_organization_contributed_project_number }}</td></tr>
-        <tr><td></td><td></td></tr>
-        <tr><td style="min-width: 75px">Organization ID</td><td>{{ user.active_organization.id }}</td></tr>
-        <tr><td>Organization owner</td><td>{{ user.active_organization.created_by }}</td></tr>
-        <tr><td>Organization created at</td><td>{{ user.active_organization.created_at }}</td></tr>
-      </table>
-
-    </form>
-
-    <!-- Notifications -->
-    <form action="{% url 'user-detail' pk=user.pk %}?update-notifications=1" method="patch" class="notifications block-info" id="notifications">
-      <header>
-        Notifications
-        <br>
-        <sub style="font-size: 16px; margin-top: 0; color: rgba(0,0,0,0.2);">Email and other notifications</sub>
-      </header>
-
-      <table>
-        <tr><td style="{% if user.allow_newsletters is None %} border: 1px red solid; border-radius: 5px {% endif %}">
-
-          <input name="email" type="hidden" value="{{ user.email }}">
-          <input name="first_name" type="hidden" value="{{ user.first_name }}">
-          <input name="last_name" type="hidden" value="{{ user.last_name }}">
-
-          <input name="allow_newsletters" type="hidden"
-                 value="{% if user.allow_newsletters is None %}true{% else %}{{ user.allow_newsletters|yesno:"false,true" }}{% endif %}">
-
-          <input name="allow_newsletters_visual" id="allow_newsletters_visual" type="checkbox"
-                 style="width: auto;"
-                 {% if user.allow_newsletters %}checked="true"{% endif %}
-                 onclick="smart_submit()">
-
-          <label for="allow_newsletters_visual" style="display: inline-block; cursor: pointer; margin-top: -10px">
-            Get the latest news & tips from Heidi
-            <img src="{{ settings.HOSTNAME }}{% static 'images/heidi.png' %}" alt="Heidi"
-                 width="25" style="display: inline; margin: 0; position: relative; top: 5px; left: 0">
-          </label>
-
-        </td></tr>
-      </table>
-
-    </form>
-
-
+    </div>
   </div>
 
+  
+  
   <script>
     (() => {
       {% if settings.HOSTNAME %}
@@ -186,7 +533,7 @@
       {% else %}
       const hostname = 'http://localhost:8080';
       {% endif %}
-
+      
       document.querySelectorAll('[data-copy]').forEach(button => {
         button.onclick = e => {
           const input = document.getElementById(e.target.dataset.copy);
@@ -198,12 +545,12 @@
           setTimeout(() => button.classList.remove('blink'))
         }
       });
-
+      
       document.querySelector('[name=renew]').onclick = e => {
         const button = e.target;
         const input = document.getElementById("access_token");
         const example = document.getElementById("example_fetch");
-
+        
         fetch("{% url 'current-user-reset-token' %}", { method: "POST" })
           .then(res => res.json())
           .then(res => {
@@ -212,19 +559,19 @@
             button.classList.add('blink');
             setTimeout(() => button.classList.remove('blink'))
           });
-      };
+        };
+        
+        $('[name=avatar]').on('change', async (e) => {
+          const formData = new FormData;
 
-      $('[name=avatar]').on('change', async (e) => {
-        const formData = new FormData;
+          formData.append(e.target.name, e.target.files[0]);
 
-        formData.append(e.target.name, e.target.files[0]);
-
-        try {
+          try {
           const response = await fetch("{% url 'user-avatar' pk=user.pk %}", {
             method: "post",
             body: formData
           });
-
+          
           if (!response.ok) {
             handleResponseError(response)
           } else {
@@ -234,13 +581,13 @@
           console.error(err)
         }
       });
-
+      
       $('[name=delete-avatar]').on('click', async (e) => {
         try {
           const response = await fetch("{% url 'user-avatar' pk=user.pk %}", {
             method: "delete"
           })
-
+          
           if (!response.ok) {
             handleResponseError(response)
           } else {
@@ -252,24 +599,24 @@
       })
 
       /**
-        * @param {Response} response
-        */
+       * @param {Response} response
+       */
       const handleResponseError = (response) => {
         response.json().then(data => {
           alert(message_from_response(data));
         })
       }
-
+      
       const updateAvatar = async (setAvatar = true) => {
         if (setAvatar) {
           const response = await fetch("{% url 'current-user-whoami' %}")
-
+          
           if (response.ok) {
             const {avatar} = await response.json()
             const userpic = document.querySelector('.userpic')
 
             let userpicImage = userpic.querySelector('img')
-
+            
             if (!userpicImage) {
               userpicImage = document.createElement('img')
               userpic.insertBefore(userpicImage, userpic.firstChild);
@@ -285,13 +632,15 @@
           const userpic = document.querySelector('.user-pic')
           const userpicImage = userpic.querySelector('img')
           if (userpicImage) userpicImage.remove();
-
+          
           userpic.classList.remove('can_delete', 'can_upload')
           userpic.classList.add('can_upload')
         }
       }
     })();
-  </script>
+    </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-QJ3oMC9OIJ3OZZQn2BNSi7lKiXQ06L6WSC+8pW1L5m7kfaiqUD2rG2xY8XYN7bEz" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy4Ck4SOF4y4Ck4C2DgHfViXydVeLm+JDM" crossorigin="anonymous"></script>
 </div>
 
 {% endblock %}

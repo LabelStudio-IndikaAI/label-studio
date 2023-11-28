@@ -5,7 +5,7 @@ from django.conf import settings
 from django.urls import path, re_path, include
 from django.views.static import serve
 from rest_framework import routers
-
+from users.api import UserDataAPI
 from users import views, api
 
 router = routers.DefaultRouter()
@@ -36,6 +36,7 @@ urlpatterns = [
     path('api/current-user/reset-token/', api.UserResetTokenAPI.as_view(), name='current-user-reset-token'),
     path('api/current-user/token/', api.UserGetTokenAPI.as_view(), name='current-user-token'),
     path('api/current-user/whoami/', api.UserWhoAmIAPI.as_view(), name='current-user-whoami'),
+    path('api/user/data/', UserDataAPI.as_view(), name='user-data-api'),
 ]
 
 
