@@ -1,0 +1,128 @@
+{% extends 'users/user_base.html' %}
+{% load static %}
+
+{% block user_content %}
+
+<style>
+  /* Add any additional styling here */
+  .navbar {
+    background-color: #f1f5f5;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
+
+<div class="navbar">
+  <img src="{{ settings.HOSTNAME }}{% static 'images/Screenshot 2023-09-14 133842.9af3b5e17701.jpg' %}" alt="Data Studio Logo" class="logo-image">
+</div>
+
+<div class="container mx-auto px-4 py-8">
+  <div class="bg-white p-6 md:p-8 border-t-12 rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold mb-4">Privacy Policy for DataStudio Annotation Platform</h1>
+
+    <div class="text-gray-700">
+        <p class="mb-4">Last Updated: [Insert Date]</p>
+    
+        <h2 class="text-2xl font-bold mb-2">1. Introduction</h2>
+        <p class="mb-4">
+        Welcome to DataStudio, the advanced AI data labeling and model fine-tuning
+        platform developed by Indika AI. DataStudio is committed to safeguarding your
+        privacy. This Privacy Policy outlines how we collect, use, disclose, and protect your
+        personal and non-personal information when you use our platform.
+        </p>
+    
+        <h2 class="text-2xl font-bold mb-2">2. Information We Collect</h2>
+        <p class="mb-4">
+        a. User Registration Information: When you create an account on DataStudio, we
+        collect information such as your name, email address, username, and password.
+        </p>
+        <p class="mb-4">
+        b. Usage Data: We collect data related to your interactions with the platform,
+        including but not limited to the use of features, session duration, and IP address.
+        </p>
+        <p class="mb-4">
+        c. Data Annotations: Any data you input, annotate, or upload to DataStudio for
+        labeling or model fine-tuning purposes.
+        </p>
+    
+        <h2 class="text-2xl font-bold mb-2">3. How We Use Your Information</h2>
+        <p class="mb-4">
+        a. Providing Services: We use your information to provide the core functionalities of
+        DataStudio, including data labeling, model fine-tuning, and user management.
+        </p>
+        <p class="mb-4">
+        b. Personalization: We may use your usage data to personalize your experience and
+        improve our services.
+        </p>
+        <p class="mb-4">
+        c. Communication: We may use your email address to send you important updates,
+        newsletters, and information related to DataStudio and other Indika AI products
+        and services.
+        </p>
+        <p class="mb-4">
+        d. Research and Development: Your data annotations may be used for research and
+        development purposes to enhance our platform's capabilities.
+        </p>
+    
+        <h2 class="text-2xl font-bold mb-2">4. Data Security</h2>
+        <p class="mb-4">
+        Indika AI employs industry-standard security measures to protect your data from
+        unauthorized access, disclosure, alteration, or destruction. We use encryption,
+        access controls, and regular security audits to safeguard your information.
+        </p>
+    
+        <h2 class="text-2xl font-bold mb-2">5. Third-Party Integration</h2>
+        <p class="mb-4">
+        DataStudio may allow integration with third-party AI models and services. Please
+        review the privacy policies of these third parties, as their data collection and usage
+        practices may differ from ours.
+        </p>
+    
+        <h2 class="text-2xl font-bold mb-2">6. Data Retention</h2>
+        <p class="mb-4">
+        We retain your data for as long as necessary to provide our services, comply with
+        legal obligations, resolve disputes, and enforce our agreements.
+        </p>
+    
+        <h2 class="text-2xl font-bold mb-2">7. Your Choices</h2>
+        <p class="mb-4">
+        You have the right to access, correct, or delete your personal information. You can
+        also opt out of receiving marketing communications from DataStudio.
+        </p>
+    
+        <h2 class="text-2xl font-bold mb-2">8. Children's Privacy</h2>
+        <p class="mb-4">
+        DataStudio is not intended for use by individuals under the age of 18. We do not
+        knowingly collect or store personal information from children.
+        </p>
+    
+        <h2 class="text-2xl font-bold mb-2">9. Changes to this Privacy Policy</h2>
+        <p class="mb-4">
+        Indika AI reserves the right to update this Privacy Policy. We will notify you of any
+        changes by posting the updated policy on our platform.
+        </p>
+    
+        <h2 class="text-2xl font-bold mb-2">10. Contact</h2>
+        <p class="mb-4">
+        If you have questions or concerns about this Privacy Policy, please contact us at <a href="mailto:hello@indikaAI.com" class="text-blue-500">hello@indikaAI.com</a>
+        </p>
+    
+        <div class="mt-6">
+          <label class="inline-flex items-center">
+            <input type="checkbox" required class="form-checkbox">
+            <span class="ml-2">I agree to the Privacy Policy</span>
+          </label>
+        </div>
+    
+        <div class="mt-6">
+          <button onclick="window.history.back();" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Back to Signup
+          </button>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}  

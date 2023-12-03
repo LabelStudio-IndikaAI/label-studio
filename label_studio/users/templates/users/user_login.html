@@ -21,33 +21,46 @@
     height: auto;
     z-index: 2;
 }
+.error-border {
+    border: 2px solid red;
+}
+
 .data-studio-title {
         font-size: 2.5em; /* Increase the font size */
         text-align: left; /* Align text to the left */
         margin-bottom: 20px; /* Add some margin below the title */
         margin-left: 10%; /* Shift title slightly to the right for better positioning */
     }
-
-</style>
-<script>
-    function togglePasswordVisibility() {
-        const passwordInput = document.getElementById('password');
-        const eyeIcon = document.getElementById('eyeIcon');
-
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            eyeIcon.innerHTML = '<path d="M1 6s4.5-6 11-6 11 6 11 6-4.5 6-11 6-11-6-11-6z" stroke="currentColor" stroke-width="2"/><path d="M12 9a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/>'; // open eye
-        } else {
-            passwordInput.type = "password";
-            eyeIcon.innerHTML = '<path d="M1 6s4.5-6 11-6 11 6 11 6-4.5 6-11 6-11-6-11-6z" stroke="currentColor" stroke-width="2"/><path d="M12 9a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/><path d="M2 6l20 0M12 2l0 8" stroke="currentColor" stroke-width="2"/>'; // closed eye
+    @media screen and (max-width: 640px) {
+        .data-studio-title {
+            font-size: 1.5em; /* Adjusting font size for smaller screens */
+            margin-left: 5%;
         }
     }
+</style>
+
+
+<script>
+    function togglePasswordVisibility(inputId, iconId) {
+    const passwordInput = document.getElementById(inputId);
+    const eyeIcon = document.getElementById(iconId);
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+    }
+}
+
 </script>
 
-
-
-<div class="container mx-auto h-full flex justify-center items-center">
-    <div class="w-1/3">
+<div class="container mx-auto h-full flex justify-center items-center px-4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <div class="w-full md:w-1/2 lg:w-1/3">
         <!-- <h1 class="data-studio-title">Data Studio</h1> -->
         
         <img src="{{ settings.HOSTNAME }}{% static 'images/Screenshot 2023-09-14 133842.9af3b5e17701.jpg' %}" alt="Data Studio Logo" class="logo-image">
@@ -92,9 +105,14 @@
                             id="password" 
                             placeholder="Password"
                         >
-                        <svg onclick="togglePasswordVisibility()" id="eyeIcon" class="absolute top-1/2 transform -translate-y-1/2 right-2.5 h-5 w-5 text-gray-500 cursor-pointer" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 6s4.5-6 11-6 11 6 11 6-4.5 6-11 6-11-6-11-6z" stroke="currentColor" stroke-width="2"/><path d="M12 9a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/></svg>
+                        <!-- Note: Ensure that the id attribute here matches the id in your JavaScript function -->
+                        <!-- <svg onclick="togglePasswordVisibility()" id="eyeIcon" class="absolute top-1/2 transform -translate-y-1/2 right-2.5 h-4 w-4 text-gray-500 cursor-pointer" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12 4C8.14 4 5 7.14 5 11s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm-1-2.36V7h2v6.64l1.37 1.37 1.27-1.27L12 16z"/>
+                        </svg> -->
+                        <i id="eyeIcon" onclick="togglePasswordVisibility('password', 'eyeIcon')" class="fa fa-eye-slash absolute top-1/2 transform -translate-y-1/2 right-2.5 h-4 w-4 text-gray-500 cursor-pointer"></i>
+
                     </div>
-                
+                    
                     {% if form.password.errors %}
                         <div class="text-red-500 mt-2">
                             {% for error in form.password.errors %}
@@ -110,11 +128,13 @@
                     <label for="persist_session">Keep me logged in this browser</label>
                 </div>
 
+
                 <div class="flex mt-4">
-                    <button type="submit" aria-label="Log In" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                        Log in
+                    <button type="submit" aria-label="Log In" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                        Login
                     </button>
                 </div>
+    
 
                 {% if form.non_field_errors %}
                     {% for error in form.non_field_errors %}
@@ -124,9 +144,10 @@
                     {% endfor %}
                 {% endif %}
             </form>
-        </div>
-        <div class="text-center">
-            <p class="text-grey-dark text-sm">Don't have an account? <a href="{{ settings.HOSTNAME }}/user/signup" class="no-underline text-blue font-bold">Sign Up</a></p>
+            <br>
+            <div class="text-center">
+                <p class="text-grey-dark text-sm">Don't have an account? <a href="{{ settings.HOSTNAME }}/user/signup" class="no-underline text-blue-500 font-bold">Sign Up</a></p>
+            </div>
         </div>
     </div>
 </div>
