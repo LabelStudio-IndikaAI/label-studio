@@ -27,7 +27,7 @@ export const SelectedUser = ({ user, onClose }) => {
       <Elem name="header">
         <Userpic
           user={user}
-          style={{width: 64, height: 64, fontSize: 28 }}
+          style={{ width: 64, height: 64, fontSize: 28 }}
         />
 
         {fullName && (

@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import { ProjectMenu } from '../../components/ProjectMenu/ProjectMenu';
 import { useAPI } from '../../providers/ApiProvider';
 import { useProject } from '../../providers/ProjectProvider';
 import { isEmptyString } from '../../utils/helpers';
@@ -73,3 +74,5 @@ export const LabelingSettings = () => {
 
 LabelingSettings.title = "Interface";
 LabelingSettings.path = "/labeling";
+LabelingSettings.context = ProjectMenu;
+LabelingSettings.alias = "labeling-settings";

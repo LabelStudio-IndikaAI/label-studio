@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useRef } from 'react';
+import { ProjectMenu } from '../../components/ProjectMenu/ProjectMenu';
 import { Button } from '../../components';
 import { Checkbox, Form, Label, TextArea, Toggle } from '../../components/Form';
 import { MenubarContext } from '../../components/Menubar/Menubar';
@@ -65,7 +66,7 @@ export const InstructionsSettings = () => {
           <Form.Indicator>
             <span case="success">Saved!</span>
           </Form.Indicator>
-          <Button type="submit" look="primary" style={{ width: 120 }}>Save</Button>
+          <Button type="submit" look="primary" style={{ width: 120 }}>Save Changes</Button>
         </Form.Actions>
 
       </Form >
@@ -75,3 +76,5 @@ export const InstructionsSettings = () => {
 
 InstructionsSettings.title = "Instructions";
 InstructionsSettings.path = "/instruction";
+InstructionsSettings.context = ProjectMenu;
+InstructionsSettings.alias = "instructions-settings";

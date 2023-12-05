@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useHistory } from "react-router";
 import { Button } from "../../components";
+import { ProjectMenu } from "../../components/ProjectMenu/ProjectMenu";
 import { Description } from "../../components/Description/Description";
 import { Label } from "../../components/Form";
 import { confirm } from "../../components/Modal/Modal";
@@ -184,4 +185,5 @@ export const DangerZone = () => {
 };
 
 DangerZone.title = "Manage Project";
+DangerZone.context = ProjectMenu;
 DangerZone.path = "/danger-zone";

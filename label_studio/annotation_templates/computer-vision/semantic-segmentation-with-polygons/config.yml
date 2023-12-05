@@ -2,19 +2,18 @@ title: Semantic Segmentation with Polygons
 type: community
 group: Computer Vision
 order: 1
-image: /static/templates/semantic-segmentation-with-polygons.png
+image: /static/templates/semantic-segmentation-with-polygons.jpg
 details: <h1>Draw a polygon around object</h1>
 config: |
   <View>
-
-    <Header value="Please Select label and click the image to start"/>
-    <Image name="image" value="$image" zoom="true"/>
-
-    <PolygonLabels name="label" toName="image"
-                   strokeWidth="3" pointSize="small"
-                   opacity="0.9">
-      <Label value="Airplane" background="red"/>
-      <Label value="Car" background="blue"/>
-    </PolygonLabels>
-
+    <View style="display:flex;align-items:start;gap:8px;flex-direction:row-reverse">
+      <Image name="image" value="$image" zoom="true"/>
+      <View>
+        <Filter toName="label" minlength="0" name="filter"/>
+        <PolygonLabels name="label" toName="image" strokeWidth="3" pointSize="small" opacity="0.9" showInline="false">
+          <Label value="Airplane" background="red"/>
+          <Label value="Car" background="blue"/>
+        </PolygonLabels>
+      </View>
+    </View>
   </View>

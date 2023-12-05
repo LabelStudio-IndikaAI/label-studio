@@ -2,11 +2,12 @@ import chr from 'chroma-js';
 import { format } from 'date-fns';
 import React, { useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
-import { annotation,  ban, IconDone, IconTime,  LsCheck, LsEllipsis, LsMinus, spark  } from '../../assets/icons';
+import { annotation, ban, IconDone, IconTime, LsCheck, LsEllipsis, LsMinus, spark } from '../../assets/icons';
 import { Button, Dropdown, Menu, Pagination, Userpic } from '../../components';
 import { Block, Elem } from '../../utils/bem';
 import { absoluteURL } from '../../utils/helpers';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { Tooltip } from '../../components/Tooltip/Tooltip';
 
 export const ProjectsList = ({ projects, currentPage, totalItems, totalPages, loadNextPage, pageSize, searchQuery, setSearchQuery }) => {
 
@@ -138,7 +139,22 @@ export const EmptySearchList = ({ searchQuery, setSearchQuery }) => {
 };
 
 
+
 const ProjectCard = ({ project }) => {
+
+  // const progress = useMemo(() => {
+  //   return project.task_number > 0 ? (project.finished_task_number / project.task_number * 100).toFixed(0) : 0;
+  // }, [project]);
+
+  // const headerStyle = useMemo(() => {
+  //   const backgroundColor = progress < 50 ? 'lightcoral' : progress < 75 ? 'lightyellow' : 'lightgreen';
+
+  //   return {
+  //     background: `linear-gradient(to right, ${backgroundColor} ${progress}%, transparent ${progress}%)`,
+  //   };
+  // }, [progress]);
+
+
   const color = useMemo(() => {
     return project.color === '#FFFFFF' ? null : project.color;
   }, [project]);
@@ -154,8 +170,10 @@ const ProjectCard = ({ project }) => {
     <Elem tag={NavLink} name="link" to={`/projects/${project.id}/data`} data-external>
       <Block name="project-card" mod={{ colored: !!color }} style={projectColors}>
         <Elem name="header">
+          {/* <Elem name="header" style={headerStyle}> */}
           <Elem name="title">
             <Elem name="title-text">
+              {/* {project.title ?? "New project"}.{progress}% */}
               {project.title ?? "New project"}
             </Elem>
             <Elem name="title-created-by">
@@ -173,18 +191,24 @@ const ProjectCard = ({ project }) => {
                 <IconDone />{project.finished_task_number} of {project.task_number} tasks completed
               </Elem>
               <Elem name="detail">
-                <Elem name="detail-item" mod={{ type: "completed" }}>
-                  <Elem tag={annotation} name="icon" />
-                  {project.total_annotations_number}
-                </Elem>
-                <Elem name="detail-item" mod={{ type: "rejected" }}>
-                  <Elem tag={ban} name="icon" />
-                  {project.skipped_annotations_number}
-                </Elem>
-                <Elem name="detail-item" mod={{ type: "predictions" }}>
-                  <Elem tag={spark} name="icon" />
-                  {project.total_predictions_number}
-                </Elem>
+                <Tooltip title="Annotation">
+                  <Elem name="detail-item" mod={{ type: "completed" }}>
+                    <Elem tag={annotation} name="icon" />
+                    {project.total_annotations_number}
+                  </Elem>
+                </Tooltip>
+                <Tooltip title="Skipped">
+                  <Elem name="detail-item" mod={{ type: "rejected" }}>
+                    <Elem tag={ban} name="icon" />
+                    {project.skipped_annotations_number}
+                  </Elem>
+                </Tooltip>
+                <Tooltip title="Predictions">
+                  <Elem name="detail-item" mod={{ type: "predictions" }}>
+                    <Elem tag={spark} name="icon" />
+                    {project.total_predictions_number}
+                  </Elem>
+                </Tooltip>
                 <Elem name="menu" onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();

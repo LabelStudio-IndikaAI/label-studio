@@ -68,7 +68,7 @@ export const Preview = ({ config, data, error, loading }) => {
 
     return () => {
       if (lsf.current) {
-        console.info('Destroying LSF');
+        console.info('Destroying DS');
         // there is can be weird error from LSF, but we can just skip it for now
         try {
           lsf.current.destroy();
@@ -81,7 +81,7 @@ export const Preview = ({ config, data, error, loading }) => {
   useEffect(() => {
     if (lsf.current?.store) {
       lsf.current.store.assignConfig(currentConfig);
-      console.log("LSF config updated");
+      console.log("DS config updated");
     }
   }, [currentConfig]);
 
@@ -98,7 +98,7 @@ export const Preview = ({ config, data, error, loading }) => {
       });
 
       store.annotationStore.selectAnnotation(c.id);
-      console.log("LSF task updated");
+      console.log("DS task updated");
     }
   }, [currentTask]);
 

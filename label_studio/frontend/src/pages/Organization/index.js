@@ -23,7 +23,8 @@ const MenuLayout = ({ children, ...routeProps }) => {
   );
 };
 
-const organizationPages = {};
+const organizationPages = {
+};
 
 if (ALLOW_ORGANIZATION_WEBHOOKS) {
   organizationPages[WebhookPage] = WebhookPage;

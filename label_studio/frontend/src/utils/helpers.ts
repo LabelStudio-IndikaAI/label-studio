@@ -1,3 +1,5 @@
+import chroma from "chroma-js";
+
 export const formDataToJPO = (formData: FormData) => {
   if (formData instanceof FormData) {
     const entries = formData.entries();
@@ -117,12 +119,82 @@ export const copyText = (text: string) => {
   input.remove();
 };
 
-export const delay = (time = 0) => {
-  return new Promise((resolve) => setTimeout(resolve, time));
+export const userDisplayName = (user: APIUserFull) => {
+  const firstName = user?.first_name;
+  const lastName = user?.last_name;
+
+  return (firstName || lastName)
+    ? [firstName, lastName].filter(n => !!n).join(" ").trim()
+    : (user?.username ?? user?.email ?? "");
+};
+
+export const chunks = <T extends any[]>(source: T, chunkSize: number) => {
+  const result = [];
+  let i, j;
+
+  for (i = 0, j = source.length; i < j; i += chunkSize) {
+    result.push(source.slice(i, i + chunkSize));
+  }
+
+  return result as T[];
+};
+
+export const avg = (nums: number[]) => nums.reduce((a, b) => a + b, 0) / nums.length;
+
+export const stringToColor = (str: string) => {
+  const chars = [...btoa(str)].map<number>(c => c.charCodeAt(0));
+  const numPerChunk = Math.ceil(chars.length / 3);
+  const channels = chunks(chars, numPerChunk);
+
+  if (channels.length < 3) {
+    const padding = new Array(3 - channels.length);
+
+    padding.fill([0]);
+    channels.push(padding);
+  }
+
+  const color = channels.map(chunk => {
+    const padding = new Array(numPerChunk - chunk.length);
+
+    if (padding.length > 0) {
+      padding.fill(0);
+      chunk.push(...padding);
+    }
+
+    return Math.round(avg(chunk));
+  });
+
+  return chroma(`rgb(${color})`);
+};
+
+export const reverseMap = <T>(source: T) => {
+  const reversed = Object.entries(source).map(ent => ent.reverse());
+
+  return Object.fromEntries(reversed);
+};
+
+export const arrayClean = <T extends []>(source: T) => {
+  return source.reduce((res, value) => {
+    if (value) res.push(value);
+
+    return res;
+  }, []);
 };
 
 export const clamp = (value: number, min: number, max: number) => {
   return Math.max(min, Math.min(value, max));
+};
+
+export const dispatchReactEvent = <T extends HTMLElement>(elem: T, eventName: string, value?: any) => {
+  const elementTypeName = Object.prototype.toString.call(elem).replace(/^\[object |\]$/g, '');
+  const elementType = window[elementTypeName as keyof Window]?.prototype;
+
+  const trigger = Object.getOwnPropertyDescriptor(elementType, "value")?.set;
+
+  if (trigger && value) trigger.call(elem, value);
+  const event = new Event(eventName, { bubbles: true, cancelable: false });
+
+  elem.dispatchEvent(event);
 };
 
 export const getLastTraceback = (traceback: string): string => {
@@ -137,4 +209,10 @@ export const getLastTraceback = (traceback: string): string => {
   }
 
   return lastTraceIndex >= 0 ? lines.slice(lastTraceIndex).join('\n') : traceback;
+};
+
+export const countDecimals = (value: number) => {
+  if (Math.floor(value) === value) return 0;
+
+  return value.toString().split(".")[1].length || 0;
 };

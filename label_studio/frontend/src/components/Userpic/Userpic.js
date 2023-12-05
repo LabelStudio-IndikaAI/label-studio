@@ -28,6 +28,7 @@ export const Userpic = forwardRef(({
   useEffect(() => {
     if (user) {
       const { first_name, last_name, email, initials, username } = user;
+      
       if (initials) {
         setFinalUsername(initials);
       } else if (username) {
