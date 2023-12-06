@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Block } from "../../../utils/bem";
 import { Spinner } from "../../../components";
-import axios from 'axios';
+import { useAPI } from "../../../providers/ApiProvider";
 
 export const PeopleData = () => {
+  const api = useAPI();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/user/data/');
+        const response = await api.callApi('/api/user/data/');
 
         console.log('API Response:', response.data);
         setUserData(response.data);
