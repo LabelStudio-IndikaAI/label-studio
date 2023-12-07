@@ -16,7 +16,7 @@ import "./PeopleInvitation.styl";
 import { PeopleList } from "./PeopleList";
 import "./PeoplePage.styl";
 import { SelectedUser } from "./SelectedUser";
-import { PeopleData } from "./PeopleData";
+import { PeopleData } from './PeopleData';
 
 const Invitation = ({ link, updateLink }) => {
   const [copied, setCopied] = useState(false);
