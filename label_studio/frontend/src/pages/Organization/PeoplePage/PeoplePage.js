@@ -16,7 +16,7 @@ import "./PeopleInvitation.styl";
 import { PeopleList } from "./PeopleList";
 import "./PeoplePage.styl";
 import { SelectedUser } from "./SelectedUser";
-import { PeopleData } from './PeopleData';
+import { OrgData } from './OrgData';
 
 const Invitation = ({ link, updateLink }) => {
   const [copied, setCopied] = useState(false);
@@ -136,7 +136,7 @@ export const PeoplePage = () => {
   return (
     <Block name="people">
       <Elem name="peopledetail">
-        <PeopleData />
+        <OrgData />
       </Elem>
       <Elem name="peoplecontrol">
         <Elem name="controls">

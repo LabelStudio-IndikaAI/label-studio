@@ -3,7 +3,7 @@ import { Block } from "../../../utils/bem";
 import { Spinner } from "../../../components";
 import { useAPI } from "../../../providers/ApiProvider";
 
-export const PeopleData = () => {
+export const OrgData = () => {
   const api = useAPI();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
