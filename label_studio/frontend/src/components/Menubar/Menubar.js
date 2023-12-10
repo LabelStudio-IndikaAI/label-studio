@@ -1,8 +1,9 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useLocation } from 'react-router';
 import { StaticContent } from '../../app/StaticContent/StaticContent';
 import { IconBook, IconFolder, IconPersonInCircle, IconTerminal, LsDoor, LsGitHub, LsSettings, LsSlack } from '../../assets/icons';
 import { useConfig } from '../../providers/ConfigProvider';
-import { useContextComponent, useFixedLocation } from '../../providers/RoutesProvider';
+import { useContextComponent } from '../../providers/RoutesProvider';
 import { cn } from '../../utils/bem';
 import { absoluteURL, isDefined } from '../../utils/helpers';
 //import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs';
@@ -52,7 +53,7 @@ export const Menubar = ({
 }) => {
   const menuDropdownRef = useRef();
   const useMenuRef = useRef();
-  const location = useFixedLocation();
+  const location = useLocation();
   const helpDropdownRef = useRef();
 
   const config = useConfig();
@@ -76,9 +77,10 @@ export const Menubar = ({
 
   const menubarClass = cn('menu-header');
   const menubarContext = menubarClass.elem('context');
+  const contextItem = menubarClass.elem('context-item');
   const sidebarClass = cn('sidebar');
   const contentClass = cn('content-wrapper');
-  const contextItem = menubarClass.elem('context-item');
+  const userMenuClass = cn('user-menu');
   const showNewsletterDot = !isDefined(config.user.allow_newsletters);
 
   const sidebarPin = useCallback((e) => {
@@ -147,8 +149,8 @@ export const Menubar = ({
 
 
           <div className={menubarContext}>
-            <LeftContextMenu className={contextItem} />
-            <RightContextMenu className={contextItem} />
+            <LeftContextMenu className={contextItem.mod({ left: true })} />
+            <RightContextMenu className={contextItem.mod({ left: true })} />
           </div>
 
           <Dropdown.Trigger ref={helpDropdownRef} align="right" content={(
@@ -203,7 +205,7 @@ export const Menubar = ({
 
 
           <Dropdown.Trigger ref={useMenuRef} align="right" content={(
-            <Menu>
+            <Menu className={userMenuClass}>
               <Menu.Item
                 icon={<LsSettings />}
                 label="Account &amp; Settings"
@@ -273,7 +275,7 @@ export const Menubar = ({
 
                 <Menu.Spacer />
 
-                <VersionNotifier showNewVersion />
+                {/* <VersionNotifier showNewVersion /> */}
 
                 <VersionNotifier showCurrentVersion />
 

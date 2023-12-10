@@ -2,19 +2,26 @@ import { createContext, forwardRef, useCallback, useContext, useEffect, useMemo,
 import { ErrorWrapper } from '../components/Error/Error';
 import { modal } from '../components/Modal/Modal';
 import { API_CONFIG } from '../config/ApiConfig';
+//import { API_CONFIG_LSE } from '../config/ApiConfigLSE';
 import { APIProxy } from '../utils/api-proxy';
-import { absoluteURL } from '../utils/helpers';
+import { absoluteURL, isDefined } from '../utils/helpers';
+
+Object.assign(
+  API_CONFIG.endpoints,
+  //API_CONFIG_LSE.endpoints,
+);
 
 const API = new APIProxy(API_CONFIG);
+
+let apiLocked = false;
 
 export const ApiContext = createContext();
 ApiContext.displayName = 'ApiContext';
 
-let apiLocked = false;
-
 const errorFormatter = (result) => {
   const { response } = result;
-  const isShutdown = String(response?.detail ?? result?.error) === 'Failed to fetch';
+  // we should not block app because of some network issue
+  const isShutdown = false;
 
   return {
     isShutdown,
@@ -33,16 +40,11 @@ const handleError = async (response, showModal = true) => {
     result = await API.generateError(response);
   }
 
-  if (response.status === 401) {
-    location.href = absoluteURL("/");
-    return;
-  }
-
   const { isShutdown, ...formattedError } = errorFormatter(result);
 
   if (showModal) {
-
     modal({
+      unique: "network-error",
       allowClose: !isShutdown,
       body: isShutdown ? (
         <ErrorWrapper
@@ -64,6 +66,8 @@ const handleError = async (response, showModal = true) => {
 export const ApiProvider = forwardRef(({ children }, ref) => {
   const [error, setError] = useState(null);
 
+  const resetError = () => setError(null);
+
   const callApi = useCallback(async (method, { params = {}, errorFilter, ...rest } = {}) => {
     if (apiLocked) return;
 
@@ -78,9 +82,9 @@ export const ApiProvider = forwardRef(({ children }, ref) => {
     }
 
     if (result.error) {
-      const shouldCatchError = errorFilter?.(result) === false;
+      const shouldCatchError = !isDefined(errorFilter) || errorFilter(result) === false;
 
-      if (!errorFilter || shouldCatchError){
+      if (shouldCatchError){
         setError(result);
         const isShutdown = await handleError(result, contextValue.showModal);
 
@@ -97,6 +101,7 @@ export const ApiProvider = forwardRef(({ children }, ref) => {
     api: API,
     callApi,
     handleError,
+    resetError,
     error,
     showModal: true,
     errorFormatter,

@@ -1,8 +1,12 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, FC, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { shallowEqualObjects } from 'shallow-equal';
+import { isDefined } from '../utils/helpers';
 import { useAPI, WrappedResponse } from './ApiProvider';
 import { useAppStore } from './AppStoreProvider';
 import { useParams } from './RoutesProvider';
+import { useLocation } from 'react-router';
+//import { useProjectsPermissions } from "./PermissionProvider";
+//import { FF_LSDV_E_295, isFF } from "../utils/feature-flags";
 
 type Empty = Record<string, never>
 
@@ -18,12 +22,15 @@ ProjectContext.displayName = 'ProjectContext';
 
 const projectCache = new Map<number, APIProject>();
 
-export const ProjectProvider: React.FunctionComponent = ({ children }) => {
+export const ProjectProvider: FC<any> = memo(({ children }) => {
   const api = useAPI();
   const params = useParams();
+  const location = useLocation();
   const { update: updateStore } = useAppStore();
   // @todo use null for missed project data
   const [projectData, setProjectData] = useState<APIProject | Empty>(projectCache.get(+params.id) ?? {});
+  //const { fetchProjectPermissions, projectsPermissions } = useProjectsPermissions();
+
 
   const fetchProject: Context['fetchProject'] = useCallback(async (id, force = false) => {
     const finalProjectId = +(id ?? params.id);
@@ -39,9 +46,12 @@ export const ProjectProvider: React.FunctionComponent = ({ children }) => {
       errorFilter: () => false,
     });
 
+    // if (isFF(FF_LSDV_E_295) && !projectsPermissions.current?.some(p => p.project === finalProjectId))
+    //   await fetchProjectPermissions([finalProjectId]);
+
     const projectInfo = result as unknown as APIProject;
 
-    if (shallowEqualObjects(projectData, projectInfo) === false) {
+    if (isDefined(projectInfo) && shallowEqualObjects(projectData, projectInfo) === false) {
       setProjectData(projectInfo);
       updateStore({ project: projectInfo });
       projectCache.set(projectInfo.id, projectInfo);
@@ -66,31 +76,39 @@ export const ProjectProvider: React.FunctionComponent = ({ children }) => {
     return result;
   }, [projectData, setProjectData, updateStore]);
 
+  const invalidateCache = useCallback(() => {
+    projectCache.clear();
+    setProjectData({});
+  }, []);
+
+  const contextValue = useMemo(() => {
+    return {
+      project: projectData,
+      fetchProject,
+      updateProject,
+      invalidateCache,
+    };
+  }, [projectData, fetchProject, updateProject, invalidateCache]);
+
   useEffect(() => {
-    if (+params.id !== projectData?.id) {
-      setProjectData({});
+    if (location.pathname.startsWith(`/projects`)) {
+      if (+params.id !== projectData?.id) {
+        setProjectData({});
+      }
+      fetchProject();
     }
-    fetchProject();
-  }, [params]);
+  }, [location, params]);
 
   useEffect(() => {
     return () => projectCache.clear();
   }, []);
 
   return (
-    <ProjectContext.Provider value={{
-      project: projectData,
-      fetchProject,
-      updateProject,
-      invalidateCache() {
-        projectCache.clear();
-        setProjectData({});
-      },
-    }}>
+    <ProjectContext.Provider value={contextValue}>
       {children}
     </ProjectContext.Provider>
   );
-};
+});
 
 // without this extra typing VSCode doesn't see the type after import :(
 export const useProject: () => Context = () => {

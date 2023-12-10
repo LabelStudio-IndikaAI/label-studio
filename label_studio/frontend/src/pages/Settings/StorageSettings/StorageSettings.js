@@ -6,6 +6,7 @@ import { Block, cn } from '../../../utils/bem';
 import { StorageSet } from './StorageSet';
 import { FcInfo } from 'react-icons/fc';
 import './StorageSettings.styl';
+import { ProjectMenu } from '../../../components/ProjectMenu/ProjectMenu';
 
 
 export const StorageSettings = () => {
@@ -109,4 +110,5 @@ export const StorageSettings = () => {
 };
 
 StorageSettings.title = "Cloud Storage";
+StorageSettings.context = ProjectMenu;
 StorageSettings.path = "/storage";

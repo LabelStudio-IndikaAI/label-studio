@@ -16,6 +16,7 @@ import './MachineLearningSettings.styl';
 import { FcInfo } from 'react-icons/fc';
 import { ModelListDropdown } from './ModelListDropdown';
 import models from './models.json';
+import { ProjectMenu } from '../../../components/ProjectMenu/ProjectMenu';
 
 
 export const MachineLearningSettings = () => {
@@ -415,4 +416,5 @@ export const MachineLearningSettings = () => {
 };
 
 MachineLearningSettings.title = "ML Model";
+MachineLearningSettings.context = ProjectMenu;
 MachineLearningSettings.path = "/ml";

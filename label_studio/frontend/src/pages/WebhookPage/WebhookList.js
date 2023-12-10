@@ -55,8 +55,8 @@ const WebhookList = ({ onSelectActive, onAddWebhook, webhooks, fetchWebhooks }) 
                           <Elem name='item-url' onClick={() => onSelectActive(obj.id)}>
                             {obj.url}
                           </Elem>
-                          <Elem name='item-active' style={{ display: 'flex', marginLeft: '-13px' }}>
-                            <Checkbox
+                          <Elem name='item-active' style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop:'5px' }}>
+                            <Toggle
                               name={obj.id}
                               checked={obj.is_active}
                               onChange={onActiveChange}

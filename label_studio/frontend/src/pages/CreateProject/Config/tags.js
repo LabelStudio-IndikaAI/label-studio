@@ -106,7 +106,7 @@ const Labels = {
         if (!direction) {
           const position = $control.compareDocumentPosition($control.$object);
 
-          return position & Node.DOCUMENT_POSITION_FOLLOWING ? "top" : "bottom";
+          return position & Node.DOCUMENT_POSITION_FOLLOWING ? "top" : "left";
         }
         if (direction[1] === "column") return direction[2] ? "top" : "bottom";
         else return direction[2] ? "left" : "right";
@@ -146,6 +146,7 @@ const Labels = {
 const CONTROLS = {
   Labels,
   RectangleLabels: Labels,
+  PolygonLabels: Labels,
 };
 
 const TAGS = { ...OBJECTS, ...CONTROLS };

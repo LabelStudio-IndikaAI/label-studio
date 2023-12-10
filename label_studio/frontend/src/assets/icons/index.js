@@ -46,3 +46,5 @@ export { default as Icondeslink } from './deslink.svg';
 export { default as Iconmldelete } from './mldelete.svg';
 export { default as Iconmledit } from './mledit.svg';
 export { default as LsPlusgray } from './plusgray.svg';
+export { default as IconCopy } from './copy.svg';
+export { default as IconReset } from './reset.svg';

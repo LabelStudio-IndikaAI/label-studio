@@ -1,10 +1,8 @@
 .people-list
   width 100%
-  min-width 650px
   font-size 16px
 
   &__wrapper
-    border-radius 4px
     box-shadow 0 0 0 1px rgba(0, 0, 0, 0.15) inset
 
   &__loading
@@ -45,17 +43,22 @@
   &__field,
   &__column
     &.avatar
-      width 28px
+      width 39px
+      font-size 14px
       box-sizing content-box
 
     &.name
       flex 1
+      width 136px
+      font-size 14px
 
     &.email
-      width 200px
+      width 195px
+      font-size 14px
 
     &.last-activity
-      width 160px
+      width 100px
+      font-size 14px
 
   &__user
     cursor pointer
@@ -80,10 +83,10 @@
       &::after
         z-index 1
         background-color #fff
-        width calc(100% + 22px)
+        width calc(100% + 0px)
         box-shadow inset 2px 0 0 #000, 1px 0 0 1px rgba(0, 0, 0, 0.15) inset
 
       &::before
         z-index 0
         height 100%
-        width calc(100% + 22px)
+        width calc(100% + 0px)

@@ -29,7 +29,7 @@
 }
 .ls-button:focus {
   outline: none;
-  box-shadow: 0px 0px 0px 6px rgba(0,153,255,0.2), inset 0px -1px 0px rgba(0,0,0,0.1), inset 0px 0px 0px 1px rgba(0,0,0,0.15), inset 0px 0px 0px 1px rgba(0,153,255,0.2);
+  box-shadow: 0px 0px 0px 6px rgba(26,115,232,0.2), inset 0px -1px 0px rgba(0,0,0,0.1), inset 0px 0px 0px 1px rgba(0,0,0,0.15), inset 0px 0px 0px 1px rgba(26,115,232,0.2);
 }
 .ls-button_waiting,
 .ls-button:disabled {
@@ -79,12 +79,12 @@
   box-shadow: none;
 }
 .ls-button_type_link {
-  --button-color: #09f;
+  --button-color: #1a73e8;
   text-decoration: underline;
 }
 .ls-button_look_primary {
   --button-color: #fff;
-  background-color: #09f;
+  background-color: #1a73e8;
   box-shadow: none;
   box-shadow: inset 0px -1px 0px rgba(0,0,0,0.1);
 }
@@ -93,15 +93,15 @@
   background-color: #bbb;
 }
 .ls-button_look_primary:hover:not(:disabled) {
-  background: linear-gradient(0deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1)), #09f;
-  box-shadow: 0px 2px 4px rgba(0,153,255,0.3), inset 0px -1px 0px rgba(0,0,0,0.1);
+  background: linear-gradient(0deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1)), #1a73e8;
+  box-shadow: 0px 2px 4px rgba(26,115,232,0.3), inset 0px -1px 0px rgba(0,0,0,0.1);
 }
 .ls-button_look_primary:active:not(:disabled) {
-  background: linear-gradient(0deg, rgba(0,0,0,0.04), rgba(0,0,0,0.04)), #09f;
+  background: linear-gradient(0deg, rgba(0,0,0,0.04), rgba(0,0,0,0.04)), #1a73e8;
   box-shadow: inset 0px 1px 0px rgba(0,0,0,0.1);
 }
 .ls-button_look_primary:focus:not(:disabled) {
-  box-shadow: 0px 0px 0px 6px rgba(0,153,255,0.2), inset 0px -1px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 0px 6px rgba(26,115,232,0.2), inset 0px -1px 0px rgba(0,0,0,0.1);
 }
 .ls-button_look_danger {
   --button-color: #cf1322;
@@ -172,7 +172,7 @@
 }
 .ls-button_waiting.ls-button_look_primary {
   background-image: repeating-linear-gradient(-63.43deg, rgba(255,255,255,0.2) 1px, transparent 2px, transparent 6px, rgba(255,255,255,0.2) 7px, rgba(255,255,255,0.2) 12px);
-  background-color: #09f;
+  background-color: #1a73e8;
 }
 .ls-button_size_small .ls-button__icon {
   width: 12px;
@@ -417,7 +417,7 @@
   box-shadow: inset 0px 1px 0px rgba(0,0,0,0.05);
 }
 .ls-modal__close {
-  --button-color: #09f;
+  --button-color: #1a73e8;
 }
 .ls-modal_fullscreen .ls-modal__content {
   width: 95%;
@@ -1522,7 +1522,7 @@
   border-radius: 4px;
   background: #fff;
   display: flex;
-  color: #09f;
+  color: #1a73e8;
   border: none;
   outline: none;
   align-items: center;
@@ -1542,7 +1542,7 @@
 }
 .ls-counter__btn:active,
 .ls-counter__btn:hover {
-  color: #09f;
+  color: #1a73e8;
 }
 .ls-counter__input {
   flex: 1;
@@ -1663,8 +1663,8 @@ input.ls-input[type=radio] {
 .ls-toggle_checked .ls-toggle__indicator::before {
   width: 16px;
   height: 16px;
-  background: #09f;
-  box-shadow: 0px 5px 10px rgba(0,153,255,0.3), inset 0px -1px 0px rgba(0,0,0,0.1);
+  background: #1a73e8;
+  box-shadow: 0px 5px 10px rgba(26,115,232,0.3), inset 0px -1px 0px rgba(0,0,0,0.1);
 }
 .ls-toggle_disabled .ls-toggle__indicator {
   transition: none;
@@ -1724,7 +1724,7 @@ input.ls-input[type=radio] {
   height: 40px;
   display: inline-flex;
   align-items: center;
-  --button-color: #09f;
+  --button-color: #1a73e8;
 }
 .ls-pagination_disabled {
   --button-color: #ccc;
@@ -2364,8 +2364,8 @@ li.CodeMirror-hint-active {
 .ls-counter_focused,
 .ls-select__list_focused {
   outline: none;
-  box-shadow: 0px 0px 0px 6px rgba(0,153,255,0.2), inset 0px -1px 0px rgba(0,0,0,0.1), inset 0px 0px 0px 1px rgba(0,0,0,0.15), inset 0px 0px 0px 1px rgba(0,153,255,0.2);
-  border-color: rgba(0,153,255,0.2);
+  box-shadow: 0px 0px 0px 6px rgba(26,115,232,0.2), inset 0px -1px 0px rgba(0,0,0,0.1), inset 0px 0px 0px 1px rgba(0,0,0,0.15), inset 0px 0px 0px 1px rgba(26,115,232,0.2);
+  border-color: rgba(26,115,232,0.2);
 }
 .ls-form-indicator {
   font-weight: 500;
@@ -2790,6 +2790,7 @@ li.CodeMirror-hint-active {
 }
 .ls-wizard ul.ls-configure__settings label {
   cursor: pointer;
+  display: flex;
 }
 .ls-wizard ul.ls-configure__settings input[type=checkbox] {
   margin-right: 8px;
@@ -3084,8 +3085,8 @@ body {
   display: block;
 }
 .ls-upload_page__file-status_uploading {
-  border: 1px solid #09f;
-  background-color: #09f;
+  border: 1px solid #1a73e8;
+  background-color: #1a73e8;
   background-repeat: repeat;
   background-position: 40px;
   background-size: 37px 100%;
@@ -3391,7 +3392,7 @@ body {
 }
 .ls-formats__item_selected {
   pointer-events: none;
-  background-color: rgba(0,153,255,0.1);
+  background-color: rgba(26,115,232,0.1);
 }
 .ls-formats__item:not(.ls-formats__item_active) {
   opacity: 0.3;
@@ -3415,7 +3416,7 @@ body {
   left: 12px;
   width: 14px;
   height: 14px;
-  background-color: #09f;
+  background-color: #1a73e8;
 }
 .ls-formats__name {
   display: flex;
@@ -3427,7 +3428,7 @@ body {
   padding: 2px 5px;
   border-radius: 2px;
   font-weight: 400;
-  background-color: rgba(0,153,255,0.1);
+  background-color: rgba(26,115,232,0.1);
 }
 .ls-formats__description {
   font-size: 14px;
@@ -3439,6 +3440,25 @@ body {
 }
 .ls-datamanager #ls-label-studio-dm [class*=Annotations_annotation_selected] {
   background: #e3f1ff;
+}
+
+.ls-project-menu {
+  display: flex;
+  height: 100%;
+  align-items: stretch;
+  font-size: 16px;
+  padding: 8px 0;
+  box-sizing: border-box;
+}
+.ls-project-menu__Button {
+  height: 31px;
+}
+.ls-project-menu__Button.active {
+  opacity: 1;
+  background-color: rgba(0,0,0,0.08);
+}
+.ls-project-menu__Button:hover {
+  opacity: 0.9;
 }
 
 .ls-webhook-wrap {
@@ -4369,11 +4389,9 @@ body {
 
 .ls-people-list {
   width: 100%;
-  min-width: 650px;
   font-size: 16px;
 }
 .ls-people-list__wrapper {
-  border-radius: 4px;
   box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset;
 }
 .ls-people-list__loading {
@@ -4414,20 +4432,25 @@ body {
 }
 .ls-people-list__field.ls-avatar,
 .ls-people-list__column.ls-avatar {
-  width: 28px;
+  width: 39px;
+  font-size: 14px;
   box-sizing: content-box;
 }
 .ls-people-list__field.ls-name,
 .ls-people-list__column.ls-name {
   flex: 1;
+  width: 136px;
+  font-size: 14px;
 }
 .ls-people-list__field.ls-email,
 .ls-people-list__column.ls-email {
-  width: 200px;
+  width: 195px;
+  font-size: 14px;
 }
 .ls-people-list__field.ls-last-activity,
 .ls-people-list__column.ls-last-activity {
-  width: 160px;
+  width: 100px;
+  font-size: 14px;
 }
 .ls-people-list__user {
   cursor: pointer;
@@ -4452,21 +4475,39 @@ body {
 .ls-people-list__user_active::after {
   z-index: 1;
   background-color: #fff;
-  width: calc(100% + 22px);
+  width: calc(100% + 0px);
   box-shadow: inset 2px 0 0 #000, 1px 0 0 1px rgba(0,0,0,0.15) inset;
 }
 .ls-people-list__user_active::before {
   z-index: 0;
   height: 100%;
-  width: calc(100% + 22px);
+  width: calc(100% + 0px);
 }
 
+.ls-people {
+  display: flex;
+  justify-content: space-around;
+}
+.ls-people__peopledetail {
+  border: 1px solid #fff;
+  border-radius: 4px;
+  width: 45%;
+  height: 60%;
+  background-color: #fff;
+}
+.ls-people__peoplecontrol {
+  border: 1px solid #fff;
+  border-radius: 4px;
+  width: 45%;
+  background-color: #fff;
+}
 .ls-people__controls {
   padding: 16px 0;
+  display: flex;
+  flex-direction: column;
 }
 .ls-people__content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   grid-template-rows: min-content;
   align-items: flex-start;
   grid-gap: 20px;
@@ -4476,7 +4517,10 @@ body {
 }
 
 .ls-user-info {
-  padding: 20px 24px;
+  padding: 20px 25px;
+  margin: auto;
+  margin-bottom: 10px;
+  width: 88%;
   border: 1px solid rgba(0,0,0,0.15);
   align-self: start;
   display: flex;
@@ -4490,15 +4534,13 @@ body {
   width: 32px;
   height: 32px;
   position: absolute;
-  --button-color: #09f;
+  --button-color: #1a73e8;
 }
 .ls-user-info__header {
   display: grid;
-  grid-template: auto/64px auto;
   column-gap: 16px;
   line-height: 1.5;
   color: rgba(0,0,0,0.6);
-  margin-bottom: 16px;
   align-items: center;
 }
 .ls-user-info__email {
@@ -4508,7 +4550,6 @@ body {
   font-size: 1.5em;
   margin: 0;
   color: #000;
-  margin-bottom: 16px;
 }
 .ls-user-info__section + .ls-user-info__section {
   margin-top: 16px;
@@ -4536,7 +4577,7 @@ body {
   margin-left: -10px;
   align-items: center;
   border-radius: 4px;
-  color: #09f;
+  color: #1a73e8;
 }
 .ls-user-info__project-link:hover {
   background-color: #f1f1f1;

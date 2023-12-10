@@ -154,7 +154,7 @@ const WebhookDetail = ({ webhook, webhooksInfo, fetchWebhooks, onBack, onSelectA
                   placeholder="URL" />
                 <Space align='end' className={rootClass.elem('activator')}>
                   <div>
-                    <Checkbox
+                    <Toggle
                       skip
                       checked={isActive}
                       onChange={(e) => { setIsActive(e.target.checked); }}

@@ -5,7 +5,6 @@ import { UnControlled as CodeMirror } from 'react-codemirror2';
 import CM from 'codemirror';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/show-hint.css';
-
 import { Button, ToggleItems } from '../../../components';
 import { SwitchToggle } from '../../../components/ToggleItems/SwitchToogle';
 import { Form } from '../../../components/Form';
@@ -152,7 +151,7 @@ const ConfigureSettings = ({ template }) => {
 
     if (!$tag) return null;
     if (options.when && !options.when($tag)) return;
-    let value = false;
+    let value = true;
 
     if (options.value) value = options.value($tag);
     else if (typeof options.param === "string") value = $tag.getAttribute(options.param);
@@ -501,7 +500,7 @@ const Configurator = ({ columns, config, project, template, setTemplate, onBrows
             <BiRefresh style={{ marginRight: '8px', color: '#1A73E8' }} />
             <span style={{ color: '#1A73E8' }}>Choose Templates</span>
           </button>
-          <SwitchToggle items={{ code: "Code", visual: "Visual" }} active={configure} onSelect={onSelect} />
+          <ToggleItems items={{ code: "Code", visual: "Visual" }} active={configure} onSelect={onSelect} />
         </header>
         <div className={configClass.elem('editor')}>
           {configure === "code" && (
