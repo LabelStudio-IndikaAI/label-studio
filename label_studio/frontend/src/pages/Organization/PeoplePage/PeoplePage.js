@@ -15,6 +15,7 @@ import "./PeopleInvitation.styl";
 import { PeopleList } from "./PeopleList";
 import "./PeoplePage.styl";
 import { SelectedUser } from "./SelectedUser";
+import { PeopleData } from "./Peopledata";
 
 const InvitationModal = ({ link }) => {
   return (
@@ -137,6 +138,9 @@ export const PeoplePage = () => {
         ) : isFF(FF_LSDV_E_297) && (
           <HeidiTips collection="organizationPage" />
         )}
+      </Elem>
+      <Elem name="userdata">
+        <PeopleData />
       </Elem>
     </Block>
   );

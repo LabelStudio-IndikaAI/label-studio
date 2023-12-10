@@ -5,7 +5,7 @@ from django.conf import settings
 from django.urls import path, re_path, include
 from django.views.static import serve
 from rest_framework import routers
-from users.api import UserDataAPI
+
 from users import views, api
 
 router = routers.DefaultRouter()
@@ -24,7 +24,8 @@ urlpatterns = [
     path('user/reset/<uidb64>/<token>/', views.new_reset_password, name='set-new-password'),
     path('user/password_reset_success/', views.password_reset_success, name='password-reset-success'),
     path('user/password_reset_error/', views.password_reset_error, name='password-reset-error'),
-
+    path('user/terms_and_conditions/', views.terms_and_conditions, name='terms_and_conditions'),
+    path('user/privacy_policy/', views.privacy_policy, name='privacy_policy'),
 
     path('logout/', views.logout, name='logout'),
 
@@ -36,9 +37,8 @@ urlpatterns = [
     path('api/current-user/reset-token/', api.UserResetTokenAPI.as_view(), name='current-user-reset-token'),
     path('api/current-user/token/', api.UserGetTokenAPI.as_view(), name='current-user-token'),
     path('api/current-user/whoami/', api.UserWhoAmIAPI.as_view(), name='current-user-whoami'),
-    path('api/user/data/', UserDataAPI.as_view(), name='user-data-api'),
+    path('api/user/organization-detail/', views.UserOrganizationDetailView.as_view(), name='user-organization-detail'),
 ]
-
 
     # path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     # path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),

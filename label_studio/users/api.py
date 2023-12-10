@@ -235,25 +235,3 @@ class UserWhoAmIAPI(generics.RetrieveAPIView):
 
     def get(self, request, *args, **kwargs):
         return super(UserWhoAmIAPI, self).get(request, *args, **kwargs)
-    
-class UserDataAPI(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        user = request.user
-
-        data = {
-            "active_organization_title": user.active_organization.title,
-            "pretty_role": user.get_pretty_role,
-            "active_organization_annotations_count": user.active_organization_annotations.count(),
-            "active_organization_contributed_project_count": user.active_organization_contributed_project_number(),
-            "active_organization_id": user.active_organization.id,
-            "active_organization_created_by": user.active_organization.created_by,
-            "active_organization_created_at": user.active_organization.created_at,
-        }
-
-        return Response(data)
-    
-    
-    
-

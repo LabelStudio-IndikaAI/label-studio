@@ -28,6 +28,9 @@ from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import render, redirect
 from users.forms import SetNewPasswordForm
 from django.contrib.auth import update_session_auth_hash
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import ExtendedUserSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +78,8 @@ def user_signup(request):
         'organization_form': organization_form,
         'next': next_page,
         'token': token,
+        'terms_and_condition':  reverse('terms_and_conditions'),
+        'privacy_policy': reverse('privacy_policy'),
     })
 
 
@@ -238,6 +243,13 @@ def new_reset_password(request, uidb64=None, token=None):
     #     # return redirect('password_reset_error')
     #     return render(request, 'users/Error.html')
 
+def terms_and_conditions(request):
+    """View to display terms and conditions."""
+    return render(request, 'users/terms_and_condition.html')
+
+def privacy_policy(request):
+    """View to display privacy policy."""
+    return render(request, 'users/privacy_policy.html')
     
 def password_reset_success(request):
     """View to inform the user that password reset was successful."""
@@ -247,7 +259,11 @@ def password_reset_error(request):
     """View to inform the user that there was an error in password reset."""
     return render(request, 'users/Error.html')
 
-
+class UserOrganizationDetailView(APIView):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        serializer = ExtendedUserSerializer(user)
+        return Response(serializer.data)
     
 #change to before one
 # import logging
