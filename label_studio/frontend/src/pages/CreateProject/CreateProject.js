@@ -21,11 +21,14 @@ import { IconDelete, IconSave, IconTick, IconWarning } from '../../assets/icons'
 
 
 
-const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, setDescription, show = true, onNext }) => !show ? null : (
+const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, setDescription, show = true, isPublic,setIsPublic }) => !show ? null : (
   <form className={cn("project-name")} onSubmit={e => { e.preventDefault(); onSubmit(); }}>
     <div className="field field--wide">
       <label htmlFor="project_name">Project Name</label>
       <input name="name" id="project_name" value={name} onChange={e => setName(e.target.value)} onBlur={onSaveName} />
+      <p style={{ fontSize: 'xx-small', color: 'tomato', display: 'flex', alignItems: 'center' }}>
+        <IconWarning style={{ fontSize: 'xx-small', verticalAlign: 'middle' }} /> Project names should be unique
+      </p>
       {error && <span className="error">{error}</span>}
     </div>
     <div className="field field--wide">
@@ -39,6 +42,34 @@ const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, 
         onChange={e => setDescription(e.target.value)}
       />
     </div>
+    <div className="field field--wide">
+      <label htmlFor="project_visibility">Visibility</label>
+      <input 
+        type="checkbox" 
+        id="project_visibility" 
+        checked={isPublic} 
+        onChange={e => setIsPublic(e.target.checked)}
+      />
+      <label htmlFor="project_visibility">Make Project Public</label>
+    </div>
+
+    {isFF(FF_LSDV_E_297) && (
+      <div className="field field--wide">
+        <label>
+          Workspace
+          <EnterpriseBadge />
+        </label>
+        <Select placeholder="Select an option" disabled options={[]} />
+        <Caption>
+          Simplify project management by organizing projects into workspaces.
+          <a href={createURL('https://docs.humansignal.com/guide/manage_projects#Create-workspaces-to-organize-projects', {
+            experiment: "project_creation_dropdown",
+            treatment: "simplify_project_management",
+          })} target="_blank">Learn more</a>
+        </Caption>
+        <HeidiTips collection="projectCreation" />
+      </div>
+    )}
   </form>
 );
 // const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, setDescription, show = true, onNext }) => {
@@ -98,6 +129,7 @@ const ProjectName = ({ name, setName, onSaveName, onSubmit, error, description, 
 export const CreateProject = ({ onClose }) => {
   const [step, setStep] = React.useState("name"); // name | import | config
   const [waiting, setWaitingStatus] = React.useState(false);
+  const [isPublic, setIsPublic] = React.useState(false); // default to private
 
 
 
@@ -131,6 +163,13 @@ export const CreateProject = ({ onClose }) => {
 
     setStep(formName); // Update the currently active form
   };
+  const projectBody = React.useMemo(() => ({
+    title: name,
+    description,
+    label_config: config,
+    is_public: isPublic, // added this line
+  }), [name, description, config, isPublic]); // added isPublic to dependency array
+
 
   const tabClass = rootClass.elem("tab");
   const steps = {
@@ -143,11 +182,11 @@ export const CreateProject = ({ onClose }) => {
   // this should trigger only once when we got project loaded
   React.useEffect(() => project && !name && setName(project.title), [project]);
 
-  const projectBody = React.useMemo(() => ({
-    title: name,
-    description,
-    label_config: config,
-  }), [name, description, config]);
+  // const projectBody = React.useMemo(() => ({
+  //   title: name,
+  //   description,
+  //   label_config: config,
+  // }), [name, description, config]);
 
   const onCreate = React.useCallback(async () => {
     const imported = await finishUpload();
@@ -278,6 +317,8 @@ export const CreateProject = ({ onClose }) => {
                         description={description}
                         setDescription={setDescription}
                         show={step === "name"}
+                        isPublic={isPublic}
+                        setIsPublic={setIsPublic}
                       />
                     </div>
                   )}

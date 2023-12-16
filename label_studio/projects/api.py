@@ -7,7 +7,7 @@ import os
 
 from django.db import IntegrityError
 from django.conf import settings
-from django.db.models import F
+from django.db.models import F,Q
 from drf_yasg.utils import swagger_auto_schema
 from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
@@ -25,7 +25,7 @@ from core.utils.common import temporary_disconnect_all_signals
 from core.mixins import GetParentObjectMixin
 from core.label_config import config_essential_data_has_changed
 from projects.models import (
-    Project, ProjectSummary, ProjectManager, ProjectImport, ProjectReimport
+    Project, ProjectSummary, ProjectManager, ProjectImport, ProjectReimport, ProjectRole
 )
 from projects.serializers import (
     ProjectSerializer, ProjectLabelConfigSerializer, ProjectSummarySerializer, GetFieldsSerializer, ProjectImportSerializer, ProjectReimportSerializer
@@ -137,16 +137,66 @@ class ProjectListAPI(generics.ListCreateAPIView):
     )
     pagination_class = ProjectListPagination
 
+    # def get_queryset(self):
+    #     serializer = GetFieldsSerializer(data=self.request.query_params)
+    #     serializer.is_valid(raise_exception=True)
+    #     fields = serializer.validated_data.get('include')
+    #     filter = serializer.validated_data.get('filter')
+    #     projects = Project.objects.filter(organization=self.request.user.active_organization).\
+    #         order_by(F('pinned_at').desc(nulls_last=True), "-created_at")
+    #     if filter in ['pinned_only', 'exclude_pinned']:
+    #         projects = projects.filter(pinned_at__isnull=filter == 'exclude_pinned')
+    #     return ProjectManager.with_counts_annotate(projects, fields=fields).prefetch_related('members', 'created_by')
     def get_queryset(self):
         serializer = GetFieldsSerializer(data=self.request.query_params)
         serializer.is_valid(raise_exception=True)
         fields = serializer.validated_data.get('include')
-        filter = serializer.validated_data.get('filter')
-        projects = Project.objects.filter(organization=self.request.user.active_organization).\
-            order_by(F('pinned_at').desc(nulls_last=True), "-created_at")
-        if filter in ['pinned_only', 'exclude_pinned']:
-            projects = projects.filter(pinned_at__isnull=filter == 'exclude_pinned')
+
+        user = self.request.user
+        organization = user.active_organization
+
+        projects = Project.objects.filter(
+            Q(organization=organization) & 
+            (Q(is_public=True) | 
+            Q(user_roles_projects__user=user) | 
+            Q(created_by=user))
+        ).distinct()
+
         return ProjectManager.with_counts_annotate(projects, fields=fields).prefetch_related('members', 'created_by')
+
+
+    # def get_queryset(self):
+    #     serializer = GetFieldsSerializer(data=self.request.query_params)
+    #     serializer.is_valid(raise_exception=True)
+    #     fields = serializer.validated_data.get('include')
+
+    #     user = self.request.user
+    #     organization = user.active_organization
+
+    #     # Corrected query to include public projects or private projects where user is a contributor
+    #     projects = Project.objects.filter(
+    #         Q(organization=organization) & 
+    #         (Q(is_public=True) | (Q(is_public=False) & Q(user_roles_projects__user=user)))
+    #     ).distinct()
+
+    #     return ProjectManager.with_counts_annotate(projects, fields=fields).prefetch_related('members', 'created_by')
+
+    # serializer = GetFieldsSerializer(data=self.request.query_params)
+    # serializer.is_valid(raise_exception=True)
+    # fields = serializer.validated_data.get('include')
+
+    # user = self.request.user
+    # organization = user.active_organization
+
+    # # Query to get projects that are either public or where the user is a contributor or the project owner
+    # projects = Project.objects.filter(
+    #     Q(organization=organization) & 
+    #     (Q(is_public=True) | 
+    #      Q(user_roles_projects__user=user) | 
+    #      Q(created_by=user))
+    # ).distinct()
+
+    # return ProjectManager.with_counts_annotate(projects, fields=fields).prefetch_related('members', 'created_by')
 
     def get_serializer_context(self):
         context = super(ProjectListAPI, self).get_serializer_context()

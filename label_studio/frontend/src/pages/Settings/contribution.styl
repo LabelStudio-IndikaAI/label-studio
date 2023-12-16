@@ -1,0 +1,126 @@
+.contribution-settings {
+    display: block;
+
+    &__wrapper {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping for smaller screens */
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+    }
+
+    &__title {
+        font-size: 24px;
+        color: #333;
+        font-weight: 500;
+        margin-bottom: 20px;
+        width: 100%; /* Full width to separate title from content */
+    }
+
+    &__list {
+        list-style: none;
+        padding: 0;
+        width: 100%; /* Full width on small screens */
+        max-width: 45%; /* Limit width on larger screens */
+        margin: 0 10px;
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s; /* Smooth transition for hover */
+
+            &:hover {
+                background-color: #eee; /* Subtle hover effect */
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+
+    &__user-name {
+        font-size: 16px;
+        color: #555;
+        margin-left: 10px; /* Spacing for label */
+    }
+
+    &__checkbox {
+        /* Custom checkbox styling */
+        appearance: none;
+        background-color: #fff;
+        border: 2px solid #ddd;
+        padding: 9px;
+        border-radius: 3px;
+        display: inline-block;
+        position: relative;
+
+        &:checked {
+            background-color: #09F;
+            border-color: #09F;
+
+            &:after {
+                content: '✓';
+                position: absolute;
+                top: -2px;
+                left: 2px;
+                color: white;
+            }
+        }
+    }
+
+    &__button {
+        background-color: #09F;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s; /* Smooth transition for hover */
+
+        &:hover {
+            background-color: #007bd8; /* Slightly darker on hover */
+        }
+    }
+}
+
+.selected-user-list {
+    width: 100%; /* Full width on small screens */
+    max-width: 45%; /* Limit width on larger screens */
+    margin: 0 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    margin-top: 20px; /* Separate from the main list on small screens */
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .contribution-settings__list, .selected-user-list {
+        width: 45%; /* Adjust to 45% for non-small screens */
+    }
+}

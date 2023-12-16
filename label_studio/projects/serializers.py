@@ -8,8 +8,10 @@ from users.serializers import UserSimpleSerializer
 
 from constants import SAFE_HTML_ATTRIBUTES, SAFE_HTML_TAGS
 
-from projects.models import Project, ProjectOnboarding, ProjectSummary, ProjectImport, ProjectReimport
+from projects.models import Project, ProjectOnboarding, ProjectSummary, ProjectImport, ProjectReimport,ProjectRole
 
+from users.models import User
+from projects.models import ProjectRole
 
 class CreatedByFromContext:
     requires_context = True
@@ -52,6 +54,7 @@ class ProjectSerializer(FlexFieldsModelSerializer):
     config_has_control_tags = SerializerMethodField(default=None, read_only=True,
                                                     help_text='Flag to detect is project ready for labeling')
     finished_task_number = serializers.IntegerField(default=None, read_only=True, help_text='Finished tasks')
+    is_public = serializers.BooleanField(default=True, write_only=False, help_text='Is the project public?')
 
     @staticmethod
     def get_config_has_control_tags(project):
@@ -90,7 +93,7 @@ class ProjectSerializer(FlexFieldsModelSerializer):
                   'show_overlap_first', 'overlap_cohort_percentage', 'task_data_login', 'task_data_password',
                   'control_weights', 'parsed_label_config', 'evaluate_predictions_automatically',
                   'config_has_control_tags', 'skip_queue', 'reveal_preannotations_interactively', 'pinned_at',
-                  'finished_task_number']
+                  'finished_task_number','is_public']
 
     def validate_label_config(self, value):
         if self.instance is None:
@@ -149,3 +152,35 @@ class GetFieldsSerializer(serializers.Serializer):
     def validate_filter(self, value):
         if value in ['all', 'pinned_only', 'exclude_pinned']:
             return value
+
+
+class ProjectRoleSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all())
+    role = serializers.ChoiceField(choices=ProjectRole.ROLE_CHOICES)
+
+    class Meta:
+        model = ProjectRole
+        fields = ['user', 'project', 'role']
+
+    def create(self, validated_data):
+        # Logic for adding a user to a project with a specific role
+        return ProjectRole.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        # Logic for updating a user's role in a project
+        instance.role = validated_data.get('role', instance.role)
+        instance.save()
+        return instance
+    
+
+class ContributorSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(source='user.id', read_only=True)
+    username = serializers.CharField(source='user.username', read_only=True)
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    role = serializers.CharField()
+
+    class Meta:
+        model = ProjectRole
+        fields = ('user_id', 'username', 'first_name', 'last_name', 'role')

@@ -64,4 +64,7 @@ urlpatterns = [
     path('projects/', include(_urlpatterns)),
     path('api/projects/', include((_api_urlpatterns, app_name), namespace='api')),
     path('api/templates/', include((_api_urlpatterns_templates, app_name), namespace='api-templates')),
+    path('api/projects/<int:project_id>/add_contributors/', views.add_contributors_to_project, name='add-contributors-to-project'),
+    path('api/projects/<int:project_id>/remove_contributors/', views.remove_contributors_from_project, name='remove-contributors-from-project'),
+    path('api/projects/<int:project_id>/contributors/', views.list_project_contributors, name='list-project-contributors'),
 ]

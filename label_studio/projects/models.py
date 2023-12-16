@@ -47,6 +47,28 @@ from labels_manager.models import Label
 logger = logging.getLogger(__name__)
 
 
+class ProjectRole(models.Model):
+    ROLE_CHOICES = (
+    ('admin', 'Admin'),
+    ('contributor', 'Contributor'),
+    ('reader', 'Reader'),
+    )
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='project_roles_projects')
+    project = models.ForeignKey('Project', on_delete=models.CASCADE, related_name='user_roles_projects')
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES, default='reader')
+
+    def set_as_contributor(self):
+        self.role = 'contributor'
+        self.save()
+
+    def set_as_reader(self):
+        self.role = 'reader'
+        self.save()
+
+    class Meta:
+        unique_together = ('user', 'project')
+
 class ProjectManager(models.Manager):
     def for_user(self, user):
         return self.filter(organization=user.active_organization)
@@ -96,6 +118,7 @@ recalculate_all_stats = load_func(settings.RECALCULATE_ALL_STATS)
 
 
 class Project(ProjectMixin, models.Model):
+    is_public = models.BooleanField(default=False)
     class SkipQueue(models.TextChoices):
         # requeue to the end of the same annotator’s queue => annotator gets this task at the end of the queue
         REQUEUE_FOR_ME = 'REQUEUE_FOR_ME', 'Requeue for me'
@@ -196,6 +219,14 @@ class Project(ProjectMixin, models.Model):
         help_text='Minimum number of completed tasks after which model training is started',
     )
 
+    contributors = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='contributable_projects',
+        verbose_name=_('contributors'),
+        help_text='Users who can contribute to the project.',
+        blank=True,
+        )
+
     control_weights = JSONField(_('control weights'), null=True, default=dict, help_text="Dict of weights for each control tag in metric calculation. Each control tag (e.g. label or choice) will "
                                                                                          "have it's own key in control weight dict with weight for each label and overall weight."
                                                                                          "For example, if bounding box annotation with control tag named my_bbox should be included with 0.33 weight in agreement calculation, "
@@ -288,7 +319,8 @@ class Project(ProjectMixin, models.Model):
 
     @property
     def is_private(self):
-        return None
+        return not self.is_public
+    # return None
 
     @property
     def secure_mode(self):
@@ -1284,3 +1316,5 @@ class ProjectReimport(models.Model):
 
     def has_permission(self, user):
         return self.project.has_permission(user)
+    
+
