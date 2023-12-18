@@ -16,7 +16,6 @@ import "./PeopleInvitation.styl";
 import { PeopleList } from "./PeopleList";
 import "./PeoplePage.styl";
 import { SelectedUser } from "./SelectedUser";
-import { PeopleData } from "./Peopledata";
 import { OrgData } from './OrgData';
 
 const Invitation = ({ link, updateLink }) => {
@@ -168,12 +167,6 @@ export const PeoplePage = () => {
             </Elem>
           </Elem>
         </Elem>
-      </Elem>
-      <Elem name="userdata">
-        <PeopleData />
-      </Elem>
-      <Elem name="userdata">
-        <PeopleData />
       </Elem>
     </Block>
   );

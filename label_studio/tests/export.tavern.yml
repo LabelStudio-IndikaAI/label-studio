@@ -128,7 +128,7 @@ stages:
         link: 'https://labelstud.io/guide/export.html#TSV'
         name: 'TSV'
       - title: 'COCO'
-        description: 'Popular machine learning format used by the COCO dataset for object detection and image segmentation tasks with polygons and rectangles.'
+        description: 'VMPopular machine learning format used by the COCO dataset for object detection and image segmentation tasks with polygons and rectangles.'
         link: 'https://labelstud.io/guide/export.html#COCO'
         tags: ['image segmentation', 'object detection']
         name: 'COCO'
