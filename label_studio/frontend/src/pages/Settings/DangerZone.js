@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState,useEffect } from "react";
 import { useHistory } from "react-router";
 import { Button } from "../../components";
 import { ProjectMenu } from "../../components/ProjectMenu/ProjectMenu";
@@ -10,12 +10,51 @@ import { Spinner } from "../../components/Spinner/Spinner";
 import { useAPI } from "../../providers/ApiProvider";
 import { useProject } from "../../providers/ProjectProvider";
 import { MdInfo } from "react-icons/md";
+import { useConfig } from '../../providers/ConfigProvider';
+import { UserInfo } from "../../components/Userpic/UserInfo";
+
 
 export const DangerZone = () => {
   const { project } = useProject();
   const api = useAPI();
   const history = useHistory();
+  // const currentUser = useCurrentUser();
   const [processing, setProcessing] = useState(null);
+  const currentUser = useConfig();
+  const [isCreator, setIsCreator] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
+  // const currentUserId = currentUser?.user?.id ?? null;
+  // const projectCreatorId = project.created_by;
+  // const projectIDs = project?.created_by?.id ?? null;
+  // const projectIDs = project.created_by.id;
+  // const currentUserId = currentUser.user.id;
+  // const isCreator = currentUserId === projectIDs;
+  // const [isCreator, setIsCreator] = useState(false);
+  // const [isPublic, setIsPublic] = useState(project?.is_public ?? false);
+  // console.log('DangerZone projectCreatorId:', projectCreatorId);
+  // console.log('DangerZone currentUserId:', currentUserId);
+  // console.log('DangerZone currentUser:', currentUser);
+  // // const isCurrentUserCreator = project.created_by.id === currentUser;
+  // console.log('isCurrentUserCreator:', project.created_by);
+  // console.log('isCurrentUserCreator:', projectIDs);
+
+  // useEffect(() => {
+  //   if (project && currentUser?.user) {
+  //     setIsPublic(project.is_public);
+  //     setIsCreator(currentUserId === projectIDs);
+  //     setIsLoading(false);
+  //   }
+  // }, [currentUser, project]);
+  // useEffect(() => {
+  //   if (project && currentUser?.user) {
+  //       setIsPublic(project.is_public);
+  //       setIsCreator(currentUser.user.id === project.created_by?.id);
+  //   }
+  // }, [project, currentUser]);
+
+  if (!project || !currentUser?.user) {
+    return <Spinner size={32} />;
+}
 
   const handleOnClick = (type) => () => {
     confirm({
@@ -49,6 +88,76 @@ export const DangerZone = () => {
       },
     });
   };
+  
+  
+  
+  const toggleVisibility = async () => {
+    // if (!isCreator) return;
+    setProcessing(true);
+    try {
+      await api.callApi('updateProject', {
+        params: { pk: project?.id },
+        body: { is_public: !isPublic },
+      });
+      setIsPublic(!isPublic); // Update the local state to reflect the change
+    } catch (error) {
+      console.error('Error updating project visibility:', error);
+    }
+    setProcessing(false);
+  };
+  
+  // if (isLoading) {
+  //   return <Spinner size={32} />; // Or any other loading indicator you prefer
+  // }
+
+  const cardStyle = {
+    width: '45%',
+    margin: 'auto',
+    backgroundColor: '#f6f6f6',
+    border: '1px solid #D1D3D6',
+    marginBottom: '10px'
+  };
+  
+  const headerStyle = {
+    background: '#E6E6E6',
+    color: '#616161',
+    padding: '5px 10px',
+    textAlign: 'start'
+  };
+  
+  const contentStyle = {
+    padding: '10px',
+    textAlign: 'start'
+  };
+
+  // return (
+  //   <div style={{ /* styling code */ }}>
+  //     {/* ... existing cards ... */}
+
+  //     {/* Visibility Toggle Card */}
+  //     <div style={{ /* card styling code */ }}>
+  //       <Description>
+  //         <div style={{ /* styling code */ }}>
+  //           <p style={{ /* styling code */ }}>
+  //             <MdInfo size={18} />Toggle project visibility between public and private.
+  //           </p>
+  //         </div>
+  //       </Description>
+  //       <div style={{ /* styling code */ }}>
+  //         <div style={{ /* styling code */ }}>
+  //           Project Visibility
+  //         </div>
+  //         <div style={{ /* styling code */ }}>
+  //           {isPublic ? "This project is currently public." : "This project is currently private."}
+  //           <Button onClick={toggleVisibility} look="primary">
+  //             {isPublic ? "Make Private" : "Make Public"}
+  //           </Button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
 
   const buttons = useMemo(() => [{
     type: 'annotations',
@@ -102,6 +211,7 @@ export const DangerZone = () => {
             <p style={{ display: 'flex', alignItems: 'center', margin: 'auto', gap: '5px', lineHeight: '1rem' }}><MdInfo size={18} />Dropping all tabs cannot be reverted. Perform this action at your own risk.</p>
           </div>
         </Description>
+        <UserInfo user={currentUser.user} />
         <div style={{ width: '95%', margin: '10px auto', border: '1px solid #D1D3D6' }}>
           <div style={{ background: '#E6E6E6', color: '#616161', padding: '5px 10px', textAlign: 'start' }}>
             Drop all tabs
@@ -110,7 +220,8 @@ export const DangerZone = () => {
             <div>
               Are you sure you want to drop all tabs?
             </div>
-            {project.id ? (
+            {project.id  ? (
+              // isCurrentUserCreator &&
               <Space direction="vertical" spread style={{ marginTop: 32, display: 'flex' }}>
                 {buttons.filter(btn => btn.type === 'tabs').map((btn) => {
                   const waiting = processing === btn.type;
@@ -179,9 +290,49 @@ export const DangerZone = () => {
           </div>
         </div>
       </div>
+
+      {/* New Visibility Toggle Card */}
+      {project.id  ? (
+        <div style={cardStyle}>
+          <Description>
+            <div style={{ padding: '3px', width: '95%', color: '#D72C0D', backgroundColor: '#FFF6F4', fontSize: '12px', margin: 'auto' }}>
+              <p style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><MdInfo size={18} />Toggle project visibility between public and private.</p>
+            </div>
+          </Description>
+          <div style={contentStyle}>
+            <div style={headerStyle}>
+              Project Visibility
+            </div>
+            <div>
+              {isPublic ? "This project is currently public." : "This project is currently private."}
+              <Space direction="vertical" spread style={{ marginTop: 32, display: 'flex' }}>
+                <Button onClick={toggleVisibility} look="primary" disabled={processing}>
+                  {isPublic ? "Make Private" : "Make Public"}
+                </Button>
+              </Space>
+            </div>
+          </div>
+        </div>
+        ) : (
+          //give message that user is not creator
+          <div style={cardStyle}>
+            <Description>
+              <div style={{ padding: '3px', width: '95%', color: '#D72C0D', backgroundColor: '#FFF6F4', fontSize: '12px', margin: 'auto' }}>
+                <p style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><MdInfo size={18} />Toggle project visibility between public and private.</p>
+              </div>
+            </Description>
+            <div style={contentStyle}>
+              <div style={headerStyle}>
+                Project Visibility
+              </div>
+              <div>
+                <p style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><MdInfo size={18} />Only the creator of this project can change the visibility.</p>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
-
 };
 
 DangerZone.title = "Manage Project";

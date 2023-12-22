@@ -67,4 +67,5 @@ urlpatterns = [
     path('api/projects/<int:project_id>/add_contributors/', views.add_contributors_to_project, name='add-contributors-to-project'),
     path('api/projects/<int:project_id>/remove_contributors/', views.remove_contributors_from_project, name='remove-contributors-from-project'),
     path('api/projects/<int:project_id>/contributors/', views.list_project_contributors, name='list-project-contributors'),
+    path('projects/<int:pk>/update/', views.update_project, name='update-project'),
 ]

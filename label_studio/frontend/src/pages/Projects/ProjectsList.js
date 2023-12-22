@@ -141,8 +141,9 @@ export const EmptySearchList = ({ searchQuery, setSearchQuery }) => {
 
 
 const ProjectCard = ({ project }) => {
-  const isContributor = project.contributors.some(contributor => contributor.id === currentUser.id);
-
+  // const isContributor = project.contributors.some(contributor => contributor.id === currentUser.id);
+  const projectStatus = project.is_public ? "Public" : "Private";
+  console.log({ projectStatus,p:project,projectISpublic:project.is_public });
   // const progress = useMemo(() => {
   //   return project.task_number > 0 ? (project.finished_task_number / project.task_number * 100).toFixed(0) : 0;
   // }, [project]);
@@ -173,7 +174,7 @@ const ProjectCard = ({ project }) => {
         <Elem name="header">
           {/* <Elem name="header" style={headerStyle}> */}
           <Elem name="title">
-            {isContributor && <Elem name="contributor-badge">Contributor</Elem>}
+            {/* {isContributor && <Elem name="contributor-badge">Contributor</Elem>} */}
             <Elem name="title-text">
               {/* {project.title ?? "New project"}.{progress}% */}
               {project.title ?? "New project"}
@@ -186,7 +187,7 @@ const ProjectCard = ({ project }) => {
             {project.description}
           </Elem>
           <Elem name="status">
-            {project.is_private ? "Private" : "Public"}
+          {projectStatus}
           </Elem>
         </Elem>
         <Elem name="info">

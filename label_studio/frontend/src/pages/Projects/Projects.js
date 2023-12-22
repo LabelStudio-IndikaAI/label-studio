@@ -53,6 +53,7 @@ export const ProjectsPage = () => {
         'color',
         'is_published',
         'assignment_settings',
+        'is_public',
       ].join(',');
     }
 

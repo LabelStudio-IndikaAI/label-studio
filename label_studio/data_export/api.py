@@ -203,7 +203,7 @@ class ExportAPI(generics.RetrieveAPIView):
         tags=['Export'],
         operation_summary='List exported files',
         operation_description="""
-        Retrieve a list of files exported from the Label Studio UI using the Export button on the Data Manager page.
+        Retrieve a list of files exported from the Data Studio UI using the Export button on the Data Manager page.
         To retrieve the files themselves, see [Download export file](/api#operation/api_projects_exports_download_read).
         """,
     ),

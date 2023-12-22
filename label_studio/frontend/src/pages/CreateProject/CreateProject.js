@@ -167,7 +167,7 @@ export const CreateProject = ({ onClose }) => {
     title: name,
     description,
     label_config: config,
-    is_public: isPublic, // added this line
+    is_public: isPublic,
   }), [name, description, config, isPublic]); // added isPublic to dependency array
 
 

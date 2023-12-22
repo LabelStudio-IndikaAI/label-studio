@@ -64,6 +64,12 @@ def save_user(request, next_page, user_form):
     user.active_organization = org
     user.save(update_fields=['active_organization'])
 
+    # org_title = user.username + "'s Organization"
+    # org = Organization.create_organization(created_by=user, title=org_title)
+
+    # user.active_organization = org
+    # user.save(update_fields=['active_organization'])
+
     request.advanced_json = {
         'email': user.email, 'allow_newsletters': user.allow_newsletters,
         'update-notifications': 1, 'new-user': 1

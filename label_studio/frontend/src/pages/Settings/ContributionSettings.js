@@ -9,24 +9,34 @@ export const ContributionSettings = () => {
     const [error, setError] = useState(null);
     const [contributors, setContributors] = useState([]);
     const { project } = useProject(); // Use the useProject hook
-    const projectId = project.id; // Get projectId from the project context
+    const projectId = project ? project.id : null; // Get projectId from the project context
     console.log('ProjectId:', projectId);
     const organizationId = 1; // Get projectId from the project context
 
     const fetchUsers = async () => {
+        if (!projectId) {
+            return;
+        }
         setIsLoading(true);
+        let allUsers = [];
+        let nextPageUrl = `/api/organizations/${organizationId}/memberships`;
         try {
-            const response = await fetch(`/api/organizations/${organizationId}/memberships`);
+            const response = await fetch(nextPageUrl);
             if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.status}`);
             }
             const data = await response.json();
-            console.log('Users2:', data);
-            setUsers(data.results.map(user => ({
-                member_id: user.user.id,
-                name: `${user.user.first_name || ''} ${user.user.last_name || ''}`.trim(),
-            })));
-            console.log('Users1:', users);
+            const processedUsers = data.results.map(user => {
+                const name = user.user.first_name || user.user.last_name
+                    ? `${user.user.first_name || ''} ${user.user.last_name || ''}`.trim()
+                    : user.user.email.split('@')[0]; // Use email before '@' if name is not available
+                return {
+                    member_id: user.user.id,
+                    name: name,
+                };
+            });
+            allUsers = allUsers.concat(processedUsers);
+            setUsers(allUsers);
         } catch (error) {
             setError(error);
         } finally {
@@ -53,6 +63,9 @@ export const ContributionSettings = () => {
     };
 
     const fetchContributors = async () => {
+        if (!projectId) {
+            return;
+        }
         try {
             const response = await fetch(`/api/projects/${projectId}/contributors/`);
             if (!response.ok) {
@@ -72,19 +85,37 @@ export const ContributionSettings = () => {
         }
     };
     
+    // const fetchData = async () => {
+    //     if (projectId) {
+    //         // Fetch users and contributors
+    //         await fetchUsers();
+    //         await fetchContributors();
+    //     } else {
+    //         console.log('Project ID is not available yet');
+    //     }
+    // }, ;
+
+
+    // useEffect(() => {
+    //     fetchData().finally(() => setIsLoading(false));
+    // }, [project.id]);
 
     useEffect(() => {
-        if(project && project.id){
-
+        if (projectId) {
+            
             fetchUsers();
             fetchContributors();
+        } else {
+            console.log('Waiting for projectId...');
         }
-    }, [project.id]);
+    }, [projectId]);
+
     
-    useEffect(() => {
-        fetchUsers();
-        fetchContributors();
-    }, []);
+    
+    // useEffect(() => {
+    //     fetchUsers();
+    //     fetchContributors();
+    // }, []);
 
     const handleCheckboxChange = (user) => {
         setSelectedUsers(prev => {

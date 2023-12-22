@@ -25,6 +25,7 @@ class ProjectSerializer(FlexFieldsModelSerializer):
         make sure, that you use correct one(Project.objects.with_counts())
     """
 
+    is_public = serializers.BooleanField(default=True, write_only=False, help_text='Is the project public?')
     task_number = serializers.IntegerField(default=None, read_only=True,
                                            help_text='Total task number in project')
     total_annotations_number = serializers.IntegerField(default=None, read_only=True,
@@ -54,7 +55,6 @@ class ProjectSerializer(FlexFieldsModelSerializer):
     config_has_control_tags = SerializerMethodField(default=None, read_only=True,
                                                     help_text='Flag to detect is project ready for labeling')
     finished_task_number = serializers.IntegerField(default=None, read_only=True, help_text='Finished tasks')
-    is_public = serializers.BooleanField(default=True, write_only=False, help_text='Is the project public?')
 
     @staticmethod
     def get_config_has_control_tags(project):
